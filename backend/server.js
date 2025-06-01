@@ -8,6 +8,7 @@ const morgan = require('morgan')
 const testDbConnection = require("./src/config/testdb");
 const {swaggerDocs} = require("./src/config/swagger");
 const app = express();
+const errorHandlerMiddleware = require("./src/middlewares/errorHandleMiddleware");
 
 var corsOptions = {
     origin: "http://localhost:8081" // co thể sau này nó là resfull api, để sẵn
@@ -28,6 +29,9 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 testDbConnection();
 require('./src/routes')(app);//importing route
+
+//Middelware for centralized error handling
+app.use(errorHandlerMiddleware);
 
 const PORT = process.env.PORT;
 app.listen(PORT, () => {

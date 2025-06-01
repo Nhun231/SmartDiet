@@ -1,0 +1,20 @@
+.sidebar {
+  background-color: rgba(182, 150, 9, 0.24);
+  padding: 20px;
+  height: 100vh;
+  box-shadow: 4px 0 10px -2px rgba(45, 59, 47, 0.9);
+  z-index: 1;
+  border-radius: 10px;
+  position: absolute
+}
+
+.image-full {
+  width: 100%;
+  height: 100vh;
+  object-fit: cover;
+  padding: 0;
+}
+
+.no-padding {
+  padding: 0 !important;
+}

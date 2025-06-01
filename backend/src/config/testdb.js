@@ -1,6 +1,8 @@
 
-
+const express = require('express');
 const { MongoClient } = require('mongodb');
+const mongoose = require('mongoose');
+const app = express();
 
 module.exports = async function testDbConnection() {
     const uri = process.env.MONGO_URI;
@@ -10,21 +12,16 @@ module.exports = async function testDbConnection() {
         process.exit(1);
     }
 
-    const client = new MongoClient(uri);
-
-    try {
-        await client.connect();
-        console.log(' Successfully connected to MongoDB!');
-
-        // Optionally list databases to verify access
-        const databasesList = await client.db().admin().listDatabases();
-        console.log('Databases:');
-        databasesList.databases.forEach(db => console.log(` - ${db.name}`));
-    } catch (error) {
-        console.error(' Failed to connect to MongoDB:', error);
-    } finally {
-        await client.close();
-    }
+    mongoose.connect(process.env.MONGO_URI, {
+        useNewUrlParser: true,
+        useUnifiedTopology: true
+    })
+        .then(() => {
+            app.listen(3000, () => console.log('Mongoose run successfully'));
+        })
+        .catch(err => {
+            console.error('Mongoose connection error:', err);
+        });
 }
 
 
