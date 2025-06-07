@@ -8,26 +8,45 @@ import GoogleIcon from "@mui/icons-material/Google";
 import GitHubIcon from "@mui/icons-material/GitHub";
 import Modal from '@mui/material/Modal';
 import UserProfileForm from '../components/login/Register';
-
+import Snackbar from '@mui/material/Snackbar';
+import ForgotPassword from '../components/login/ForgotPassword';
 
 const style = {
     position: 'absolute',
-    top: '45%',
+    top: '50%',
     left: '50%',
     transform: 'translate(-50%, -50%)',
-    width: '50vw',
-    height: 'auto',
+    width: 'auto',        
+    maxWidth: '90vw',      
+    height: 'auto',         
+    maxHeight: '90vh',
     bgcolor: 'background.paper',
     boxShadow: 24,
-    p: 4,
     borderRadius: 2,
+    overflowY: 'auto',  
 };
 
 
+
+
 export default function Login() {
-    const [open, setOpen] = useState(false);
-    const handleOpen = () => setOpen(true);
-    const handleClose = () => setOpen(false);
+    const [openRegister, setOpenRegister] = useState(false);
+    const [successOpen, setSuccessOpen] = useState(false);
+    const [errorOpen, setErrorOpen] = useState('');
+    const [successSendEmail, setSuccessSendEmail] = useState(false)
+    const [openForgotPassword, setOpenForgotPassword] = useState(false)
+    const handleOpenRegister = () => setOpenRegister(true);
+    const handleOpenForgotPassword = () => setOpenForgotPassword(true);
+    const handleCloseModal = () => {
+        setOpenRegister(false)
+        setOpenForgotPassword(false)
+    };
+
+    const handleClose = () => {
+        setSuccessOpen(false);
+        setSuccessSendEmail(false)
+        setErrorOpen('');
+    }
 
     return (
         <Container fluid>
@@ -70,7 +89,7 @@ export default function Login() {
                         <Typography variant="body2" sx={{ mb: 2 }}>
                             Don't have an account?{" "}
                             <Typography component="span" sx={{ color: "#007fff", fontWeight: 600, cursor: "pointer" }}
-                                onClick={handleOpen}>
+                                onClick={handleOpenRegister}>
                                 Sign Up
                             </Typography>
                         </Typography>
@@ -94,7 +113,7 @@ export default function Login() {
                             GitHub
                         </Button>
                         <Typography component="span" sx={{ color: "#007fff", fontWeight: 600, cursor: "pointer" }}
-                            onClick={() => alert("Open forget password modal")}>
+                            onClick={handleOpenForgotPassword}>
                             Forgot password?
                         </Typography>
 
@@ -125,15 +144,70 @@ export default function Login() {
                 </Col>
             </Row>
             <Modal
-                open={open}
-                onClose={handleClose}
+                open={openRegister}
+                onClose={handleCloseModal}
                 aria-labelledby="modal-modal-title"
                 aria-describedby="modal-modal-description"
             >
                 <Box sx={style}>
-                    <UserProfileForm />
+                    <UserProfileForm setSuccess={setSuccessOpen} setError={setErrorOpen} />
                 </Box>
             </Modal>
+            <Modal
+                open={openForgotPassword}
+                onClose={handleCloseModal}
+                aria-labelledby="modal-modal-title"
+                aria-describedby="modal-modal-description"
+            >
+                <Box sx={style}>
+                    <ForgotPassword setOpenForgotPassword={setOpenForgotPassword} setSuccess={setSuccessSendEmail}/>
+                </Box>
+            </Modal>
+            <Snackbar
+                open={errorOpen}
+                autoHideDuration={2500}
+                onClose={handleClose}
+                message={errorOpen}
+                anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+                sx={{
+                    top: '5 !important',
+                    position: 'fixed',
+                    '& .MuiSnackbarContent-root': {
+                        backgroundColor: theme => theme.palette.error.main,
+                        color: 'white',
+                    }
+                }}
+            />
+            <Snackbar
+                open={successOpen}
+                autoHideDuration={2500}
+                onClose={handleClose}
+                message="Đăng ký thành công!"
+                anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+                sx={{
+                    top: '5 !important',
+                    position: 'fixed',
+                    '& .MuiSnackbarContent-root': {
+                        backgroundColor: theme => theme.palette.success.main,
+                        color: 'white',
+                    }
+                }}
+            />
+            <Snackbar
+                open={successSendEmail}
+                autoHideDuration={2500}
+                onClose={handleClose}
+                message="Chúng tôi đã gửi cho bạn một Email để đổi mật khẩu."
+                anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+                sx={{
+                    top: '5 !important',
+                    position: 'fixed',
+                    '& .MuiSnackbarContent-root': {
+                        backgroundColor: theme => theme.palette.success.main,
+                        color: 'white',
+                    }
+                }}
+            />
         </Container>
     );
 }

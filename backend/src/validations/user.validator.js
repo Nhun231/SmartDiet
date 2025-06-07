@@ -1,5 +1,5 @@
 const Joi = require('joi');
-const BaseError = require('../utils/BaseError.js');
+const BaseError = require('../utils/baseError');
 
 const createUser = async (req, res, next) => {
     const condition = Joi.object({
@@ -12,7 +12,8 @@ const createUser = async (req, res, next) => {
         email: Joi.string()
             .email({ tlds: { allow: false } })
             .pattern(new RegExp('@gmail\\.com$'))
-            .required()
+            .required(),
+        dob: Joi.string()
     });
 
     try {

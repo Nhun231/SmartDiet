@@ -21,6 +21,9 @@ const Schema = mongoose.Schema;
  *         email:
  *           type: string
  *           description: User's email address
+ *         dob:
+ *           type: string
+ *           description: User's date of birth
  *       example:
  *         username: NguyenBinh
  *         password: String@1
@@ -42,6 +45,10 @@ const userSchema = new Schema({
         required: true,
         unique: true,
         trim: true
+    },
+    dob: {
+        type: Date,
+        require: true
     }
 });
 
