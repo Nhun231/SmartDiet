@@ -1,25 +1,36 @@
 const transporter = require('../config/nodeMailer');
 const BaseError = require('../utils/baseError.js');
 const { StatusCodes } = require('http-status-codes');
-const hbsRaw = require('nodemailer-express-handlebars');
-const hbs = hbsRaw.__esModule ? hbsRaw.default : hbsRaw;
 const path = require('path');
 const User = require('../models/user.model.js');
 
-const handlebarOptions = {
-    viewEngine: {
-        extname: '.hbs',
-        partialsDir: path.resolve(__dirname, '../template'),
-        defaultLayout: false,
-    },
-    viewPath: path.resolve(__dirname, '../template'),
-    extName: '.hbs',
-};
+let hbsInitialized = false;
 
-transporter.use('compile', hbs(handlebarOptions));
+// Tạo hàm khởi tạo handlebars compiler 1 lần duy nhất
+async function initHbs() {
+    if (hbsInitialized) return;
+
+    const hbsModule = await import('nodemailer-express-handlebars');
+    const hbs = hbsModule.default;
+
+    const handlebarOptions = {
+        viewEngine: {
+            extname: '.hbs',
+            partialsDir: path.resolve(__dirname, '../template'),
+            defaultLayout: false,
+        },
+        viewPath: path.resolve(__dirname, '../template'),
+        extName: '.hbs',
+    };
+
+    transporter.use('compile', hbs(handlebarOptions));
+    hbsInitialized = true;
+}
 
 async function sendTestEmail(req, res) {
     try {
+        await initHbs();
+
         const result = await transporter.sendMail({
             from: '"SmartDiet" <smartdiet@gmail.com>',
             to: req.body.to,
@@ -40,7 +51,9 @@ async function sendTestEmail(req, res) {
 
 async function sendWelcomeOnboardEmail(username, to) {
     try {
-        const result = await transporter.sendMail({
+        await initHbs();
+
+        await transporter.sendMail({
             from: '"SmartDiet" <smartdiet@gmail.com>',
             to: to,
             subject: "Welcome Onboard",
@@ -50,19 +63,20 @@ async function sendWelcomeOnboardEmail(username, to) {
             },
         });
     } catch (error) {
-        throw new BaseError(StatusCodes.INTERNAL_SERVER_ERROR, `Error sending test email: ${error.message}`);
+        throw new BaseError(StatusCodes.INTERNAL_SERVER_ERROR, `Error sending welcome email: ${error.message}`);
     }
 }
 
 async function sendForgotPasswordEmail(email, token, res) {
     try {
-        const user = await User.findOne({ email: email })
-        if (user == null) {
-            throw new Error(`Email không tồn tại.`)
+        await initHbs();
+
+        const user = await User.findOne({ email: email });
+        if (!user) {
+            throw new Error(`Email không tồn tại.`);
         }
 
-        console.log(user)
-        const result = await transporter.sendMail({
+        await transporter.sendMail({
             from: '"SmartDiet" <smartdiet@gmail.com>',
             to: email,
             subject: "Forgot Password",
