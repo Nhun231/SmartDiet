@@ -20,17 +20,15 @@ const { validateCalculate } = require('../validations/calculate.validator');
  *           schema:
  *             type: object
  *             required:
- *               - email
+ *               - userId
  *               - gender
  *               - age
  *               - height
  *               - weight
  *               - activity
  *             properties:
- *               email:
- *                 type: string
- *                 format: email
- *                 example: example@gmail.com
+ *               userId:
+ *               type: string
  *               gender:
  *                 type: string
  *                 enum: [Nam, Nữ]

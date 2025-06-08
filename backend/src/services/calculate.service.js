@@ -1,11 +1,23 @@
 const { StatusCodes } = require('http-status-codes');
 const BaseError = require('../utils/baseError.js');
 const Calculate = require('../models/calculate.model.js');
+const User = require('../models/user.model.js');
+const mongoose = require('mongoose');
 
 const calculateTDEE = async (req) => {
-    const { email, gender, age, height, weight, activity } = req.body;
-    if (!email || !gender || !age || !height || !weight || !activity) {
+    const { userId, gender, age, height, weight, activity } = req.body;
+
+    if (!userId || !gender || !age || !height || !weight || !activity) {
         throw new BaseError(StatusCodes.BAD_REQUEST, 'Thiếu thông tin để tính toán!');
+    }
+
+    if (!mongoose.Types.ObjectId.isValid(userId)) {
+        throw new BaseError(StatusCodes.BAD_REQUEST, 'userId không hợp lệ!');
+    }
+
+    const user = await User.findById(userId);
+    if (!user) {
+        throw new BaseError(StatusCodes.NOT_FOUND, 'Người dùng không tồn tại trong hệ thống');
     }
     let bmr = 0;
     if (gender === 'Nam') {
@@ -34,7 +46,7 @@ const calculateTDEE = async (req) => {
     const bmi = +(weight / Math.pow(height / 100, 2)).toFixed(2);
 
     const result = new Calculate({
-        email,
+        userId,
         gender,
         age,
         height,

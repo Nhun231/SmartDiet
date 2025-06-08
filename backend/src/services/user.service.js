@@ -1,6 +1,6 @@
 const bcrypt = require('bcrypt');
 const User = require('../models/user.model.js');
-const {StatusCodes} = require('http-status-codes');
+const { StatusCodes } = require('http-status-codes');
 const BaseError = require('../utils/baseError.js');
 const EmailService = require('../services/email.service.js')
 
@@ -9,7 +9,7 @@ const createUser = async (req, res) => {
     try {
         const user = await User.findOne({ email: req.body.email });
         console.log('createUser is invoked');
-        
+
         //password hash
         const passwordHash = await bcrypt.hash(req.body.password, 10);
         req.body.password = passwordHash;
@@ -36,21 +36,21 @@ const getAllUsers = async (req, res) => {
         const users = await User.find();
         res.status(200).json(users);
     } catch (error) {
-        throw new BaseError(StatusCodes.INTERNAL_SERVER_ERROR,`Lỗi khi tìm người dùng: ${error.message}`);
+        throw new BaseError(StatusCodes.INTERNAL_SERVER_ERROR, `Lỗi khi tìm người dùng: ${error.message}`);
     }
 }
 
 //Find user by eamil
 const getUserByEmail = async (req, res) => {
     try {
-        const user = await User.findOne({email: req.query.email})
-        if(user == null) {
+        const user = await User.findOne({ email: req.query.email })
+        if (user == null) {
             return res.status(404).json({ message: 'Người dùng không tồn tại' });
         } else {
             return res.status(200).json(user);
         }
     } catch (error) {
-        throw new BaseError(StatusCodes.INTERNAL_SERVER_ERROR,`Lỗi khi tìm người dùng: ${error.message}`);
+        throw new BaseError(StatusCodes.INTERNAL_SERVER_ERROR, `Lỗi khi tìm người dùng: ${error.message}`);
     }
 }
 
@@ -60,24 +60,24 @@ const updateUserByEmail = async (req, res) => {
         //find user by email
         const user = await User.findOne({ email: req.body.email });
 
-        if(user == null) {
+        if (user == null) {
             throw new Error('Người dùng không tồn tại.')
         } else {
             //update user infor 
             Object.assign(user, req.body);
-            
+
             //password hash
-            if(req.body.password != null){
+            if (req.body.password != null) {
                 user.password = await bcrypt.hash(req.body.password, 10);
                 console.log('user Update', user);
             }
 
             const updatedUser = await user.save();
 
-            return res.status(200).json({message: 'Cập nhật thông tin người dùng thành công', user: updatedUser});
+            return res.status(200).json({ message: 'Cập nhật thông tin người dùng thành công', user: updatedUser });
         }
     } catch (error) {
-        throw new BaseError(StatusCodes.INTERNAL_SERVER_ERROR ,`Lỗi cập nhật thông tin người dùng: ${error.message}`);
+        throw new BaseError(StatusCodes.INTERNAL_SERVER_ERROR, `Lỗi cập nhật thông tin người dùng: ${error.message}`);
     }
 }
 
@@ -85,17 +85,17 @@ const updateUserByEmail = async (req, res) => {
 const deleteUserByEmail = async (req, res) => {
     try {
         //find user by email
-        const user = await User.findOne({email: req.query.email});
-        if(user == null) {
+        const user = await User.findOne({ email: req.query.email });
+        if (user == null) {
             throw new Error('Người dùng không tồn tại.');
         } else {
             //delete user
-            await User.deleteOne({email: user.email});
-            return res.status(200).json({message: 'Xóa người dùng thành công.'});
+            await User.deleteOne({ email: user.email });
+            return res.status(200).json({ message: 'Xóa người dùng thành công.' });
         }
-    
+
     } catch (error) {
-        throw new BaseError(StatusCodes.INTERNAL_SERVER_ERROR,`Lỗi khi xóa người dùng: ${error.message}`);
+        throw new BaseError(StatusCodes.INTERNAL_SERVER_ERROR, `Lỗi khi xóa người dùng: ${error.message}`);
     }
 }
 

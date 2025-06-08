@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import {
     Box,
     Container,
@@ -12,6 +12,7 @@ import {
     Grid,
 } from "@mui/material";
 import "../../styles/themeCalculate.css";
+import baseAxios from "../../api/axios";
 
 const activityLevels = [
     { value: "ít", label: "Vận động ít", desc: "Vận động cơ bản" },
@@ -23,7 +24,6 @@ const activityLevels = [
 
 const Calculate = () => {
     const [form, setForm] = useState({
-        email: "",
         gender: "Nam",
         age: "",
         height: "",
@@ -32,6 +32,9 @@ const Calculate = () => {
     });
 
     const [result, setResult] = useState(null);
+    const resultRef = useRef(null);
+    const [errorAge, setErrorAge] = useState(false);
+    const [helperAge, setHelperAge] = useState("");
 
     const handleChange = (e) => {
         setForm({ ...form, [e.target.name]: e.target.value });
@@ -42,20 +45,40 @@ const Calculate = () => {
     };
 
     const handleSubmit = async () => {
+        const userId = localStorage.getItem("userId");
+
+        if (!userId) {
+            alert("Bạn chưa đăng nhập hoặc chưa đăng ký!");
+            return;
+        }
+
+        const storedDob = localStorage.getItem("dob");
+        if (storedDob) {
+            const birthYear = new Date(storedDob).getFullYear();
+            const inputAge = parseInt(form.age, 10);
+            const currentYear = new Date().getFullYear();
+            const expectedAge = currentYear - birthYear;
+
+            if (Math.abs(expectedAge - inputAge) > 1) {
+                setErrorAge(true);
+                setHelperAge(`Tuổi bạn nhập (${inputAge}) không khớp với ngày sinh (${storedDob}).`);
+                return;
+            }
+        }
+
         try {
-            const res = await fetch("http://localhost:8080/smartdiet/customers/calculate", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({
-                    ...form,
-                    userId: "USER_ID",
-                }),
+            const res = await baseAxios.post("customers/calculate", {
+                ...form,
+                userId,
             });
 
-            const data = await res.json();
-            setResult(data);
+            setResult(res.data);
+            setTimeout(() => {
+                resultRef.current?.scrollIntoView({ behavior: "smooth" });
+            }, 100);
         } catch (error) {
-            alert("Có lỗi xảy ra khi gửi request.");
+            console.error("Lỗi khi gửi request:", error);
+            alert(error.response?.data?.message || "Có lỗi xảy ra khi gửi request.");
         }
     };
 
@@ -67,7 +90,7 @@ const Calculate = () => {
             <Typography align="center" className="subtitle">
                 Tính lượng calo cần thiết cho cơ thể bạn mỗi ngày
                 <br />
-                Hãy cho SmartDiet một vài thông tin để tính cho bạn nhé:
+                Hãy cho SmartDiet một vài thông tin để tính cho bạn nhé!
             </Typography>
 
             <Box className="main-form-box">
@@ -95,9 +118,15 @@ const Calculate = () => {
                             fullWidth
                             name="age"
                             value={form.age}
-                            onChange={handleChange}
+                            onChange={(e) => {
+                                handleChange(e);
+                                setErrorAge(false);
+                                setHelperAge("");
+                            }}
                             placeholder="Nhập độ tuổi..."
                             className="input-box"
+                            error={errorAge}
+                            helperText={helperAge}
                         />
 
                         <Typography className="label">Chiều cao</Typography>
@@ -165,19 +194,46 @@ const Calculate = () => {
 
 
                 {result && (
-                    <Box className="result-box" mt={5}>
-                        <Typography align="center" fontWeight="bold" fontSize={20} mb={2}>
+                    <Box className="result-box" mt={6} ref={resultRef}>
+                        <Typography align="center" fontWeight="bold" fontSize={24} color="#4CAF50" mb={2}>
                             CHỈ SỐ CALO CỦA BẠN
                         </Typography>
-                        <Typography align="center" mb={1}>
-                            <strong>BMR của bạn là:</strong> {result.bmr} Calo / ngày
+                        <Typography align="center" fontWeight="bold" mb={4}>
+                            Dựa trên thông tin bạn đã cung cấp<br />
+                            SmartDiet đã tính ra các chỉ số calo của bạn như sau:
                         </Typography>
-                        <Typography align="center" mb={1}>
-                            <strong>TDEE của bạn là:</strong> {result.tdee} Calo / ngày
-                        </Typography>
-                        <Typography align="center" mb={1}>
-                            <strong>BMI của bạn là:</strong> {result.bmi}
-                        </Typography>
+
+                        <Grid container spacing={4} justifyContent="center">
+                            <Grid item xs={12} md={4}>
+                                <Typography align="center" fontWeight="bold" color="#2e7d32">
+                                    BMR của bạn là:
+                                </Typography>
+                                <Typography align="center" fontSize={60} color="red" fontWeight="bold">
+                                    {result.bmr}
+                                </Typography>
+                                <Typography align="center" color="gray">Calo / ngày</Typography>
+                            </Grid>
+
+                            <Grid item xs={12} md={4}>
+                                <Typography align="center" fontWeight="bold" color="#2e7d32">
+                                    TDEE của bạn là:
+                                </Typography>
+                                <Typography align="center" fontSize={60} color="red" fontWeight="bold">
+                                    {result.tdee}
+                                </Typography>
+                                <Typography align="center" color="gray">Calo / ngày</Typography>
+                            </Grid>
+
+                            <Grid item xs={12} md={4}>
+                                <Typography align="center" fontWeight="bold" color="#2e7d32">
+                                    BMI của bạn là:
+                                </Typography>
+                                <Typography align="center" fontSize={60} color="red" fontWeight="bold">
+                                    {result.bmi}
+                                </Typography>
+                                <Typography align="center" color="gray">Chỉ số khối cơ thể</Typography>
+                            </Grid>
+                        </Grid>
                     </Box>
                 )}
             </Box>

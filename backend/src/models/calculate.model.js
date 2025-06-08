@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const calcuSchema = new Schema({
-    email: { type: String, required: true },
+    userId: { type: Schema.Types.ObjectId, ref: 'User', required: true },
     gender: { type: String, enum: ['Nam', 'Nữ'], required: true },
     age: { type: Number, required: true },
     height: { type: Number, required: true },

@@ -8,6 +8,7 @@ import {
     CardContent
 } from "@mui/material";
 import baseAxios from "../../api/axios";
+import { useNavigate } from "react-router-dom";
 
 const textFieldSx = {
     "& .MuiInputBase-root": {
@@ -38,6 +39,7 @@ const textFieldSx = {
 };
 
 export default function UserProfileForm({ setSuccess, setError }) {
+    const navigate = useNavigate();
     const [email, setEmail] = useState("");
     const [username, setUsername] = useState("");
     const [errorEmail, setErrorEmail] = useState(false);
@@ -62,6 +64,7 @@ export default function UserProfileForm({ setSuccess, setError }) {
         setErrorPasswordFormat(!passwordRegex.test(value));
     };
 
+
     const submitRegister = async () => {
         if (password !== cfPassword) {
             setErrorPassword(true);
@@ -75,6 +78,13 @@ export default function UserProfileForm({ setSuccess, setError }) {
                 };
 
                 const result = await baseAxios.post("users/create", body);
+
+                const { _id: userId } = result.data;
+                console.log("User ID:", userId);
+                localStorage.setItem("userId", userId);
+                localStorage.setItem("dob", dob);
+                console.log("DOB:", dob);
+                navigate("/calculate");
 
                 setSuccess(true);
                 console.log(result.response?.data);

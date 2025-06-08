@@ -21,9 +21,25 @@ const Schema = mongoose.Schema;
  *         email:
  *           type: string
  *           description: User's email address
- *  dob:
+ *         dob:
  *           type: string
  *           description: User's date of birth
+ *         age:
+ *           type: integer
+ *           description: Tuổi
+ *         gender:
+ *           type: string
+ *           enum: [Nam, Nữ]
+ *           description: Giới tính
+ *         height:
+ *           type: number
+ *           description: Chiều cao (cm)
+ *         weight:
+ *           type: number
+ *           description: Cân nặng (kg)
+ *         activity:
+ *           type: string
+ *           description: Mức độ vận động
  *       example:
  *         username: NguyenBinh
  *         password: String@1

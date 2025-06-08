@@ -111,15 +111,13 @@
 }
 
 .result-box {
-  margin-top: 2rem;
-  background: var(--light-green);
-  border: 1px dashed var(--main-green);
-  border-radius: 10px;
-  padding: 1.5rem;
-  text-align: center;
-  font-size: 1.1rem;
-  color: #222;
+  background-color: white;
+  border-radius: 12px;
+  padding: 40px 20px;
+  margin-top: 40px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
 }
+
 
 button.calculate-btn {
   background-color: var(--main-green) !important;

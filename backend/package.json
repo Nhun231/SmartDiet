@@ -20,6 +20,7 @@
     "mongodb": "^6.16.0",
     "mongoose": "^8.15.1",
     "morgan": "^1.10.0",
+    "nodemailer": "^7.0.3",
     "nodemailer-express-handlebars": "^7.0.0",
     "nodemon": "^3.1.10",
     "swagger": "^0.7.5",
