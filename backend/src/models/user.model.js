@@ -21,7 +21,7 @@ const Schema = mongoose.Schema;
  *         email:
  *           type: string
  *           description: User's email address
- *         dob:
+ *  dob:
  *           type: string
  *           description: User's date of birth
  *       example:
@@ -46,10 +46,19 @@ const userSchema = new Schema({
         unique: true,
         trim: true
     },
+    age: Number,
+    gender: {
+        type: String,
+        enum: ['Nam', 'Nữ']
+    },
+    height: Number,
+    weight: Number,
+    activity: String,
     dob: {
         type: Date,
         require: true
-    }
+    },
+    activity: String
 });
 
 const User = mongoose.model('User', userSchema);
