@@ -11,7 +11,7 @@ const app = express();
 const errorHandlerMiddleware = require("./src/middlewares/errorHandleMiddleware");
 
 var corsOptions = {
-    origin: "http://localhost:8081" // co thể sau này nó là resfull api, để sẵn
+    origin: "http://localhost:5173" // co thể sau này nó là resfull api, để sẵn
 }
 app.use(morgan('combined')) //theo dõi log GET, POST...
 

@@ -2,6 +2,7 @@ const bcrypt = require('bcrypt');
 const User = require('../models/user.model.js');
 const userSerivce = require('../services/user.service.js');
 const catchAsync = require('../utils/catchAsync.js')
+
 //Create user
 const createUser = catchAsync(async (req, res) => {
     const savedUser = await userSerivce.createUser(req, res);
