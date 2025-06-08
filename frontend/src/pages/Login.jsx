@@ -2,12 +2,17 @@ import { useState, useEffect } from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
 import foodImage from '../assets/pexels-mvdheuvel-2284166.jpg';
 import '../styles/login.css';
+import IconButton from "@mui/material/IconButton";
+import InputAdornment from "@mui/material/InputAdornment";
+import Visibility from "@mui/icons-material/Visibility";
+import VisibilityOff from "@mui/icons-material/VisibilityOff";
+import { useNavigate } from "react-router-dom";
 import React from "react";
-import { Box, Button, TextField, Typography, Divider, Alert } from "@mui/material";
+import {Box, Button, TextField, Typography, Divider, Alert, CircularProgress} from "@mui/material";
 import GoogleIcon from "@mui/icons-material/Google";
-import GitHubIcon from "@mui/icons-material/GitHub";
 import Modal from '@mui/material/Modal';
 import UserProfileForm from '../components/login/Register';
+import loginService from "../service/auth-service.jsx";
 
 
 const style = {
@@ -28,11 +33,38 @@ export default function Login() {
     const [open, setOpen] = useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
+    const [emailOrName, setEmailOrName] = useState("");
+    const [password, setPassword] = useState("");
+    const [errorMsg, setErrorMsg] = useState("");
+    const navigate = useNavigate();
+    const [showPassword, setShowPassword] = useState(false);
+    const [loading, setLoading] = useState(false);
 
+
+    const handleLogin = async (e) => {
+        e.preventDefault();
+        try {
+            const res = await loginService(emailOrName, password);
+            setLoading(true);
+            console.log(res);
+            localStorage.setItem("accessToken", res.accessToken);
+            navigate("/home");
+        } catch (err) {
+            const backendMessage =
+                err?.response?.data?.message ||
+                err?.message ||
+                "Có lỗi xảy ra khi đăng nhập";
+
+            setErrorMsg(backendMessage);
+            console.log(err);
+        }finally {
+            setLoading(false); // re-enable the button
+        }
+    };
     return (
         <Container fluid>
             <Row style={{ position: "relative", height: "100vh" }}>
-                <Col md={3} className="sidebar">
+                <Col md={4} className="sidebar">
                     <Box
                         sx={{
                             width: "100%",
@@ -64,14 +96,14 @@ export default function Login() {
 
 
                         <Typography variant="h6" gutterBottom>
-                            Log in to your account
+                            Đăng nhập vào tài khoản của bạn
                         </Typography>
 
                         <Typography variant="body2" sx={{ mb: 2 }}>
-                            Don't have an account?{" "}
+                            Bạn chưa có tài khoản?{" "}
                             <Typography component="span" sx={{ color: "#007fff", fontWeight: 600, cursor: "pointer" }}
                                 onClick={handleOpen}>
-                                Sign Up
+                                Đăng kí
                             </Typography>
                         </Typography>
 
@@ -82,36 +114,58 @@ export default function Login() {
                             startIcon={<GoogleIcon />}
                             sx={{ mb: 1, textTransform: "none" }}
                         >
-                            Google
-                        </Button>
-
-                        <Button
-                            variant="outlined"
-                            fullWidth
-                            startIcon={<GitHubIcon />}
-                            sx={{ mb: 2, textTransform: "none" }}
-                        >
-                            GitHub
+                            Đăng nhập bằng Google
                         </Button>
                         <Typography component="span" sx={{ color: "#007fff", fontWeight: 600, cursor: "pointer" }}
                             onClick={() => alert("Open forget password modal")}>
-                            Forgot password?
+                            Quên mật khẩu?
                         </Typography>
 
-                        <Divider sx={{ my: 2 }}>Or with email and password</Divider>
+                        <Divider sx={{ my: 2 }}>Hoặc đăng nhập bằng email/tên đăng nhập</Divider>
+                        {errorMsg && (
+                            <Alert severity="error" sx={{ mb: 2 }}>
+                                {errorMsg}
+                            </Alert>
+                        )}
+                        <TextField
+                            label="Email hoặc Tên đăng nhập"
+                            type={"text"}
+                            fullWidth
+                            size="small"
+                            autoFocus={true}
+                            sx={{ mb: 2 }}
+                            onChange={(e)=>setEmailOrName(e.target.value)}
+                        />
 
                         <TextField
-                            label="Email Address"
+                            label="Mật khẩu"
+                            type={showPassword ? "text" : "password"}
                             fullWidth
+                            size="small"
                             sx={{ mb: 2 }}
+                            onChange={(e)=>setPassword(e.target.value)}
+                            InputProps={{
+                                endAdornment: (
+                                    <InputAdornment position="end">
+                                        <IconButton onClick={()=>setShowPassword((prev) => !prev)} edge="end">
+                                            {showPassword ? <VisibilityOff /> : <Visibility />}
+                                        </IconButton>
+                                    </InputAdornment>
+                                ),
+                            }}
                         />
 
                         <Button
                             variant="contained"
                             fullWidth
-                            disabled
+                            onClick={handleLogin}
+                            disabled={loading}
                         >
-                            Next
+                            {loading ? (
+                                <CircularProgress size={20} color="inherit" />
+                            ) : (
+                                "Đăng nhập"
+                            )}
                         </Button>
                     </Box>
                 </Col>
