@@ -2,6 +2,7 @@ import { createBrowserRouter,Outlet } from "react-router-dom";
 import Home from "../pages/Home";
 import Login from "../pages/Login";
 import AuthProvider from "../context/AuthProvider.jsx";
+import OAuthCallback from "../components/common/oauth-callback.jsx";
 
 const AuthLayout = () => (
     <AuthProvider>
@@ -19,6 +20,10 @@ const router = createBrowserRouter([
       {
         path: "/home",
         element: <Home />,
+      },
+      {
+        path: "/oauth-callback",
+        element: <OAuthCallback />,
       },
     ],
   }

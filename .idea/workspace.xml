@@ -5,25 +5,20 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="3ed097a6-b234-4877-a4a7-a9d1df41149d" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/backend/src/controllers/auth.controller.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/src/middlewares/verifyJWTs.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/src/routes/auth.route.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/src/services/auth.service.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/context/AuthProvider.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/service/auth-service.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/services/oauth.service.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/components/common/oauth-callback.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.env" beforeDir="false" afterPath="$PROJECT_DIR$/.env" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/backend/package-lock.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/backend/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/server.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/server.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/controllers/auth.controller.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/controllers/auth.controller.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/models/User.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/passport/googleStrategy.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/src/models/user.model.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/models/user.model.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/routes/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/routes/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/routes/user-route.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/routes/user.route.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/App.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/App.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/routes/auth.route.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/routes/auth.route.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/services/auth.service.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/services/auth.service.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/pages/Login.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/Login.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/routes/routes.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/routes/routes.jsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -134,7 +129,7 @@
       <workItem from="1749096681681" duration="648000" />
       <workItem from="1749187682105" duration="7913000" />
       <workItem from="1749263774081" duration="26544000" />
-      <workItem from="1749348397061" duration="6743000" />
+      <workItem from="1749348397061" duration="21983000" />
     </task>
     <servers />
   </component>

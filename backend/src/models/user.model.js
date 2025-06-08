@@ -35,7 +35,9 @@ const userSchema = new Schema({
     },
     password: {
         type: String,
-        required: true
+        required: function () {
+            return !this.googleId;
+        },
     },
     email: {
         type: String,
@@ -43,7 +45,11 @@ const userSchema = new Schema({
         unique: true,
         trim: true
     },
-    refreshToken: { type: String } // Optional: default: null
+    googleId: {
+        type: String,
+        default: null
+    },
+    refreshToken: { type: String }
 });
 
 const User = mongoose.model('User', userSchema);

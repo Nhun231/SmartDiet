@@ -10,6 +10,7 @@ const {swaggerDocs} = require("./src/config/swagger");
 const app = express();
 const errorHandlerMiddleware = require("./src/middlewares/errorHandleMiddleware");
 const cookieParser = require("cookie-parser");
+const passport = require("passport");
 var corsOptions = {
     origin: "http://localhost:5173",// co thể sau này nó là restfull api, để sẵn
     credentials: true,
@@ -21,7 +22,8 @@ app.use(cors(corsOptions)); //cross domain...
 //app.use(express.static('public', {'extensions': ['jsx']} ));
 //app.set('view engine', 'ejs');
 
-
+require('./src/passport/googleStrategy');
+app.use(passport.initialize());
 // parse requests of content-type - application/json
 app.use(bodyParser.json());
 

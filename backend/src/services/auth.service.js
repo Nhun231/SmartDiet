@@ -97,4 +97,6 @@ const handleLogout = async (req, res) => {
     res.status(StatusCodes.OK).json({'message':'Xoa cookie roi'})
 
 }
+
+
 module.exports = {handleLogin, handleRefreshToken, handleLogout};

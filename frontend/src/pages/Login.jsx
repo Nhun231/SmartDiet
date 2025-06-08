@@ -6,7 +6,11 @@ import IconButton from "@mui/material/IconButton";
 import InputAdornment from "@mui/material/InputAdornment";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
-import { useNavigate } from "react-router-dom";
+import Dialog from "@mui/material/Dialog";
+import DialogTitle from "@mui/material/DialogTitle";
+import DialogContent from "@mui/material/DialogContent";
+import DialogActions from "@mui/material/DialogActions";
+import {useLocation, useNavigate} from "react-router-dom";
 import React from "react";
 import {Box, Button, TextField, Typography, Divider, Alert, CircularProgress} from "@mui/material";
 import GoogleIcon from "@mui/icons-material/Google";
@@ -61,7 +65,29 @@ export default function Login() {
             setLoading(false); // re-enable the button
         }
     };
+    const location = useLocation();
+    const [oauthError, setOauthError] = useState("");
+
+    useEffect(() => {
+        const params = new URLSearchParams(location.search);
+        const errorMsg = params.get("error");
+        if (errorMsg) {
+            setOauthError(decodeURIComponent(errorMsg));
+        }
+    }, [location.search]);
     return (
+        <>
+            <Dialog open={!!oauthError} onClose={() => setOauthError("")}>
+                <DialogTitle>Google Login Error</DialogTitle>
+                <DialogContent>
+                    {oauthError}
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={() => setOauthError("")} color="primary">
+                        Close
+                    </Button>
+                </DialogActions>
+            </Dialog>
         <Container fluid>
             <Row style={{ position: "relative", height: "100vh" }}>
                 <Col md={4} className="sidebar">
@@ -113,6 +139,7 @@ export default function Login() {
                             fullWidth
                             startIcon={<GoogleIcon />}
                             sx={{ mb: 1, textTransform: "none" }}
+                            href={`${import.meta.env.VITE_API_BASE_URL}/auth/google`}
                         >
                             Đăng nhập bằng Google
                         </Button>
@@ -189,5 +216,6 @@ export default function Login() {
                 </Box>
             </Modal>
         </Container>
+        </>
     );
 }
