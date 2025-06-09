@@ -21,6 +21,25 @@ const Schema = mongoose.Schema;
  *         email:
  *           type: string
  *           description: User's email address
+ *         dob:
+ *           type: string
+ *           description: User's date of birth
+ *         age:
+ *           type: integer
+ *           description: Tuổi
+ *         gender:
+ *           type: string
+ *           enum: [Nam, Nữ]
+ *           description: Giới tính
+ *         height:
+ *           type: number
+ *           description: Chiều cao (cm)
+ *         weight:
+ *           type: number
+ *           description: Cân nặng (kg)
+ *         activity:
+ *           type: string
+ *           description: Mức độ vận động
  *       example:
  *         username: NguyenBinh
  *         password: String@1
@@ -49,7 +68,19 @@ const userSchema = new Schema({
         type: String,
         default: null
     },
-    refreshToken: { type: String }
+    refreshToken: { type: String },
+    age: Number,
+    gender: {
+        type: String,
+        enum: ['Nam', 'Nữ']
+    },
+    height: Number,
+    weight: Number,
+    activity: String,
+    dob: {
+        type: Date,
+        require: true
+    },
 });
 
 const User = mongoose.model('User', userSchema);

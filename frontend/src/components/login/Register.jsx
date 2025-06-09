@@ -1,18 +1,55 @@
-import React from "react";
-import { useState } from "react";
+import React, { useState } from "react";
 import {
-    Box,
-    Grid,
     TextField,
     Typography,
-    MenuItem,
+    Box,
     Button,
+    Card,
+    CardContent
 } from "@mui/material";
-import { Container, Row, Col } from "react-bootstrap";
+import baseAxios from "../../api/axios";
+import { useNavigate } from "react-router-dom";
 
-export default function UserProfileForm() {
+const textFieldSx = {
+    "& .MuiInputBase-root": {
+        backgroundColor: "#fff3e0",
+        borderRadius: 1,
+    },
+    "& label": {
+        color: "#a67843",
+    },
+    "& label.Mui-focused": {
+        color: "#7a4f01",
+    },
+    "& .MuiOutlinedInput-root": {
+        "& fieldset": {
+            borderColor: "#a67843",
+        },
+        "&:hover fieldset": {
+            borderColor: "#8c5e12",
+        },
+        "&.Mui-focused fieldset": {
+            borderColor: "#7a4f01",
+            borderWidth: 2,
+        },
+    },
+    "& input[type=date]": {
+        color: "#7a4f01",
+    },
+};
+
+export default function UserProfileForm({ setSuccess, setError }) {
+    const navigate = useNavigate();
     const [email, setEmail] = useState("");
+    const [username, setUsername] = useState("");
     const [errorEmail, setErrorEmail] = useState(false);
+    const [password, setPassword] = useState("");
+    const [cfPassword, setCfPassword] = useState("");
+    const [dob, setDob] = useState();
+    const [errorPassword, setErrorPassword] = useState(false);
+    const [errorPasswordFormat, setErrorPasswordFormat] = useState(false);
+
+    const passwordRegex = /^(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])/;
 
     const handleChangeEmailChange = (event) => {
         const value = event.target.value;
@@ -21,97 +58,151 @@ export default function UserProfileForm() {
         setErrorEmail(!emailPattern.test(value));
     };
 
+    const handlePasswordChange = (e) => {
+        const value = e.target.value;
+        setPassword(value);
+        setErrorPasswordFormat(!passwordRegex.test(value));
+    };
+
+
+    const submitRegister = async () => {
+        if (password !== cfPassword) {
+            setErrorPassword(true);
+        } else {
+            try {
+                const body = {
+                    email,
+                    password,
+                    username,
+                    dob,
+                };
+
+                const result = await baseAxios.post("users/create", body);
+
+                const { _id: userId } = result.data;
+                console.log("User ID:", userId);
+                localStorage.setItem("userId", userId);
+                localStorage.setItem("dob", dob);
+                console.log("DOB:", dob);
+                navigate("/calculate");
+
+                setSuccess(true);
+                console.log(result.response?.data);
+            } catch (error) {
+                setError(error.response?.data?.message || "Registration error");
+                console.log(error.response?.data);
+            }
+        }
+    };
+
     return (
-        <Container>
-            <Row>
-                <Col>
+        <Box
+            sx={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                backgroundColor: "#f8f1e7",
+            }}
+        >
+            <Card
+                elevation={8}
+                sx={{
+                    width: "100%",
+                    maxWidth: 480,
+                    borderRadius: 3,
+                    boxShadow: "0 4px 15px rgba(156, 102, 31, 0.25)",
+                    backgroundColor: "#fff7ed",
+                }}
+            >
+                <CardContent sx={{ padding: 4 }}>
                     <Typography
                         variant="h5"
-                        fontWeight={600}
+                        fontWeight={700}
+                        align="center"
                         gutterBottom
-                        textAlign={"center"}
-                        marginTop={-2}>
+                        sx={{ color: "#7a4f01" }}
+                    >
                         User Registration
                     </Typography>
-                </Col>
-            </Row>
-            <Row>
-                <Col>
+
                     <TextField
                         label="Full Name"
-                        name="fullName"
                         fullWidth
                         margin="normal"
+                        value={username}
+                        onChange={(e) => setUsername(e.target.value)}
+                        sx={textFieldSx}
                     />
                     <TextField
                         label="Email"
-                        name="email"
                         type="email"
                         fullWidth
                         margin="normal"
                         value={email}
                         onChange={handleChangeEmailChange}
                         error={errorEmail}
-                        helperText={errorEmail ? "Email không hợp lệ, hãy nhập đúng định dạng!" : ""}
+                        helperText={errorEmail ? "Invalid email format." : ""}
+                        sx={textFieldSx}
                     />
                     <TextField
                         label="Password"
-                        name="password"
                         type="password"
                         fullWidth
                         margin="normal"
+                        value={password}
+                        onChange={handlePasswordChange}
+                        error={errorPasswordFormat}
+                        helperText={
+                            errorPasswordFormat
+                                ? "Password must contain uppercase, number, and special character (!@#$%^&*)."
+                                : ""
+                        }
+                        sx={textFieldSx}
+                    />
+                    <TextField
+                        label="Confirm Password"
+                        type="password"
+                        fullWidth
+                        margin="normal"
+                        value={cfPassword}
+                        onChange={(e) => setCfPassword(e.target.value)}
+                        error={errorPassword}
+                        helperText={
+                            errorPassword
+                                ? "Passwords do not match."
+                                : ""
+                        }
+                        sx={textFieldSx}
                     />
                     <TextField
                         label="Date of Birth"
-                        name="dob"
                         type="date"
                         fullWidth
                         margin="normal"
                         InputLabelProps={{ shrink: true }}
+                        value={dob}
+                        onChange={(e) => setDob(e.target.value)}
+                        sx={textFieldSx}
                     />
-                </Col>
-                <Col>
-                    <TextField
-                        label="Height (cm)"
-                        name="height"
-                        type="number"
-                        fullWidth
-                        margin="normal"
-                        inputProps={{ min: 0 }}
-                    />
-                    <TextField
-                        label="Weight (kg)"
-                        name="weight"
-                        type="number"
-                        fullWidth
-                        margin="normal"
-                        inputProps={{ min: 0 }}
-                    />
-                    <TextField
-                        label="Gender"
-                        name="gender"
-                        select
-                        fullWidth
-                        margin="normal"
-                    >
-                        {["Nam", "Nữ", "Khác"].map((gender) => (
-                            <MenuItem key={gender} value={gender}>
-                                {gender}
-                            </MenuItem>
-                        ))}
-                    </TextField>
-                </Col>
 
-                <Button
-                    variant="contained"
-                    color="info"
-                    fullWidth
-                    sx={{ mt: 2 }}
-                    onClick={() => alert("Registration submitted")}
-                >
-                    Register
-                </Button>
-            </Row>
-        </Container>
+                    <Button
+                        variant="contained"
+                        fullWidth
+                        sx={{
+                            mt: 3,
+                            backgroundColor: "#a67843",
+                            color: "#fff",
+                            fontWeight: "bold",
+                            "&:hover": {
+                                backgroundColor: "#7a4f01",
+                            },
+                        }}
+                        onClick={submitRegister}
+                    >
+                        Register
+                    </Button>
+                </CardContent>
+            </Card>
+        </Box>
     );
 }

@@ -3,6 +3,8 @@ import Home from "../pages/Home";
 import Login from "../pages/Login";
 import AuthProvider from "../context/AuthProvider.jsx";
 import OAuthCallback from "../components/common/oauth-callback.jsx";
+import ChangePassword from "../pages/ChangePassword";
+import Calculator from "../pages/Calculator";
 
 const AuthLayout = () => (
     <AuthProvider>
@@ -10,23 +12,27 @@ const AuthLayout = () => (
     </AuthProvider>
 );
 const router = createBrowserRouter([
+    {
+        element: <AuthLayout/>,
+        children: [
+    {
+    path: "/home",
+    element: <Home />,
+  },
   {
-    element: <AuthLayout/>,
-    children: [
-      {
-        path: "/login",
-        element: <Login />,
-      },
-      {
-        path: "/home",
-        element: <Home />,
-      },
-      {
-        path: "/oauth-callback",
-        element: <OAuthCallback />,
-      },
-    ],
-  }
+    path: "/login",
+    element: <Login />,
+  },
+  {
+    path: "/calculate",
+    element: <Calculator />,
+  },
+  {
+    path: "/changepassword/:token",
+    element: <ChangePassword />,
+  },
+            ],
+    }
 ]);
 
 export default router;

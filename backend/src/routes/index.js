@@ -1,3 +1,7 @@
+const userRoutes = require('./user-route');
+const calcuRoutes = require('./calculate.route');
+
+const emailRoutes = require('./email-route');
 const userRoutes = require('./user.route');
 const authRoutes = require('./auth.route');
 const applicationName = process.env.APPLICATION_NAME;
@@ -9,4 +13,6 @@ module.exports = (app) => {
 
     app.use(verifyJWTs) // middleware to send access token in header in each req
     // ... routes go here
+    app.use(`/${applicationName}/customers`, calcuRoutes);
+    app.use(`/${applicationName}/email`, emailRoutes);
 };

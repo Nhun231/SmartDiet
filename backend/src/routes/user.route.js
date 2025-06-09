@@ -37,6 +37,9 @@ const userValidation = require('../validations/user.validator.js');
  *                 type: string
  *                 example: user@gmail.com
  *                 format: email
+ *               dob:
+ *                 type: string
+ *                 example: 12/4/1999
  *     responses:
  *       201:
  *         description: Creat user successfully
@@ -100,6 +103,8 @@ router.get('/find', userController.getUserByEmail);
  *               username:
  *                 type: string
  *               password:
+ *                 type: string
+ *               dob:
  *                 type: string
  *     responses:
  *       200:
