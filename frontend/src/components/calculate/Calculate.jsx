@@ -204,34 +204,44 @@ const Calculate = () => {
                         </Typography>
 
                         <Grid container spacing={4} justifyContent="center">
-                            <Grid item xs={12} md={4}>
+                            <Grid item xs={12} md={3}>
                                 <Typography align="center" fontWeight="bold" color="#2e7d32">
                                     BMR của bạn là:
                                 </Typography>
-                                <Typography align="center" fontSize={60} color="red" fontWeight="bold">
+                                <Typography align="center" fontSize={50} color="red" fontWeight="bold">
                                     {result.bmr}
                                 </Typography>
                                 <Typography align="center" color="gray">Calo / ngày</Typography>
                             </Grid>
 
-                            <Grid item xs={12} md={4}>
+                            <Grid item xs={12} md={3}>
                                 <Typography align="center" fontWeight="bold" color="#2e7d32">
                                     TDEE của bạn là:
                                 </Typography>
-                                <Typography align="center" fontSize={60} color="red" fontWeight="bold">
+                                <Typography align="center" fontSize={50} color="red" fontWeight="bold">
                                     {result.tdee}
                                 </Typography>
                                 <Typography align="center" color="gray">Calo / ngày</Typography>
                             </Grid>
 
-                            <Grid item xs={12} md={4}>
+                            <Grid item xs={12} md={3}>
                                 <Typography align="center" fontWeight="bold" color="#2e7d32">
                                     BMI của bạn là:
                                 </Typography>
-                                <Typography align="center" fontSize={60} color="red" fontWeight="bold">
+                                <Typography align="center" fontSize={50} color="red" fontWeight="bold">
                                     {result.bmi}
                                 </Typography>
                                 <Typography align="center" color="gray">Chỉ số khối cơ thể</Typography>
+                            </Grid>
+
+                            <Grid item xs={12} md={3}>
+                                <Typography align="center" fontWeight="bold" color="#2e7d32">
+                                    Lượng nước cần uống:
+                                </Typography>
+                                <Typography align="center" fontSize={50} color="red" fontWeight="bold">
+                                    {result.waterIntake}
+                                </Typography>
+                                <Typography align="center" color="gray">Lít / ngày</Typography>
                             </Grid>
                         </Grid>
                     </Box>
