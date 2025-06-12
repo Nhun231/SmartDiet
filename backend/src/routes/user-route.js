@@ -134,5 +134,24 @@ router.put('/update', userController.updateUserByEmail);
  *         description: User not found with the provided email
  */
 router.delete('/delete', userController.deleteUserByEmail);
-
+/**
+ * @swagger
+ * /users/find-by-id:
+ *   get:
+ *     summary: Find user by id
+ *     tags: [Users]
+ *     parameters:
+ *       - in: query
+ *         name: id
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: User's id to find
+ *     responses:
+ *       200:
+ *         description: Returns user information
+ *       404:
+ *         description: Not found user with the provided id
+ */
+router.get('/find-by-id/', userController.getUserByUserId);
 module.exports = router;

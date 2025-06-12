@@ -3,6 +3,8 @@ import Home from "../pages/Home";
 import Login from "../pages/Login";
 import ChangePassword from "../pages/ChangePassword";
 import Calculator from "../pages/Calculator";
+import ProfilePage from "../pages/ProfilePage";
+import EditProfilePage from "../pages/EditProfilePage";
 
 const router = createBrowserRouter([
   {
@@ -20,6 +22,14 @@ const router = createBrowserRouter([
   {
     path: "/changepassword/:token",
     element: <ChangePassword />,
+  },
+  {
+    path: "/my-profile",
+    element: <ProfilePage />,
+  },
+  {
+    path: "/edit-profile",
+    element: <EditProfilePage />,
   },
 ]);
 

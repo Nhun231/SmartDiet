@@ -98,11 +98,24 @@ const deleteUserByEmail = async (req, res) => {
         throw new BaseError(StatusCodes.INTERNAL_SERVER_ERROR, `Lỗi khi xóa người dùng: ${error.message}`);
     }
 }
+//Find user by Id
+const getUserByUserId = async (req, res) => {
+    try {
+        const user = await User.findById(req.query.userId);
+        if (!user) {
+            return res.status(404).json({ message: 'Người dùng không tồn tại' });
+        }
+        return res.status(200).json(user);
+    } catch (error) {
+        throw new BaseError(StatusCodes.INTERNAL_SERVER_ERROR, `Lỗi khi tìm người dùng: ${error.message}`);
+    }
+}
 
 module.exports = {
     createUser,
     getAllUsers,
     getUserByEmail,
     updateUserByEmail,
-    deleteUserByEmail
+    deleteUserByEmail,
+    getUserByUserId
 };
