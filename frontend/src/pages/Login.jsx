@@ -125,15 +125,8 @@ export default function Login() {
                     >
                         <Row>
                             <Col>
-                                <Typography variant="h5" fontWeight={500} gutterBottom
-                                    style={{
-                                        color: "black",
-                                        fontFamily: "sans-serif",
-                                        textAlign: "center",
-                                        marginTop: "3vh",
-                                        marginBottom: "15vh",
-                                        fontSize: "2.5rem",
-                                    }}
+                                <Typography variant="h3" fontWeight={500} gutterBottom
+                                    className="title"
                                 >
                                     SmartDiet
                                 </Typography>
@@ -141,7 +134,7 @@ export default function Login() {
                         </Row>
 
 
-                        <Typography variant="h6" gutterBottom>
+                        <Typography variant="h6" gutterBottom className="label">
                             Đăng nhập vào tài khoản của bạn
                         </Typography>
 
@@ -207,6 +200,7 @@ export default function Login() {
                             fullWidth
                             onClick={handleLogin}
                             disabled={loading}
+                            className="login-buttons"
                         >
                             {loading ? (
                                 <CircularProgress size={20} color="inherit" />

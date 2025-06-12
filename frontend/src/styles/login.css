@@ -1,3 +1,8 @@
+:root {
+  --main-green: #4CAF50; /* màu xanh lá chủ đạo */
+  --light-green: #e8f5e9;
+  --text-green: #2e7d32;
+}
 .sidebar {
   background-color: rgba(182, 150, 9, 0.24);
   padding: 20px;
@@ -17,4 +22,40 @@
 
 .no-padding {
   padding: 0 !important;
+}
+.title {
+  color: var(--main-green);
+  font-weight: 700;
+  text-align: center;
+}
+.label {
+  color: #4CAF50;
+  font-weight: bold !important;
+  margin-bottom: 6px;
+  margin-top: 10px !important;
+  display: block;
+
+}
+.subtitle {
+  margin-top: 10px !important;
+  text-align: center;
+  margin-bottom: 2rem;
+  color: #444;
+  font-weight: bold !important;
+}
+.login-buttons button {
+  flex: 1;
+  border: 1px solid var(--main-green);
+  background: white;
+  color: var(--main-green);
+  font-weight: bold;
+  padding: 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.login-buttons .active {
+  background-color: var(--main-green);
+  color: white;
 }

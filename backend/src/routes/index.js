@@ -1,4 +1,3 @@
-const userRoutes = require('./user-route');
 const calcuRoutes = require('./calculate.route');
 
 const emailRoutes = require('./email-route');

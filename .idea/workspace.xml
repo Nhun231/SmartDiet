@@ -5,20 +5,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="3ed097a6-b234-4877-a4a7-a9d1df41149d" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/backend/src/services/oauth.service.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/components/common/oauth-callback.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.env" beforeDir="false" afterPath="$PROJECT_DIR$/.env" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_02_06_2025_2_56_CH_[Changes]/shelved.patch" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_02_06_2025_2_56_CH__Changes_.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/backend/package-lock.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/backend/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/server.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/server.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/controllers/auth.controller.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/controllers/auth.controller.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/models/User.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/passport/googleStrategy.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/models/user.model.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/models/user.model.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/routes/auth.route.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/routes/auth.route.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/services/auth.service.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/services/auth.service.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/routes/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/routes/index.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/pages/Login.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/Login.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/routes/routes.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/routes/routes.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/styles/login.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/styles/login.css" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -57,6 +51,7 @@
   </component>
   <component name="PropertiesComponent">{
   &quot;keyToString&quot;: {
+    &quot;Docker.docker-compose.yml.maildev: Compose Deployment.executor&quot;: &quot;Run&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
     &quot;git-widget-placeholder&quot;: &quot;UC01-Login&quot;,
@@ -80,7 +75,27 @@
       <recent name="D:\Documents\7th_semester\SmartDiet\frontend" />
     </key>
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="Docker.docker-compose.yml.maildev: Compose Deployment">
+    <configuration default="true" type="docker-deploy" factoryName="docker-compose.yml" temporary="true">
+      <deployment type="docker-compose.yml">
+        <settings />
+      </deployment>
+      <method v="2" />
+    </configuration>
+    <configuration name="docker-compose.yml.maildev: Compose Deployment" type="docker-deploy" factoryName="docker-compose.yml" temporary="true" server-name="Docker">
+      <deployment type="docker-compose.yml">
+        <settings>
+          <option name="envFilePath" value="" />
+          <option name="services">
+            <list>
+              <option value="maildev" />
+            </list>
+          </option>
+          <option name="sourceFilePath" value="docker-compose.yml" />
+        </settings>
+      </deployment>
+      <method v="2" />
+    </configuration>
     <configuration name="dev" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
       <package-json value="$PROJECT_DIR$/frontend/package.json" />
       <command value="run" />
@@ -93,6 +108,7 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Docker.docker-compose.yml.maildev: Compose Deployment" />
         <item itemvalue="npm.dev" />
       </list>
     </recent_temporary>
@@ -129,7 +145,12 @@
       <workItem from="1749096681681" duration="648000" />
       <workItem from="1749187682105" duration="7913000" />
       <workItem from="1749263774081" duration="26544000" />
-      <workItem from="1749348397061" duration="21983000" />
+      <workItem from="1749348397061" duration="26426000" />
+      <workItem from="1749394516028" duration="1554000" />
+      <workItem from="1749447761854" duration="7063000" />
+      <workItem from="1749481382381" duration="4942000" />
+      <workItem from="1749515962952" duration="2427000" />
+      <workItem from="1749546636615" duration="2123000" />
     </task>
     <servers />
   </component>
@@ -147,7 +168,7 @@
                   <entry key="branch">
                     <value>
                       <list>
-                        <option value="origin/UC04-Register-an-account" />
+                        <option value="origin/UC07-EnterPersonalInformation" />
                       </list>
                     </value>
                   </entry>
