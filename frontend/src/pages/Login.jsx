@@ -2,28 +2,38 @@ import { useState, useEffect } from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
 import foodImage from '../assets/pexels-mvdheuvel-2284166.jpg';
 import '../styles/login.css';
+import IconButton from "@mui/material/IconButton";
+import InputAdornment from "@mui/material/InputAdornment";
+import Visibility from "@mui/icons-material/Visibility";
+import VisibilityOff from "@mui/icons-material/VisibilityOff";
+import Dialog from "@mui/material/Dialog";
+import DialogTitle from "@mui/material/DialogTitle";
+import DialogContent from "@mui/material/DialogContent";
+import DialogActions from "@mui/material/DialogActions";
+import {useLocation, useNavigate} from "react-router-dom";
 import React from "react";
-import { Box, Button, TextField, Typography, Divider, Alert } from "@mui/material";
+import {Box, Button, TextField, Typography, Divider, Alert, CircularProgress} from "@mui/material";
 import GoogleIcon from "@mui/icons-material/Google";
-import GitHubIcon from "@mui/icons-material/GitHub";
 import Modal from '@mui/material/Modal';
 import UserProfileForm from '../components/login/Register';
 import Snackbar from '@mui/material/Snackbar';
 import ForgotPassword from '../components/login/ForgotPassword';
+import loginService from "../service/auth-service.jsx";
+
 
 const style = {
     position: 'absolute',
     top: '50%',
     left: '50%',
     transform: 'translate(-50%, -50%)',
-    width: 'auto',        
-    maxWidth: '90vw',      
-    height: 'auto',         
+    width: 'auto',
+    maxWidth: '90vw',
+    height: 'auto',
     maxHeight: '90vh',
     bgcolor: 'background.paper',
     boxShadow: 24,
     borderRadius: 2,
-    overflowY: 'auto',  
+    overflowY: 'auto',
 };
 
 
@@ -47,11 +57,60 @@ export default function Login() {
         setSuccessSendEmail(false)
         setErrorOpen('');
     }
+    const [emailOrName, setEmailOrName] = useState("");
+    const [password, setPassword] = useState("");
+    const [errorMsg, setErrorMsg] = useState("");
+    const navigate = useNavigate();
+    const [showPassword, setShowPassword] = useState(false);
+    const [loading, setLoading] = useState(false);
 
+
+    const handleLogin = async (e) => {
+        e.preventDefault();
+        try {
+            const res = await loginService(emailOrName, password);
+            setLoading(true);
+            console.log(res);
+            localStorage.setItem("accessToken", res.accessToken);
+            navigate("/home");
+        } catch (err) {
+            const backendMessage =
+                err?.response?.data?.message ||
+                err?.message ||
+                "Có lỗi xảy ra khi đăng nhập";
+
+            setErrorMsg(backendMessage);
+            console.log(err);
+        }finally {
+            setLoading(false); // re-enable the button
+        }
+    };
+    const location = useLocation();
+    const [oauthError, setOauthError] = useState("");
+
+    useEffect(() => {
+        const params = new URLSearchParams(location.search);
+        const errorMsg = params.get("error");
+        if (errorMsg) {
+            setOauthError(decodeURIComponent(errorMsg));
+        }
+    }, [location.search]);
     return (
+        <>
+            <Dialog open={!!oauthError} onClose={() => setOauthError("")}>
+                <DialogTitle>Google Login Error</DialogTitle>
+                <DialogContent>
+                    {oauthError}
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={() => setOauthError("")} color="primary">
+                        Close
+                    </Button>
+                </DialogActions>
+            </Dialog>
         <Container fluid>
             <Row style={{ position: "relative", height: "100vh" }}>
-                <Col md={3} className="sidebar">
+                <Col md={4} className="sidebar">
                     <Box
                         sx={{
                             width: "100%",
@@ -66,15 +125,8 @@ export default function Login() {
                     >
                         <Row>
                             <Col>
-                                <Typography variant="h5" fontWeight={500} gutterBottom
-                                    style={{
-                                        color: "black",
-                                        fontFamily: "sans-serif",
-                                        textAlign: "center",
-                                        marginTop: "3vh",
-                                        marginBottom: "15vh",
-                                        fontSize: "2.5rem",
-                                    }}
+                                <Typography variant="h3" fontWeight={500} gutterBottom
+                                    className="title"
                                 >
                                     SmartDiet
                                 </Typography>
@@ -82,15 +134,15 @@ export default function Login() {
                         </Row>
 
 
-                        <Typography variant="h6" gutterBottom>
-                            Log in to your account
+                        <Typography variant="h6" gutterBottom className="label">
+                            Đăng nhập vào tài khoản của bạn
                         </Typography>
 
                         <Typography variant="body2" sx={{ mb: 2 }}>
-                            Don't have an account?{" "}
+                            Bạn chưa có tài khoản?{" "}
                             <Typography component="span" sx={{ color: "#007fff", fontWeight: 600, cursor: "pointer" }}
                                 onClick={handleOpenRegister}>
-                                Sign Up
+                                Đăng kí
                             </Typography>
                         </Typography>
 
@@ -100,37 +152,61 @@ export default function Login() {
                             fullWidth
                             startIcon={<GoogleIcon />}
                             sx={{ mb: 1, textTransform: "none" }}
+                            href={`${import.meta.env.VITE_API_BASE_URL}/auth/google`}
                         >
-                            Google
-                        </Button>
-
-                        <Button
-                            variant="outlined"
-                            fullWidth
-                            startIcon={<GitHubIcon />}
-                            sx={{ mb: 2, textTransform: "none" }}
-                        >
-                            GitHub
+                            Đăng nhập bằng Google
                         </Button>
                         <Typography component="span" sx={{ color: "#007fff", fontWeight: 600, cursor: "pointer" }}
                             onClick={handleOpenForgotPassword}>
-                            Forgot password?
+                            Quên mật khẩu?
                         </Typography>
 
-                        <Divider sx={{ my: 2 }}>Or with email and password</Divider>
+                        <Divider sx={{ my: 2 }}>Hoặc đăng nhập bằng email/tên đăng nhập</Divider>
+                        {errorMsg && (
+                            <Alert severity="error" sx={{ mb: 2 }}>
+                                {errorMsg}
+                            </Alert>
+                        )}
+                        <TextField
+                            label="Email hoặc Tên đăng nhập"
+                            type={"text"}
+                            fullWidth
+                            size="small"
+                            autoFocus={true}
+                            sx={{ mb: 2 }}
+                            onChange={(e)=>setEmailOrName(e.target.value)}
+                        />
 
                         <TextField
-                            label="Email Address"
+                            label="Mật khẩu"
+                            type={showPassword ? "text" : "password"}
                             fullWidth
+                            size="small"
                             sx={{ mb: 2 }}
+                            onChange={(e)=>setPassword(e.target.value)}
+                            InputProps={{
+                                endAdornment: (
+                                    <InputAdornment position="end">
+                                        <IconButton onClick={()=>setShowPassword((prev) => !prev)} edge="end">
+                                            {showPassword ? <VisibilityOff /> : <Visibility />}
+                                        </IconButton>
+                                    </InputAdornment>
+                                ),
+                            }}
                         />
 
                         <Button
                             variant="contained"
                             fullWidth
-                            disabled
+                            onClick={handleLogin}
+                            disabled={loading}
+                            className="login-buttons"
                         >
-                            Next
+                            {loading ? (
+                                <CircularProgress size={20} color="inherit" />
+                            ) : (
+                                "Đăng nhập"
+                            )}
                         </Button>
                     </Box>
                 </Col>
@@ -209,5 +285,6 @@ export default function Login() {
                 }}
             />
         </Container>
+        </>
     );
 }

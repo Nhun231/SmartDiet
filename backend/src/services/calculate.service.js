@@ -44,6 +44,7 @@ const calculateTDEE = async (req) => {
 
     const tdee = bmr * factor;
     const bmi = +(weight / Math.pow(height / 100, 2)).toFixed(2);
+    const waterNeeded = (weight * 0.03).toFixed(2);
 
     const result = new Calculate({
         userId,
@@ -54,7 +55,8 @@ const calculateTDEE = async (req) => {
         activity,
         bmr: Math.round(bmr),
         tdee: Math.round(tdee),
-        bmi
+        bmi,
+        waterNeeded
     });
     await result.save();
 
@@ -62,7 +64,8 @@ const calculateTDEE = async (req) => {
         message: 'Successful!',
         bmr: result.bmr,
         tdee: result.tdee,
-        bmi: result.bmi
+        bmi: result.bmi,
+        waterIntake: result.waterNeeded
     }
 }
 

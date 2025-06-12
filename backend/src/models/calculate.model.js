@@ -11,6 +11,7 @@ const calcuSchema = new Schema({
     bmr: { type: Number, required: true },
     tdee: { type: Number, required: true },
     bmi: { type: Number, required: true },
+    waterNeeded: String,
     createdAt: { type: Date, default: Date.now }
 });
 

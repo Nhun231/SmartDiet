@@ -54,7 +54,9 @@ const userSchema = new Schema({
     },
     password: {
         type: String,
-        required: true
+        required: function () {
+            return !this.googleId;
+        },
     },
     email: {
         type: String,
@@ -62,6 +64,11 @@ const userSchema = new Schema({
         unique: true,
         trim: true
     },
+    googleId: {
+        type: String,
+        default: null
+    },
+    refreshToken: { type: String },
     age: Number,
     gender: {
         type: String,
@@ -74,7 +81,6 @@ const userSchema = new Schema({
         type: Date,
         require: true
     },
-    activity: String
 });
 
 const User = mongoose.model('User', userSchema);
