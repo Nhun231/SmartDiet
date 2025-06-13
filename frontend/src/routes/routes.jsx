@@ -1,25 +1,31 @@
 import { createBrowserRouter } from "react-router-dom";
-import Home from "../pages/Home";
 import Login from "../pages/Login";
-import ChangePassword from "../pages/ChangePassword";
 import Calculator from "../pages/Calculator";
+import ChangePassword from "../pages/ChangePassword";
+import HomePage from "../pages/HomePage";
+import MainLayout from "../components/common/mainLayout";
 
 const router = createBrowserRouter([
-  {
-    path: "/home",
-    element: <Home />,
-  },
   {
     path: "/login",
     element: <Login />,
   },
   {
-    path: "/calculate",
-    element: <Calculator />,
-  },
-  {
-    path: "/changepassword/:token",
-    element: <ChangePassword />,
+    element: <MainLayout />,
+    children: [
+      {
+        path: "calculate",
+        element: <Calculator />,
+      },
+      {
+        path: "changepassword/:token",
+        element: <ChangePassword />,
+      },
+      {
+        path: "homepage",
+        element: <HomePage />,
+      },
+    ],
   },
 ]);
 

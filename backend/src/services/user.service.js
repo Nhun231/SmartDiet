@@ -19,7 +19,7 @@ const createUser = async (req, res) => {
             const savedUser = await newUser.save();
 
             //send welcome email
-            EmailService.sendWelcomeOnboardEmail(req.body.username, req.body.email)
+            //EmailService.sendWelcomeOnboardEmail(req.body.username, req.body.email)
             return savedUser;
         } else {
             throw new Error('Email này đã có người sử dụng');
