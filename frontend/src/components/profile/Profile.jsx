@@ -14,8 +14,8 @@ import FitnessCenterIcon from "@mui/icons-material/FitnessCenter";
 import SportsScoreIcon from "@mui/icons-material/SportsScore";
 
 const ProfilePage = () => {
-  const userId = localStorage.getItem("userId");
   const [userData, setUserData] = useState(null);
+  const [physicalData, setPhysicalData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -29,21 +29,36 @@ const ProfilePage = () => {
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        const response = await baseAxios.get("/users/find-by-id", {
-          params: { userId: userId },
-        });
+        const response = await baseAxios.get("/users/find-by-email", {});
         setUserData(response.data);
-        setLoading(false);
       } catch (err) {
         setError(
           err.response?.data?.message || "Có lỗi khi lấy dữ liệu người dùng"
         );
-        setLoading(false);
+      }
+    };
+
+    const fetchPhysicalData = async () => {
+      try {
+        const response = await baseAxios.get(`/customers/calculate/newest`, {});
+        setPhysicalData(response.data);
+      } catch (err) {
+        console.error("Lỗi khi lấy dữ liệu thể chất:", err);
       }
     };
 
     fetchUserData();
+    fetchPhysicalData();
+    setLoading(false);
   }, []);
+
+  const getBMICategory = (bmi) => {
+    const value = Number.parseFloat(bmi);
+    if (value < 18.5) return "Thiếu cân";
+    if (value < 25) return "Bình thường";
+    if (value < 30) return "Thừa cân";
+    return "Béo phì";
+  };
 
   const getBMIColor = (bmi) => {
     const bmiValue = Number.parseFloat(bmi);
@@ -55,20 +70,21 @@ const ProfilePage = () => {
 
   const getBMIBadgeClass = (category) => {
     switch (category) {
-      case "Normal Weight":
+      case "Bình thường":
         return "my-badge badge-green";
-      case "Underweight":
+      case "Thiếu cân":
         return "my-badge badge-blue";
-      case "Overweight":
+      case "Thừa cân":
         return "my-badge badge-yellow";
-      case "Obese":
+      case "Béo phì":
         return "my-badge badge-red";
       default:
         return "my-badge";
     }
   };
 
-  if (loading) return <div className="container p-4">Loading...</div>;
+  if (loading || !userData)
+    return <div className="container p-4">Loading...</div>;
   if (error) return <div className="container p-4">Error: {error}</div>;
 
   return (
@@ -103,14 +119,14 @@ const ProfilePage = () => {
               <p className="text-gray-600 mb-2">{userData.email}</p>
               <div className="flex gap-2">
                 <span className="my-badge badge-green text-green-700">
-                  {userData.gender ? userData.gender : "Giới tính: --"}
+                  {physicalData?.gender ? physicalData.gender : "Giới tính: --"}
                 </span>
                 <span className="my-badge badge-green text-green-700">
                   {calculateAge(userData.dob)} Tuổi
                 </span>
                 <span className="my-badge badge-green text-green-700">
-                  {userData.activityLevel
-                    ? userData.activityLevel
+                  {physicalData?.activity
+                    ? "Cường độ vận động: " + physicalData.activity
                     : "Cường độ vận động: --"}
                 </span>
               </div>
@@ -140,7 +156,7 @@ const ProfilePage = () => {
             <div className="p-3 rounded-lg bg-gray-50 mb-4">
               <p className="text-sm text-gray-500">Giới tính</p>
               <p className="font-medium">
-                {userData.gender ? userData.gender : "--"}
+                {physicalData?.gender ? physicalData.gender : "--"}
               </p>
             </div>
             <div className="p-3 rounded-lg bg-gray-50">
@@ -170,19 +186,26 @@ const ProfilePage = () => {
             <div className="p-3 rounded-lg bg-gray-50 mb-4">
               <p className="text-sm text-gray-500">Chiều cao</p>
               <p className="font-medium">
-                {userData.height ? userData.height : "--"} (cm)
+                {physicalData?.height ? physicalData.height : "--"} (cm)
               </p>
             </div>
             <div className="p-3 rounded-lg bg-gray-50 mb-4">
               <p className="text-sm text-gray-500">Cân nặng</p>
               <p className="font-medium">
-                {userData.weight ? userData.weight : "--"} (kg)
+                {physicalData?.weight ? physicalData.weight : "--"} (kg)
+              </p>
+            </div>
+            <div className="p-3 rounded-lg bg-gray-50 mb-4">
+              <p className="text-sm text-gray-500">Lượng nước cần uống</p>
+              <p className="font-medium">
+                {physicalData?.waterIntake ?? "--"}
+                (lít/ngày)
               </p>
             </div>
             <div className="p-3 rounded-lg bg-gray-50">
               <p className="text-sm text-gray-500">Cường độ vận động</p>
               <p className="font-medium">
-                {userData.activityLevel ? userData.activityLevel : "--"}
+                {physicalData?.activity ? physicalData.activity : "--"}
               </p>
             </div>
           </div>
@@ -208,7 +231,7 @@ const ProfilePage = () => {
                 Tỷ lệ trao đổi chất cơ bản (BMR)
               </h3>
               <p className="text-2xl font-bold text-green">
-                {userData.bmr ? userData.bmr : "--"} cal/day
+                {physicalData?.bmr ? physicalData?.bmr : "--"} cal/day
               </p>
               <p className="text-sm text-gray-600 mt-1">
                 Lượng calo tiêu thụ khi nghỉ ngơi
@@ -222,7 +245,7 @@ const ProfilePage = () => {
                 Tổng năng lượng tiêu hao mỗi ngày (TDEE)
               </h3>
               <p className="text-2xl font-bold text-green">
-                {userData.tdee ? userData.tdee : "--"} cal/day
+                {physicalData?.tdee ? physicalData?.tdee : "--"} cal/day
               </p>
               <p className="text-sm text-gray-600 mt-1">
                 Tổng lượng calo cần thiết mỗi ngày
@@ -235,16 +258,23 @@ const ProfilePage = () => {
               <h3 className="font-semibold text-green mb-1">Chỉ số BMI</h3>
               <p
                 className={`text-2xl font-bold ${
-                  userData.bmi ? getBMIColor(userData.bmi) : "text-green"
+                  physicalData?.bmi
+                    ? getBMIColor(physicalData.bmi)
+                    : "text-green"
                 }`}
               >
-                {userData.bmi ?? "--"}
+                {physicalData?.bmi ?? "--"}
               </p>
               <span
-                className={`${getBMIBadgeClass(userData.bmiCategory)} mt-2`}
+                className={`${getBMIBadgeClass(
+                  getBMICategory(physicalData?.bmi)
+                )}`}
               >
-                {userData.bmiCategory}
+                Đánh giá: {getBMICategory(physicalData?.bmi)}
               </span>
+              <p className="text-sm text-gray-600 mt-1">
+                Chỉ số khối cơ thể đánh giá tình trạng cân nặng
+              </p>
             </div>
           </div>
         </div>

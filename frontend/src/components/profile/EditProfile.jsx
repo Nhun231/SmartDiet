@@ -15,17 +15,18 @@ import {
   Grid,
 } from "@mui/material";
 const EditProfilePage = () => {
-  const userId = localStorage.getItem("userId");
   const [userData, setUserData] = useState({
-    name: "",
+    username: "",
     email: "",
     gender: "",
-    dateOfBirth: "",
+    dob: "",
     age: 0,
-    activityLevel: "",
+    activity: "",
     height: 0,
     weight: 0,
   });
+  const [physicalData, setPhysicalData] = useState(null);
+
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState(null);
@@ -34,20 +35,35 @@ const EditProfilePage = () => {
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        const response = await baseAxios.get("/users/find-by-id", {
-          params: { userId: userId },
-        });
+        const response = await baseAxios.get("/users/find-by-email", {});
         setUserData(response.data);
-        setLoading(false);
       } catch (err) {
         setError(
           err.response?.data?.message || "Có lỗi khi lấy dữ liệu người dùng"
         );
-        setLoading(false);
+      }
+    };
+
+    const fetchPhysicalData = async () => {
+      try {
+        const response = await baseAxios.get(`/customers/calculate/newest`, {});
+        setPhysicalData(response.data);
+        setUserData((prev) => ({
+          ...prev,
+          gender: response.data.gender || prev.gender,
+          height: response.data.height || prev.height,
+          weight: response.data.weight || prev.weight,
+          activity: response.data.activity || prev.activity,
+          age: response.data.age || prev.age,
+        }));
+      } catch (err) {
+        console.error("Lỗi khi lấy dữ liệu thể chất:", err);
       }
     };
 
     fetchUserData();
+    fetchPhysicalData();
+    setLoading(false);
   }, []);
 
   const handleChange = (e) => {
@@ -83,7 +99,7 @@ const EditProfilePage = () => {
 
     setUserData({
       ...userData,
-      dateOfBirth: dob,
+      dob: dob,
       age: age,
     });
   };
@@ -91,25 +107,44 @@ const EditProfilePage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setSaving(true);
-
+    if (userData.age < 10) {
+      alert("Người dùng phải ít nhất 10 tuổi.");
+      setSaving(false);
+      return;
+    }
     try {
-      const response = await fetch("http://localhost:5000/api/user", {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(userData),
-      });
+      // 1. Update User info
+      const updateUserRes = await baseAxios.put("/users/update", userData);
 
-      if (!response.ok) {
-        throw new Error("Failed to update user data");
+      if (updateUserRes.status !== 200) {
+        throw new Error("Cập nhật thông tin người dùng thất bại");
       }
 
-      //const updatedData = await response.json();
+      // 2. Gọi API để tạo Calculate mới
+      const calculatePayload = {
+        userId: userData._id, // hoặc userData._id nếu có sẵn
+        gender: userData.gender,
+        age: userData.age,
+        height: userData.height,
+        weight: userData.weight,
+        activity: userData.activity,
+      };
+
+      const calcRes = await baseAxios.post(
+        "/customers/calculate",
+        calculatePayload
+      );
+
+      if (calcRes.status !== 200) {
+        throw new Error("Tính toán lại chỉ số thất bại");
+      }
+
       setSaving(false);
-      navigate("/");
+      alert("Cập nhật thành công!");
+      navigate("/my-profile");
     } catch (err) {
-      setError(err.message);
+      console.error("Lỗi khi submit:", err);
+      setError(err.message || "Lỗi không xác định");
       setSaving(false);
     }
   };
@@ -120,13 +155,13 @@ const EditProfilePage = () => {
   return (
     <div className="container p-4">
       <div className="mb-6">
-        <h1 className="text-3xl font-bold">Chỉnh sửa hồ sơ</h1>
+        <h1 className="text-3xl font-bold text-main-green">Chỉnh sửa hồ sơ</h1>
         <p className="text-gray-600 mt-1">
           Cập nhật thông tin cá nhân và chỉ số sức khỏe của bạn
         </p>
       </div>
 
-      <div className="card">
+      <div className="my-card">
         <div className="card-content">
           <form onSubmit={handleSubmit}>
             <div className="grid grid-cols-1 grid-cols-2 gap-4">
@@ -136,10 +171,10 @@ const EditProfilePage = () => {
                 </label>
                 <input
                   type="text"
-                  id="name"
-                  name="name"
+                  id="username"
+                  name="username"
                   className="form-control"
-                  value={userData.username}
+                  value={userData?.username}
                   onChange={handleChange}
                   required
                 />
@@ -154,9 +189,8 @@ const EditProfilePage = () => {
                   id="email"
                   name="email"
                   className="form-control"
-                  value={userData.email}
-                  onChange={handleChange}
-                  required
+                  value={userData?.email}
+                  disabled
                 />
               </div>
 
@@ -168,13 +202,13 @@ const EditProfilePage = () => {
                   id="gender"
                   name="gender"
                   className="form-select"
-                  value={userData.gender}
+                  value={userData?.gender}
                   onChange={handleChange}
                   required
                 >
                   <option value="">Chọn giới tính</option>
-                  <option value="Male">Male</option>
-                  <option value="Female">Female</option>
+                  <option value="Nam">Nam</option>
+                  <option value="Nữ">Nữ</option>
                 </select>
               </div>
 
@@ -184,12 +218,12 @@ const EditProfilePage = () => {
                 </label>
                 <input
                   type="date"
-                  id="dateOfBirth"
-                  name="dateOfBirth"
+                  id="dob"
+                  name="dob"
                   className="form-control"
                   value={
                     userData.dob
-                      ? new Date(userData.dob).toISOString().split("T")[0]
+                      ? new Date(userData?.dob).toISOString().split("T")[0]
                       : ""
                   }
                   onChange={handleDateChange}
@@ -206,7 +240,7 @@ const EditProfilePage = () => {
                   id="height"
                   name="height"
                   className="form-control"
-                  value={userData.height}
+                  value={userData?.height}
                   onChange={handleChange}
                   min="100"
                   max="250"
@@ -223,9 +257,9 @@ const EditProfilePage = () => {
                   id="weight"
                   name="weight"
                   className="form-control"
-                  value={userData.weight}
+                  value={userData?.weight}
                   onChange={handleChange}
-                  min="30"
+                  min="1"
                   max="300"
                   step="0.1"
                   required
@@ -240,25 +274,23 @@ const EditProfilePage = () => {
                   id="activityLevel"
                   name="activityLevel"
                   className="form-select"
-                  value={userData.activityLevel}
+                  value={userData?.activity}
                   onChange={handleChange}
                   required
                 >
                   <option value="">Chọn cường độ vận động</option>
-                  <option value="Sedentary">
-                    Vận động ít (little or no exercise)
+                  <option value="ít">Vận động ít (Vận động cơ bản)</option>
+                  <option value="nhẹ">
+                    Vận động nhẹ (Tập luyện 1-3 buổi/tuần)
                   </option>
-                  <option value="Lightly Active">
-                    Lightly Active (light exercise 1-3 days/week)
+                  <option value="vừa">
+                    Vận động vừa (Tập luyện 4-5 buổi/tuần)
                   </option>
-                  <option value="Moderately Active">
-                    Moderately Active (moderate exercise 3-5 days/week)
+                  <option value="nhiều">
+                    Vận động nhiều (Tập luyện 6-7 buổi/tuần)
                   </option>
-                  <option value="Very Active">
-                    Very Active (hard exercise 6-7 days/week)
-                  </option>
-                  <option value="Extra Active">
-                    Extra Active (very hard exercise & physical job)
+                  <option value="cực_nhiều">
+                    Vận động cực nhiều (Cấp độ vận động viên)
                   </option>
                 </select>
               </div>
@@ -267,15 +299,15 @@ const EditProfilePage = () => {
             <div className="flex gap-4 mt-4">
               <button
                 type="submit"
-                className="btn btn-primary"
+                className="my-btn my-btn-primary"
                 disabled={saving}
               >
-                {saving ? "Saving..." : "Save Changes"}
+                {saving ? "Đang lưu..." : "Lưu thay đổi"}
               </button>
               <button
                 type="button"
-                className="btn btn-outline"
-                onClick={() => navigate("/")}
+                className="my-btn my-btn-outline"
+                onClick={() => navigate("/my-profile")}
               >
                 Cancel
               </button>

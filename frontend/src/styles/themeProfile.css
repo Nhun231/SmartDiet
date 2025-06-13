@@ -285,6 +285,9 @@ body {
 .text-gray-700 {
   color: var(--gray-700);
 }
+.text-blue-600{
+   color: var(--blue-600);
+}
 
 .bg-light-green {
   background-color: var(--light-green);
@@ -339,6 +342,15 @@ body {
 .font-medium {
   font-weight: 500;
 }
+.form-label {
+  color: #4CAF50;
+   font-weight: bold !important;
+  margin-bottom: 6px;
+  margin-top: 10px !important;
+  display: block;
+  color: #2e7d32;
+}
+
 /* Media Queries */
 @media (min-width: 768px) {
   .grid-cols-2 {

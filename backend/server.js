@@ -1,4 +1,4 @@
-const path =require('path')
+const path = require('path')
 const dotenv = require('dotenv');
 dotenv.config({ path: path.resolve(__dirname, '../.env') });
 const express = require("express");
@@ -6,7 +6,7 @@ const bodyParser = require("body-parser");
 const cors = require("cors");
 const morgan = require('morgan')
 const testDbConnection = require("./src/config/testdb");
-const {swaggerDocs} = require("./src/config/swagger");
+const { swaggerDocs } = require("./src/config/swagger");
 const app = express();
 const errorHandlerMiddleware = require("./src/middlewares/errorHandleMiddleware");
 const cookieParser = require("cookie-parser");
