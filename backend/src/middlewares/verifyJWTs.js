@@ -1,23 +1,23 @@
 const jwt = require('jsonwebtoken');
-const {StatusCodes} = require("http-status-codes");
+const { StatusCodes } = require("http-status-codes");
 
 const verifyJWTs = (req, res, next) => {
     const authHeader = req.headers['authorization'];
     if (!authHeader) {
-        return res.status(StatusCodes.UNAUTHORIZED)
+        return res.status(StatusCodes.UNAUTHORIZED).json({ message: 'Thiếu header Authorization' });
     }
-    console.log(authHeader); // Bearer "token"
     const token = authHeader.split(' ')[1];
-    jwt.verify(token,
-                    process.env.ACCESS_TOKEN_SECRET,
-            (err, decoded) => {
-                    if (err) {
-                        return res.status(StatusCodes.FORBIDDEN) // may not match access token
-                    }
-                    req.user = decoded.email;
-                    next();
-            }
-        );
 
-}
+    jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, decoded) => {
+        if (err) {
+            if (err.name === 'TokenExpiredError') {
+                return res.status(StatusCodes.UNAUTHORIZED).json({ message: 'Token hết hạn' });
+            }
+            return res.status(StatusCodes.FORBIDDEN).json({ message: 'Token không hợp lệ' });
+        }
+        req.user = decoded.email;
+        next();
+    });
+};
+
 module.exports = verifyJWTs;

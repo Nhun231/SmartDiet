@@ -13,4 +13,4 @@ const logout = catchAsync(async (req, res) => {
 const googleCallback = (req, res, next) => {
      oAuthService.handleGoogleCallback(req, res, next);
 };
-module.exports = {login, refresh, logout, googleCallback};
+module.exports = { login, refresh, logout, googleCallback };

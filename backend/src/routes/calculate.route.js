@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const tdeeController = require('../controllers/calculate.controller');
 const { validateCalculate } = require('../validations/calculate.validator');
+const verifyJWTs = require('../middlewares/verifyJWTs');
 
 /**
  * @swagger
@@ -62,5 +63,54 @@ const { validateCalculate } = require('../validations/calculate.validator');
  */
 
 router.post('/calculate', validateCalculate, tdeeController.calculateTDEE);
-
+/**
+ * @swagger
+ * /calculate/newest:
+ *   get:
+ *     summary: Lấy dữ liệu tính toán mới nhất của người dùng
+ *     tags: [Calculate]
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: Trả về dữ liệu calculate gần đây nhất
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                 data:
+ *                   type: object
+ *                   properties:
+ *                     bmr:
+ *                       type: number
+ *                     tdee:
+ *                       type: number
+ *                     bmi:
+ *                       type: number
+ *                     waterIntake:
+ *                       type: number
+ *                     age:
+ *                       type: number
+ *                     gender:
+ *                       type: string
+ *                     height:
+ *                       type: number
+ *                     weight:
+ *                       type: number
+ *                     activity:
+ *                       type: string
+ *                     createdAt:
+ *                       type: string
+ *                       format: date-time
+ *       401:
+ *         description: Thiếu hoặc sai token xác thực
+ *       404:
+ *         description: Không có dữ liệu tính toán hoặc không tìm thấy người dùng
+ *       500:
+ *         description: Lỗi phía server
+ */
+router.get('/calculate/newest', verifyJWTs, tdeeController.getNewestCalculateByEmail);
 module.exports = router;

@@ -8,6 +8,7 @@
 const Router = require('express').Router;
 const router = Router();
 const userController = require('../controllers/user.controller.js');
+const verifyJWTs = require('../middlewares/verifyJWTs.js');
 const userValidation = require('../validations/user.validator.js');
 
 /**
@@ -134,5 +135,47 @@ router.put('/update', userController.updateUserByEmail);
  *         description: User not found with the provided email
  */
 router.delete('/delete', userController.deleteUserByEmail);
+/**
+ * @swagger
+ * /users/find-by-id:
+ *   get:
+ *     summary: Find user by id
+ *     tags: [Users]
+ *     parameters:
+ *       - in: query
+ *         name: id
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: User's id to find
+ *     responses:
+ *       200:
+ *         description: Returns user information
+ *       404:
+ *         description: Not found user with the provided id
+ */
+router.get('/find-by-id/', userController.getUserByUserId);
+
+/**
+ * @swagger
+ * /users/find-by-email:
+ *   get:
+ *     summary: Find user by email
+ *     tags: [Users]
+ *     parameters:
+ *       - in: query
+ *         name: email
+ *         schema:
+ *           type: string
+ *           format: email
+ *         required: true
+ *         description: User's email address to find
+ *     responses:
+ *       200:
+ *         description: Returns user information
+ *       404:
+ *         description: Not found user with the provided email
+ */
+router.get('/find-by-email', verifyJWTs, userController.getUserByEmail1);
 
 module.exports = router;

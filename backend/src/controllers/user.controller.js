@@ -28,12 +28,21 @@ const updateUserByEmail = catchAsync(async (req, res) => {
 const deleteUserByEmail = catchAsync(async (req, res) => {
     await userSerivce.deleteUserByEmail(req, res);
 });
-
+//Get user by userId
+const getUserByUserId = catchAsync(async (req, res) => {
+    await userSerivce.getUserByUserId(req, res);
+});
+//Find user by email(email decode tu accesstoken)
+const getUserByEmail1 = catchAsync(async (req, res) => {
+    await userSerivce.getUserByEmail1(req, res);
+});
 module.exports = {
     createUser,
     getAllUsers,
     getUserByEmail,
     updateUserByEmail,
-    deleteUserByEmail
+    deleteUserByEmail,
+    getUserByUserId,
+    getUserByEmail1,
 };
 

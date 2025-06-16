@@ -12,7 +12,6 @@ const calcuSchema = new Schema({
     tdee: { type: Number, required: true },
     bmi: { type: Number, required: true },
     waterNeeded: String,
-    createdAt: { type: Date, default: Date.now }
-});
+}, { timestamps: true });
 
 module.exports = mongoose.model('Calculate', calcuSchema);
