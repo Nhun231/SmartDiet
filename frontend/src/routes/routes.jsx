@@ -3,8 +3,10 @@ import Home from "../pages/Home";
 import Login from "../pages/Login";
 import AuthProvider from "../context/AuthProvider.jsx";
 import OAuthCallback from "../components/common/oauth-callback.jsx";
-import ChangePassword from "../pages/ChangePassword";
 import Calculator from "../pages/Calculator";
+import ChangePassword from "../pages/ChangePassword";
+import HomePage from "../pages/HomePage";
+import MainLayout from "../components/common/mainLayout";
 import ProfilePage from "../pages/ProfilePage";
 import EditProfilePage from "../pages/EditProfilePage";
 
