@@ -17,23 +17,19 @@ const AuthLayout = () => (
 );
 const router = createBrowserRouter([
   {
+    path: "/login",
+    element: <Login />,
+  },
+  {
+    path: "/changepassword/:token",
+    element: <ChangePassword />,
+  },
+  {
     element: <AuthLayout />,
     children: [
       {
-        path: "/home",
-        element: <Home />,
-      },
-      {
-        path: "/login",
-        element: <Login />,
-      },
-      {
         path: "/calculate",
         element: <Calculator />,
-      },
-      {
-        path: "/changepassword/:token",
-        element: <ChangePassword />,
       },
       {
         path: "/my-profile",
@@ -43,6 +39,11 @@ const router = createBrowserRouter([
         path: "/edit-profile",
         element: <EditProfilePage />,
       },
+      {
+        path: "homepage",
+        element: <HomePage />,
+      },
+
     ],
   },
 ]);

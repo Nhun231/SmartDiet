@@ -4,6 +4,7 @@ import { useLayoutEffect, useState, useEffect, useRef } from "react";
 import { useContext } from "react";
 import { createContext } from "react";
 import { useNavigate } from "react-router-dom";
+import jwtDecode from "jwt-decode"
 const BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 const AuthContext = createContext(undefined);
@@ -17,10 +18,23 @@ export const useAuth = () => {
 };
 
 const AuthProvider = ({ children }) => {
-  const [token, setToken] = useState(null);
+  const [auth, setAuth] = useState({accessToken: null, user: null});
   const [isRefreshing, setIsRefreshing] = useState(false);
   const alertShownRef = useRef(false);
   const nav = useNavigate();
+  // Set token from localStorage on mount
+  useLayoutEffect(() => {
+    const storedToken = localStorage.getItem("accessToken");
+    if (storedToken) {
+      try {
+        const decodedUser = jwtDecode(storedToken);
+        setAuth({ accessToken: storedToken, user: decodedUser });
+      } catch (e) {
+        console.error("Invalid stored token", e);
+        localStorage.removeItem("accessToken");
+      }
+    }
+  }, []);
   useLayoutEffect(() => {
     const authInterceptor = axios.interceptors.request.use((config) => {
       const accessToken = localStorage.getItem("accessToken");
@@ -94,7 +108,7 @@ const AuthProvider = ({ children }) => {
     };
   }, [nav, isRefreshing]);
   return (
-    <AuthContext.Provider value={{ token, setToken }}>
+    <AuthContext.Provider value={{ ...auth, setAuth }}>
       {children}
     </AuthContext.Provider>
   );
