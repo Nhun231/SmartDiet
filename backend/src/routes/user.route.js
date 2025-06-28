@@ -10,6 +10,7 @@ const router = Router();
 const userController = require('../controllers/user.controller.js');
 const verifyJWTs = require('../middlewares/verifyJWTs.js');
 const userValidation = require('../validations/user.validator.js');
+const allowRoles = require("../middlewares/allowedRole");
 
 /**
  * @swagger
@@ -113,7 +114,7 @@ router.get('/find', userController.getUserByEmail);
  *       404:
  *         description: User not found with the provided email
  */
-router.put('/update', userController.updateUserByEmail);
+router.put('/update',allowRoles('user','admin'), userController.updateUserByEmail);
 
 /**
  * @swagger

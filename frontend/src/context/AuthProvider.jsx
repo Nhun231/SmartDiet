@@ -4,7 +4,7 @@ import { useLayoutEffect, useState, useEffect, useRef } from "react";
 import { useContext } from "react";
 import { createContext } from "react";
 import { useNavigate } from "react-router-dom";
-import jwtDecode from "jwt-decode"
+import { jwtDecode } from "jwt-decode";
 const BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 const AuthContext = createContext(undefined);
@@ -28,6 +28,7 @@ const AuthProvider = ({ children }) => {
     if (storedToken) {
       try {
         const decodedUser = jwtDecode(storedToken);
+        // the decoded user will be an object with {id:...,role:..., email:...}that is signed in payload
         setAuth({ accessToken: storedToken, user: decodedUser });
       } catch (e) {
         console.error("Invalid stored token", e);
@@ -46,7 +47,7 @@ const AuthProvider = ({ children }) => {
     return () => {
       axios.interceptors.request.eject(authInterceptor);
     };
-  }, [token]);
+  }, [auth]);
   useLayoutEffect(() => {
     const refreshInterceptor = axios.interceptors.response.use(
       (response) => response,

@@ -9,7 +9,6 @@ const Footer = () => {
                 backgroundColor: "#4CAF50",
                 color: "white",
                 py: 4,
-                mt: 10,
                 width: "100%",
             }}
         >

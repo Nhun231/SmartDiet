@@ -5,16 +5,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="3ed097a6-b234-4877-a4a7-a9d1df41149d" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/frontend/src/components/common/RequireRole.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/pages/Unauthorized.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/server.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/server.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/routes/auth.route.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/routes/auth.route.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/routes/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/routes/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/services/auth.service.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/services/auth.service.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/common/RequireRole.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/common/RequireRole.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/context/AuthProvider.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/context/AuthProvider.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/pages/Login.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/Login.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/routes/routes.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/routes/routes.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/styles/login.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/styles/login.css" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -171,6 +168,9 @@
       <workItem from="1750759216415" duration="597000" />
       <workItem from="1750771839291" duration="595000" />
       <workItem from="1750813544751" duration="7303000" />
+      <workItem from="1750902533188" duration="2332000" />
+      <workItem from="1750926495070" duration="2823000" />
+      <workItem from="1751080085381" duration="4462000" />
     </task>
     <servers />
   </component>

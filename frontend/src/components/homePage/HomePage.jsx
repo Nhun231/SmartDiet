@@ -63,7 +63,7 @@ const HomePage = () => {
                     maxWidth: "1600px",
                     mx: "auto",
                     color: "#2e7d32",
-                    mt: 10,
+                    my: 10,
                 }}
             >
                 <Grid container spacing={4} justifyContent="center">

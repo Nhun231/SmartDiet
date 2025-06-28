@@ -26,12 +26,18 @@ const handleLogin = async (req, res) => {
     } else {
         // create JWTs
         const accessToken = jwt.sign(
-            { "email": user.email },
+            { email: user.email,
+                      username: user.username,
+                      role: user.role,
+                      id: user._id,},
             process.env.ACCESS_TOKEN_SECRET,
             { expiresIn: process.env.ACCESS_TOKEN_LIFE }
         );
         const refreshToken = jwt.sign(
-            { "email": user.email },
+            { email: user.email,
+                      username: user.username,
+                      role: user.role,
+                      id: user._id,},
             process.env.REFRESH_TOKEN_SECRET,
             { expiresIn: process.env.REFRESH_TOKEN_LIFE }
         );
@@ -73,7 +79,10 @@ const handleRefreshToken = async (req, res) => {
                 return res.status(StatusCodes.FORBIDDEN).json(`Lỗi xảy ra khi kiểm tra refresh token: ${err}`)
             }
             const accessToken = jwt.sign(
-                { email: decoded.email },
+                { email: user.email,
+                    username: user.username,
+                    role: user.role,
+                    id: user._id,},
                 process.env.ACCESS_TOKEN_SECRET,
                 { expiresIn: process.env.ACCESS_TOKEN_LIFE }
             );

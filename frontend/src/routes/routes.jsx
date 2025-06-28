@@ -9,12 +9,16 @@ import HomePage from "../pages/HomePage";
 import MainLayout from "../components/common/mainLayout";
 import ProfilePage from "../pages/ProfilePage";
 import EditProfilePage from "../pages/EditProfilePage";
+import RequireRole from "../components/common/RequireRole";
+import NotFoundPage from "../components/common/NotFound404.jsx";
+import UnauthorizedPage from "../components/common/Unautorized401.jsx";
 
 const AuthLayout = () => (
-  <AuthProvider>
-    <Outlet />
-  </AuthProvider>
+    <AuthProvider>
+      <Outlet />
+    </AuthProvider>
 );
+
 const router = createBrowserRouter([
   {
     path: "/login",
@@ -28,22 +32,38 @@ const router = createBrowserRouter([
     element: <AuthLayout />,
     children: [
       {
-        path: "/calculate",
-        element: <Calculator />,
+        element: <MainLayout />,
+        children: [
+          {
+            path: "/calculate",
+            element: <Calculator />
+          },
+          {
+            path: "/my-profile",
+            element: <RequireRole allowedRoles={["admin", "user"]}>
+                          <ProfilePage />
+                     </RequireRole>,
+          },
+          {
+            path: "/edit-profile",
+            element: <RequireRole allowedRoles={["admin", "user"]}>
+                         <EditProfilePage />
+                    </RequireRole>,
+          },
+          {
+            path: "/homepage",
+            element: <HomePage />,
+          },
+          {
+            path: "*",
+            element: <NotFoundPage/>,
+          },
+          {
+            path: "/unauthorized",
+            element: <UnauthorizedPage/>,
+          }
+        ],
       },
-      {
-        path: "/my-profile",
-        element: <ProfilePage />,
-      },
-      {
-        path: "/edit-profile",
-        element: <EditProfilePage />,
-      },
-      {
-        path: "homepage",
-        element: <HomePage />,
-      },
-
     ],
   },
 ]);
