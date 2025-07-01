@@ -12,6 +12,7 @@ import EditProfilePage from "../pages/EditProfilePage";
 import RequireRole from "../components/common/RequireRole";
 import NotFoundPage from "../components/common/NotFound404.jsx";
 import UnauthorizedPage from "../components/common/Unautorized401.jsx";
+import IngredientList from "../pages/IngredientList.jsx";
 
 const AuthLayout = () => (
     <AuthProvider>
@@ -48,6 +49,12 @@ const router = createBrowserRouter([
             path: "/edit-profile",
             element: <RequireRole allowedRoles={["admin", "user"]}>
                          <EditProfilePage />
+                    </RequireRole>,
+          },
+          {
+            path: "/meal",
+            element: <RequireRole allowedRoles={["admin", "user"]}>
+                          <IngredientList />
                     </RequireRole>,
           },
           {

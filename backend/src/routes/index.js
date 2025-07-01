@@ -3,6 +3,8 @@ const calcuRoutes = require('./calculate.route');
 const emailRoutes = require('./email-route');
 const userRoutes = require('./user.route');
 const authRoutes = require('./auth.route');
+const ingredientRoutes = require('./ingredient-route')
+const mealRoutes = require('./meal-route')
 const applicationName = process.env.APPLICATION_NAME;
 const verifyJWTs = require("../middlewares/verifyJWTs");
 module.exports = (app) => {
@@ -14,4 +16,6 @@ module.exports = (app) => {
     app.use(verifyJWTs) // middleware to send access token in header in each req
     // ... routes go here
     app.use(`/${applicationName}/customers`, calcuRoutes);
+    app.use(`/${applicationName}/ingredients`, ingredientRoutes);
+    app.use(`/${applicationName}/meals`, mealRoutes);
 };

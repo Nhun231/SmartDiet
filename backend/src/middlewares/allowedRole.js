@@ -1,6 +1,6 @@
 const { StatusCodes } = require("http-status-codes");
 
-const allowRoles = (...roles) => {
+const allowedRoles = (...roles) => {
     return (req, res, next) => {
         if (!req?.user?.role || !roles.includes(req.user.role)) {
             return res.status(StatusCodes.UNAUTHORIZED).json({
@@ -11,4 +11,4 @@ const allowRoles = (...roles) => {
     };
 };
 
-module.exports = allowRoles;
+module.exports = allowedRoles;
