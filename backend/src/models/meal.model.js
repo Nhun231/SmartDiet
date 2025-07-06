@@ -62,7 +62,19 @@ const mealSchema = new Schema({
         required: true
       }
     }
-  ]
+  ],
+  totals: {
+    calories: { type: Number, default: 0 },
+    protein:  { type: Number, default: 0 },
+    fat:      { type: Number, default: 0 },
+    carbs:    { type: Number, default: 0 },
+    fiber:    { type: Number, default: 0 },
+  },
+  userId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
+    },
 });
 
 module.exports = mongoose.model("Meal", mealSchema);

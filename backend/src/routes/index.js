@@ -5,12 +5,16 @@ const userRoutes = require('./user.route');
 const authRoutes = require('./auth.route');
 const ingredientRoutes = require('./ingredient-route')
 const mealRoutes = require('./meal-route')
+const dishRoutes = require('./dish.route')
+
 const applicationName = process.env.APPLICATION_NAME;
 const verifyJWTs = require("../middlewares/verifyJWTs");
 module.exports = (app) => {
     app.use(`/${applicationName}/users`, userRoutes);
     app.use(`/${applicationName}/auth`, authRoutes);
     app.use(`/${applicationName}/email`, emailRoutes);
+    app.use(`/${applicationName}/dish`, dishRoutes);
+
 
     // use JWT verification before each route needs it
     app.use(verifyJWTs) // middleware to send access token in header in each req

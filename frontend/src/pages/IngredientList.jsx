@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import baseAxios from "../api/axios";
 import {
     Box,
     Typography,
@@ -42,9 +43,11 @@ const IngredientList = () => {
     const [meals, setMeals] = useState({});
     const [modalMode, setModalMode] = useState("add"); // add | edit
     const [editIndex, setEditIndex] = useState(null);
+    const userId = localStorage.getItem("userId");
+
 
     useEffect(() => {
-        axios.get(`http://localhost:8080/smartdiet/ingredients`)
+        baseAxios.get(`/ingredients`)
             .then((res) => setIngredients(res.data))
             .catch((err) => console.error("Lỗi khi lấy nguyên liệu:", err));
     }, []);
@@ -55,32 +58,42 @@ const IngredientList = () => {
 
     const loadMealByType = async (mealType) => {
         try {
-            const res = await axios.get(`http://localhost:8080/smartdiet/meals/by-date`, {
-                params: { date: today, mealType },
+            const res = await baseAxios.get(`/meals/by-date`, {
+                params: { date: today, mealType, userId },
             });
+
             if (res.data) {
                 setMeals((prev) => ({ ...prev, [mealType]: res.data }));
             } else {
                 setMeals((prev) => ({ ...prev, [mealType]: { ingredients: [] } }));
             }
+            console.log(res.data)
         } catch (err) {
-            console.error("Lỗi load meal:", err);
+            if (err.response?.status === 404) {
+                setMeals((prev) => ({ ...prev, [mealType]: { ingredients: [] } }));
+            } else {
+                console.error("Lỗi load meal:", err);
+            }
         }
     };
+
 
     const saveMeal = async (mealType, newIngredients) => {
         const existingMeal = meals[mealType];
         if (existingMeal?._id) {
-            await axios.put(`http://localhost:8080/smartdiet/meals/${existingMeal._id}`, {
+            await baseAxios.put(`/meals/${existingMeal._id}`, {
                 ...existingMeal,
                 ingredients: newIngredients,
             });
         } else {
-            await axios.post(`http://localhost:8080/smartdiet/meals`, {
+
+            await baseAxios.post(`/meals`, {
                 mealType,
                 date: today,
                 ingredients: newIngredients,
+                userId, // thêm dòng này
             });
+
         }
         await loadMealByType(mealType);
     };

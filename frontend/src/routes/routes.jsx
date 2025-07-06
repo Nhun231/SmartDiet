@@ -6,18 +6,19 @@ import OAuthCallback from "../components/common/oauth-callback.jsx";
 import Calculator from "../pages/Calculator";
 import ChangePassword from "../pages/ChangePassword";
 import HomePage from "../pages/HomePage";
-import MainLayout from "../components/common/mainLayout";
+import MainLayout from "../components/common/MainLayout.jsx";
 import ProfilePage from "../pages/ProfilePage";
 import EditProfilePage from "../pages/EditProfilePage";
 import RequireRole from "../components/common/RequireRole";
 import NotFoundPage from "../components/common/NotFound404.jsx";
 import UnauthorizedPage from "../components/common/Unautorized401.jsx";
 import IngredientList from "../pages/IngredientList.jsx";
+import DishesPage from "../pages/DishPage.jsx"
 
 const AuthLayout = () => (
-    <AuthProvider>
-      <Outlet />
-    </AuthProvider>
+  <AuthProvider>
+    <Outlet />
+  </AuthProvider>
 );
 
 const router = createBrowserRouter([
@@ -25,6 +26,7 @@ const router = createBrowserRouter([
     path: "/login",
     element: <Login />,
   },
+
   {
     path: "/changepassword/:token",
     element: <ChangePassword />,
@@ -40,22 +42,29 @@ const router = createBrowserRouter([
             element: <Calculator />
           },
           {
+            path: "/meal",
+            element:
+              <IngredientList />
+            ,
+          },
+          {
+            path: "/dishes",
+            element:
+              <DishesPage />
+            ,
+          },
+
+          {
             path: "/my-profile",
             element: <RequireRole allowedRoles={["admin", "user"]}>
-                          <ProfilePage />
-                     </RequireRole>,
+              <ProfilePage />
+            </RequireRole>,
           },
           {
             path: "/edit-profile",
             element: <RequireRole allowedRoles={["admin", "user"]}>
-                         <EditProfilePage />
-                    </RequireRole>,
-          },
-          {
-            path: "/meal",
-            element: <RequireRole allowedRoles={["admin", "user"]}>
-                          <IngredientList />
-                    </RequireRole>,
+              <EditProfilePage />
+            </RequireRole>,
           },
           {
             path: "/homepage",
@@ -63,11 +72,11 @@ const router = createBrowserRouter([
           },
           {
             path: "*",
-            element: <NotFoundPage/>,
+            element: <NotFoundPage />,
           },
           {
             path: "/unauthorized",
-            element: <UnauthorizedPage/>,
+            element: <UnauthorizedPage />,
           }
         ],
       },
