@@ -19,10 +19,14 @@ const handleLogin = async (req, res) => {
     if (!user) {
         return res.status(StatusCodes.UNAUTHORIZED).json({ 'message': 'Tài khoản không tồn tại' });
     }
+    //if user sign up by google, require login with gg
+    if(user.googleId){
+        return res.status(StatusCodes.BAD_REQUEST).json({ 'message': 'Đã đăng kí bằng Goggle nên không thể login bằng password' });
+    }
     //check with password in db
     const match = await bcrypt.compare(password, user.password);
     if (!match) {
-        return res.status(StatusCodes.UNAUTHORIZED).json({ message: 'Mật khẩu không đúng' });
+        return res.status(StatusCodes.BAD_REQUEST).json({ message: 'Mật khẩu không đúng' });
     } else {
         // create JWTs
         const accessToken = jwt.sign(
@@ -69,7 +73,7 @@ const handleRefreshToken = async (req, res) => {
     const user = await User.findOne({ refreshToken: refreshToken });
     //if user notfound throw error
     if (!user) {
-        return res.status(StatusCodes.FORBIDDEN).json({ 'message': 'Tài khoản không tồn tại' });
+        return res.status(StatusCodes.UNAUTHORIZED).json({ 'message': 'Tài khoản không tồn tại' });
     }
     jwt.verify(
         refreshToken,

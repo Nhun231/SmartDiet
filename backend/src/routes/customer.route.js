@@ -1,8 +1,10 @@
 const express = require('express');
 const router = express.Router();
 const tdeeController = require('../controllers/calculate.controller');
+const dietPlanController = require('../controllers/dietplan.controller');
 const { validateCalculate } = require('../validations/calculate.validator');
 const verifyJWTs = require('../middlewares/verifyJWTs');
+const allowRoles = require("../middlewares/allowedRole");
 
 /**
  * @swagger
@@ -62,7 +64,7 @@ const verifyJWTs = require('../middlewares/verifyJWTs');
  *                   type: number
  */
 
-router.post('/calculate', validateCalculate, tdeeController.calculateTDEE);
+router.post('/calculate', validateCalculate,verifyJWTs, tdeeController.calculateTDEE);
 /**
  * @swagger
  * /calculate/newest:
@@ -113,4 +115,7 @@ router.post('/calculate', validateCalculate, tdeeController.calculateTDEE);
  *         description: Lỗi phía server
  */
 router.get('/calculate/newest', verifyJWTs, tdeeController.getNewestCalculateByEmail);
+
+router.post('/dietplan/create', verifyJWTs,dietPlanController.generateDietPlan);
+router.put('/dietplan/update/:id',verifyJWTs, dietPlanController.updateDietPlan); 
 module.exports = router;
