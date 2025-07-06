@@ -84,7 +84,6 @@ export default function UserProfileForm({ setSuccess, setError }) {
                 localStorage.setItem("userId", userId);
                 localStorage.setItem("dob", dob);
                 console.log("DOB:", dob);
-                navigate("/calculate");
 
                 setSuccess(true);
                 console.log(result.response?.data);

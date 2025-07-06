@@ -64,7 +64,7 @@ const allowRoles = require("../middlewares/allowedRole");
  *                   type: number
  */
 
-router.post('/calculate', validateCalculate,verifyJWTs, tdeeController.calculateTDEE);
+router.post('/calculate', verifyJWTs, validateCalculate, tdeeController.calculateTDEE);
 /**
  * @swagger
  * /calculate/newest:
@@ -117,5 +117,5 @@ router.post('/calculate', validateCalculate,verifyJWTs, tdeeController.calculate
 router.get('/calculate/newest', verifyJWTs, tdeeController.getNewestCalculateByEmail);
 
 router.post('/dietplan/create', verifyJWTs,dietPlanController.generateDietPlan);
-router.put('/dietplan/update/:id',verifyJWTs, dietPlanController.updateDietPlan); 
+router.put('/dietplan/update/:id',verifyJWTs, dietPlanController.updateDietPlan);
 module.exports = router;

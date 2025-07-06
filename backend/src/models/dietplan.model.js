@@ -12,4 +12,4 @@ const dietPlanSchema = new Schema({
     referenceTDEE: { type: Number, required: true },
 }, { timestamps: true });
 
-module.exports = mongoose.model('DietPlan', dietPlanSchema); 
+module.exports = mongoose.model('DietPlan', dietPlanSchema);

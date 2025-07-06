@@ -10,6 +10,7 @@ const authRouter = express.Router();
 const oAuthService = require('../services/oauth.service');
 const authController = require('../controllers/auth.controller');
 const passport = require("passport");
+const allowedRoles = require('../middlewares/allowedRole');
 
 /**
  * @swagger
@@ -71,7 +72,7 @@ authRouter.get('/refresh', authController.refresh)
  *       204:
  *         description: Không tìm thấy refresh token trong cookie
  */
-authRouter.get('/logout', authController.logout)
+authRouter.get('/logout', allowedRoles(["customer", "admin"]), authController.logout)
 
 //redirect to google when click login by
 /**

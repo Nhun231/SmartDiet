@@ -16,4 +16,4 @@ const updateDietPlan = catchAsync(async (req, res) => {
     res.status(200).json(plan);
 });
 
-module.exports = { generateDietPlan, updateDietPlan }; 
+module.exports = { generateDietPlan, updateDietPlan };

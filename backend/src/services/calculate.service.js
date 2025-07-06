@@ -5,9 +5,10 @@ const User = require('../models/user.model.js');
 const mongoose = require('mongoose');
 
 const calculateTDEE = async (req) => {
-    const { userId, gender, age, height, weight, activity } = req.body;
+    const userId = req.user.id;
+    const { gender, age, height, weight, activity } = req.body;
 
-    if (!userId || !gender || !age || !height || !weight || !activity) {
+    if (!gender || !age || !height || !weight || !activity) {
         throw new BaseError(StatusCodes.BAD_REQUEST, 'Thiếu thông tin để tính toán!');
     }
 
@@ -72,7 +73,7 @@ const calculateTDEE = async (req) => {
 // Get newest Calculate Record by email
 const getLatestCalculateByEmail = async (req, res) => {
     try {
-        const email = req.user; // Lấy email từ token đã decode bởi middleware verifyJWTs
+        const email = req.user.email; // Lấy email từ token đã decode bởi middleware verifyJWTs
         if (!email) {
             return res.status(StatusCodes.BAD_REQUEST).json({ message: 'Không có email trong token!' });
         }
