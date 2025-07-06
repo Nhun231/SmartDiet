@@ -11,7 +11,7 @@ const app = express();
 const errorHandlerMiddleware = require("./src/middlewares/errorHandleMiddleware");
 const cookieParser = require("cookie-parser");
 const passport = require("passport");
-const PORT = process.env.PORT;
+const PORT = process.env.PORT || 8080;
 var corsOptions = {
     origin: "http://localhost:5173",// co thể sau này nó là restfull api, để sẵn
     credentials: true,

@@ -10,9 +10,15 @@ import {
     Paper,
     Button,
     Grid,
+    Dialog,
+    DialogTitle,
+    DialogContent,
+    DialogActions,
 } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 import "../../styles/themeCalculate.css";
 import baseAxios from "../../api/axios";
+import WarningAmberIcon from '@mui/icons-material/WarningAmber';
 
 const activityLevels = [
     { value: "ít", label: "Vận động ít", desc: "Vận động cơ bản" },
@@ -35,6 +41,9 @@ const Calculate = () => {
     const resultRef = useRef(null);
     const [errorAge, setErrorAge] = useState(false);
     const [helperAge, setHelperAge] = useState("");
+    const [openModal, setOpenModal] = useState(false);
+    const navigate = useNavigate();
+
 
     const handleChange = (e) => {
         setForm({ ...form, [e.target.name]: e.target.value });
@@ -45,40 +54,52 @@ const Calculate = () => {
     };
 
     const handleSubmit = async () => {
-        const userId = localStorage.getItem("userId");
 
-        if (!userId) {
-            alert("Bạn chưa đăng nhập hoặc chưa đăng ký!");
-            return;
-        }
-
+        const accessToken = localStorage.getItem("accessToken");
         const storedDob = localStorage.getItem("dob");
         if (storedDob) {
             const birthYear = new Date(storedDob).getFullYear();
             const inputAge = parseInt(form.age, 10);
             const currentYear = new Date().getFullYear();
             const expectedAge = currentYear - birthYear;
-
             if (Math.abs(expectedAge - inputAge) > 1) {
                 setErrorAge(true);
                 setHelperAge(`Tuổi bạn nhập (${inputAge}) không khớp với ngày sinh (${storedDob}).`);
                 return;
             }
         }
-
         try {
             const res = await baseAxios.post("customers/calculate", {
                 ...form,
-                userId,
-            });
 
+            });
             setResult(res.data);
             setTimeout(() => {
                 resultRef.current?.scrollIntoView({ behavior: "smooth" });
             }, 100);
+            if (accessToken) {
+                await baseAxios.put("users/update", {
+                    gender: form.gender,
+                    age: form.age,
+                    height: form.height,
+                    weight: form.weight,
+                    activity: form.activity,
+                },);
+                console.log("Đã update hồ sơ user thành công!");
+            }
+
         } catch (error) {
             console.error("Lỗi khi gửi request:", error);
             alert(error.response?.data?.message || "Có lỗi xảy ra khi gửi request.");
+        }
+    };
+
+    const handleModalClose = (answer) => {
+        setOpenModal(false);
+        if (answer === "yes") {
+            navigate("/setgoal");
+        } else {
+            navigate("/homepage");
         }
     };
 
@@ -244,9 +265,47 @@ const Calculate = () => {
                                 <Typography align="center" color="gray">Lít / ngày</Typography>
                             </Grid>
                         </Grid>
+                        <Box textAlign="center" mt={4}>
+                            <Button
+                                variant="contained"
+                                color="success"
+                                onClick={() => setOpenModal(true)}
+                            >
+                                Tạo kế hoạch ăn uống
+                            </Button>
+                        </Box>
                     </Box>
                 )}
             </Box>
+
+            <Dialog open={openModal} onClose={() => handleModalClose("no")}>
+                <DialogTitle sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                    <WarningAmberIcon color="warning" />
+                    Xác nhận tạo kế hoạch ăn uống
+                </DialogTitle>
+                <DialogContent>
+                    <Typography>
+                        Bạn có muốn tạo kế hoạch ăn uống dựa trên dữ liệu vừa tính toán không?
+                    </Typography>
+                </DialogContent>
+                <DialogActions>
+                    <Button
+                        onClick={() => handleModalClose("no")}
+                        variant="outlined"
+                        color="inherit"
+                    >
+                        Không
+                    </Button>
+                    <Button
+                        onClick={() => handleModalClose("yes")}
+                        variant="contained"
+                        color="success"
+                    >
+                        Có, tạo ngay
+                    </Button>
+                </DialogActions>
+            </Dialog>
+
         </Container>
     );
 };

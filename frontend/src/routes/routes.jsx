@@ -13,11 +13,13 @@ import RequireRole from "../components/common/RequireRole";
 import NotFoundPage from "../components/common/NotFound404.jsx";
 import UnauthorizedPage from "../components/common/Unautorized401.jsx";
 import IngredientList from "../pages/IngredientList.jsx";
+import SetGoal from "../components/dietPlan/SetGoal.jsx";
+import DietPlan from "../components/dietPlan/DietPlan.jsx"
 
 const AuthLayout = () => (
-    <AuthProvider>
-      <Outlet />
-    </AuthProvider>
+  <AuthProvider>
+    <Outlet />
+  </AuthProvider>
 );
 
 const router = createBrowserRouter([
@@ -40,22 +42,30 @@ const router = createBrowserRouter([
             element: <Calculator />
           },
           {
+            path: "/setgoal",
+            element: <SetGoal />
+          },
+          {
+            path: "/dietplan/create",
+            element: <DietPlan />
+          },
+          {
             path: "/my-profile",
-            element: <RequireRole allowedRoles={["admin", "user"]}>
-                          <ProfilePage />
-                     </RequireRole>,
+            element:
+              <ProfilePage />
+
           },
           {
             path: "/edit-profile",
             element: <RequireRole allowedRoles={["admin", "user"]}>
-                         <EditProfilePage />
-                    </RequireRole>,
+              <EditProfilePage />
+            </RequireRole>,
           },
           {
             path: "/meal",
             element: <RequireRole allowedRoles={["admin", "user"]}>
-                          <IngredientList />
-                    </RequireRole>,
+              <IngredientList />
+            </RequireRole>,
           },
           {
             path: "/homepage",
@@ -63,11 +73,11 @@ const router = createBrowserRouter([
           },
           {
             path: "*",
-            element: <NotFoundPage/>,
+            element: <NotFoundPage />,
           },
           {
             path: "/unauthorized",
-            element: <UnauthorizedPage/>,
+            element: <UnauthorizedPage />,
           }
         ],
       },

@@ -63,7 +63,7 @@ const allowedRoles = require('../middlewares/allowedRole');
  *                   type: number
  */
 
-router.post('/calculate', validateCalculate, tdeeController.calculateTDEE);
+router.post('/calculate', verifyJWTs, validateCalculate, tdeeController.calculateTDEE);
 /**
  * @swagger
  * /calculate/newest:
@@ -113,5 +113,5 @@ router.post('/calculate', validateCalculate, tdeeController.calculateTDEE);
  *       500:
  *         description: Lỗi phía server
  */
-router.get('/calculate/newest',allowedRoles(["user"]), verifyJWTs, tdeeController.getNewestCalculateByEmail);
+router.get('/calculate/newest', verifyJWTs, tdeeController.getNewestCalculateByEmail);
 module.exports = router;

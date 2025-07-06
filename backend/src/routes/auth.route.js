@@ -72,7 +72,7 @@ authRouter.get('/refresh', authController.refresh)
  *       204:
  *         description: Không tìm thấy refresh token trong cookie
  */
-authRouter.get('/logout',allowedRoles(["user","admin"]), authController.logout)
+authRouter.get('/logout', allowedRoles(["customer", "admin"]), authController.logout)
 
 //redirect to google when click login by
 /**

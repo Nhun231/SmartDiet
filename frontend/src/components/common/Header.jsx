@@ -1,9 +1,32 @@
-import React from "react";
-import { Box, Button, Typography } from "@mui/material";
+import React, { useEffect, useState } from "react";
+import { Box, Button, Typography, Menu, MenuItem } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 
 const Header = () => {
     const navigate = useNavigate();
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const [anchorEl, setAnchorEl] = useState(null);
+
+    useEffect(() => {
+        const token = localStorage.getItem("accessToken");
+        setIsLoggedIn(!!token);
+    }, []);
+
+    const handleLogout = () => {
+        localStorage.removeItem("accessToken");
+        localStorage.removeItem("userId");
+        localStorage.removeItem("email");
+        navigate("/login");
+        setIsLoggedIn(false);
+    };
+
+    const handleMenuClick = (event) => {
+        setAnchorEl(event.currentTarget);
+    };
+
+    const handleMenuClose = () => {
+        setAnchorEl(null);
+    };
 
     return (
         <Box
@@ -40,27 +63,53 @@ const Header = () => {
                     <Button sx={{ color: "#ffffff", fontWeight: "bold" }}>
                         Lập kế hoạch ăn uống
                     </Button>
-                    <Button
-                        onClick={() => navigate("/login")}
-                        sx={{ color: "#ffffff", fontWeight: "bold" }}
-                    >
-                        Đăng nhập
-                    </Button>
-                    <Button
-                        variant="outlined"
-                        onClick={() => navigate("/register")}
-                        sx={{
-                            borderColor: "#ffffff",
-                            color: "#ffffff",
-                            fontWeight: "bold",
-                            "&:hover": {
-                                backgroundColor: "rgba(255, 255, 255, 0.1)",
-                                borderColor: "#ffffff",
-                            },
-                        }}
-                    >
-                        Đăng ký
-                    </Button>
+
+                    {isLoggedIn ? (
+                        <>
+                            <Button
+                                onClick={handleMenuClick}
+                                sx={{ color: "#ffffff", fontWeight: "bold" }}
+                            >
+                                Tài khoản
+                            </Button>
+                            <Menu
+                                anchorEl={anchorEl}
+                                open={Boolean(anchorEl)}
+                                onClose={handleMenuClose}
+                            >
+                                <MenuItem onClick={() => { navigate("/my-profile"); handleMenuClose(); }}>
+                                    Hồ sơ
+                                </MenuItem>
+                                <MenuItem onClick={() => { handleLogout(); handleMenuClose(); }}>
+                                    Đăng xuất
+                                </MenuItem>
+                            </Menu>
+                        </>
+                    ) : (
+                        <>
+                            <Button
+                                onClick={() => navigate("/login")}
+                                sx={{ color: "#ffffff", fontWeight: "bold" }}
+                            >
+                                Đăng nhập
+                            </Button>
+                            <Button
+                                variant="outlined"
+                                onClick={() => navigate("/register")}
+                                sx={{
+                                    borderColor: "#ffffff",
+                                    color: "#ffffff",
+                                    fontWeight: "bold",
+                                    "&:hover": {
+                                        backgroundColor: "rgba(255, 255, 255, 0.1)",
+                                        borderColor: "#ffffff",
+                                    },
+                                }}
+                            >
+                                Đăng ký
+                            </Button>
+                        </>
+                    )}
                 </Box>
             </Box>
         </Box>

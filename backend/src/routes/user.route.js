@@ -114,7 +114,7 @@ router.get('/find', userController.getUserByEmail);
  *       404:
  *         description: User not found with the provided email
  */
-router.put('/update',allowRoles('user','admin'), userController.updateUserByEmail);
+router.put('/update', verifyJWTs, userController.updateUserByEmail);
 
 /**
  * @swagger

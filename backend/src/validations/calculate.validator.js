@@ -2,12 +2,6 @@ const Joi = require('joi');
 const BaseError = require('../utils/baseError.js');
 
 const calculateSchema = Joi.object({
-    userId: Joi.string().length(24).required()
-        .messages({
-            'string.base': 'userId phải là chuỗi.',
-            'string.length': 'userId không hợp lệ.',
-            'any.required': 'userId là bắt buộc.'
-        }),
     gender: Joi.string().valid('Nam', 'Nữ').required()
         .messages({
             'any.required': 'Giới tính không được để trống.',
