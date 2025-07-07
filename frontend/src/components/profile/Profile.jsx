@@ -54,6 +54,7 @@ const ProfilePage = () => {
 
   const getBMICategory = (bmi) => {
     const value = Number.parseFloat(bmi);
+    if (!value) return "Chưa có dữ liệu";
     if (value < 18.5) return "Thiếu cân";
     if (value < 25) return "Bình thường";
     if (value < 30) return "Thừa cân";
@@ -287,15 +288,12 @@ const ProfilePage = () => {
         </div>
         <div className="card-content">
           <div className="grid grid-cols-1 grid-cols-3 gap-4">
-            <Link
-              to="/edit-profile"
-              className="btn btn-outline p-4 text-center"
-            >
+            <Link to="/water-infor" className="btn btn-outline p-4 text-center">
               <FitnessCenterIcon
                 style={{ fontSize: 32, marginBottom: 8, color: "green" }}
               />
               <br />
-              <span>Cập nhật cân nặng</span>
+              <span>Xem thông tin uống nước</span>
             </Link>
             <Link
               to="/edit-profile"

@@ -72,7 +72,7 @@ const calculateTDEE = async (req) => {
 // Get newest Calculate Record by email
 const getLatestCalculateByEmail = async (req, res) => {
     try {
-        const email = req.user; // Lấy email từ token đã decode bởi middleware verifyJWTs
+        const email = req.user.email; // Lấy email từ token đã decode bởi middleware verifyJWTs
         if (!email) {
             return res.status(StatusCodes.BAD_REQUEST).json({ message: 'Không có email trong token!' });
         }

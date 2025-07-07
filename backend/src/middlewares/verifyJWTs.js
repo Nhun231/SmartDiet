@@ -15,7 +15,7 @@ const verifyJWTs = (req, res, next) => {
             }
             return res.status(StatusCodes.FORBIDDEN).json({ message: 'Token không hợp lệ' });
         }
-        req.user = decoded.email;
+        req.user = decoded;
         next();
     });
 };

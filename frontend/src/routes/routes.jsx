@@ -9,7 +9,7 @@ import HomePage from "../pages/HomePage";
 import MainLayout from "../components/common/mainLayout";
 import ProfilePage from "../pages/ProfilePage";
 import EditProfilePage from "../pages/EditProfilePage";
-
+import WaterInformationPage from "../pages/WaterInformationPage.jsx";
 const AuthLayout = () => (
   <AuthProvider>
     <Outlet />
@@ -42,6 +42,10 @@ const router = createBrowserRouter([
       {
         path: "/edit-profile",
         element: <EditProfilePage />,
+      },
+      {
+        path: "/water-infor",
+        element: <WaterInformationPage />,
       },
     ],
   },

@@ -67,7 +67,7 @@ const getUserByEmail = async (req, res) => {
 const updateUserByEmail = async (req, res) => {
     try {
         //find user by email
-        const user = await User.findOne({ email: req.body.email });
+        const user = await User.findOne({ email: req.user.email });
 
         if (user == null) {
             throw new Error("Người dùng không tồn tại.");
@@ -135,7 +135,7 @@ const getUserByUserId = async (req, res) => {
 /// Find user by email (email decode từ access token) 
 const getUserByEmail1 = async (req, res) => {
     try {
-        const email = req.user; // lấy từ verifyJWTs middleware
+        const email = req.user.email; // lấy từ verifyJWTs middleware
         const user = await User.findOne({ email: email }).select(
             'username email gender height weight dob age activity');
         if (user == null) {
