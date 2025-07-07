@@ -16,12 +16,12 @@ import IngredientList from "../pages/IngredientList.jsx";
 import SetGoal from "../components/dietPlan/SetGoal.jsx";
 import DietPlan from "../components/dietPlan/DietPlan.jsx"
 
+import WaterInformationPage from "../pages/WaterInformationPage.jsx";
 const AuthLayout = () => (
   <AuthProvider>
     <Outlet />
   </AuthProvider>
 );
-
 const router = createBrowserRouter([
   {
     path: "/login",
@@ -61,6 +61,10 @@ const router = createBrowserRouter([
               <EditProfilePage />
             </RequireRole>,
           },
+            {
+                path: "/water-infor",
+                element: <WaterInformationPage />,
+            },
           {
             path: "/meal",
             element: <RequireRole allowedRoles={["admin", "user"]}>

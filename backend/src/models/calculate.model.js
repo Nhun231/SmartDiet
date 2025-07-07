@@ -14,4 +14,16 @@ const calcuSchema = new Schema({
     waterNeeded: String,
 }, { timestamps: true });
 
+calcuSchema.post('save', async function (doc) {
+    const UserWaterData = require('./userwaterdata.model');
+
+    const targetWater = Math.round(parseFloat(doc.waterNeeded) * 1000);
+
+    await UserWaterData.findOneAndUpdate(
+        { userId: doc.userId },
+        { target: targetWater }
+    );
+});
+
+
 module.exports = mongoose.model('Calculate', calcuSchema);

@@ -36,7 +36,14 @@ const EditProfilePage = () => {
     const fetchUserData = async () => {
       try {
         const response = await baseAxios.get("/users/find-by-email", {});
-        setUserData(response.data);
+        const user = response.data;
+
+        const calculatedAge = user.dob ? calculateAge(user.dob) : 0;
+
+        setUserData({
+          ...user,
+          age: calculatedAge,
+        });
       } catch (err) {
         setError(
           err.response?.data?.message || "Có lỗi khi lấy dữ liệu người dùng"
@@ -267,12 +274,12 @@ const EditProfilePage = () => {
               </div>
 
               <div className="form-group">
-                <label className="form-label" htmlFor="activityLevel">
+                <label className="form-label" htmlFor="activity">
                   Cường độ vận động
                 </label>
                 <select
-                  id="activityLevel"
-                  name="activityLevel"
+                  id="activity"
+                  name="activity"
                   className="form-select"
                   value={userData?.activity}
                   onChange={handleChange}
