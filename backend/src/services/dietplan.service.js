@@ -61,8 +61,8 @@ const generateDietPlan = async ({ userId, goal, targetWeightChange }) => {
     return plan;
 };
 
-const updateDietPlan = async ({ planId, userId, goal, targetWeightChange }) => {
-    const plan = await DietPlan.findOne({ _id: planId, userId });
+const updateDietPlan = async ({ userId, goal, targetWeightChange }) => {
+    const plan = await DietPlan.findOne({userId: userId});
     if (!plan) {
         throw new BaseError(StatusCodes.NOT_FOUND, 'Không tìm thấy kế hoạch ăn kiêng');
     }

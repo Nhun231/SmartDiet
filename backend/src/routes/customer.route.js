@@ -117,5 +117,5 @@ router.post('/calculate', verifyJWTs, validateCalculate, tdeeController.calculat
 router.get('/calculate/newest', verifyJWTs, tdeeController.getNewestCalculateByEmail);
 
 router.post('/dietplan/create', verifyJWTs,dietPlanController.generateDietPlan);
-router.put('/dietplan/update/:id',verifyJWTs, dietPlanController.updateDietPlan);
+router.put('/dietplan/update',verifyJWTs, dietPlanController.updateDietPlan);
 module.exports = router;

@@ -5,7 +5,6 @@ const authRoutes = require('./auth.route');
 const ingredientRoutes = require('./ingredient-route')
 const mealRoutes = require('./meal-route')
 const applicationName = process.env.APPLICATION_NAME;
-const verifyJWTs = require("../middlewares/verifyJWTs");
 const waterTrackingRoutes = require('./waterTracking.route')
 module.exports = (app) => {
     app.use(`/${applicationName}/users`, userRoutes);
@@ -13,6 +12,6 @@ module.exports = (app) => {
     app.use(`/${applicationName}/email`, emailRoutes);
     app.use(`/${applicationName}/customer`, customerRoutes);
     app.use(`/${applicationName}/ingredients`, ingredientRoutes);
-app.use(`/${applicationName}/meals`, mealRoutes);
+    app.use(`/${applicationName}/meals`, mealRoutes);
     app.use(`/${applicationName}/water`, waterTrackingRoutes);
-    };
+};
