@@ -1,5 +1,5 @@
 const Dish = require("../models/dish.model");
-const calculateNutrition = require("../utils/calculateNutrition");
+const { calculateNutrition } = require("../utils/calculateNutrition");
 
 // ─────────────────────────────────────────────────────
 // Create dish
@@ -17,7 +17,8 @@ const createDish = async (req, res) => {
             description,
             ingredients,
             userId,
-            totals: nutrition, // ← tính server-side
+            totals: nutrition,
+            type: "dish", // ← tính server-side
         });
 
         const saved = await dish.save();

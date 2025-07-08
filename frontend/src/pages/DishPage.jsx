@@ -12,7 +12,7 @@ import {
 } from "@mui/material";
 import DishCard from "../components/dish/DishCard";
 import DishForm from "../components/dish/DishForm";
-import DishDetailModal from "../components/dish/DishModalDetail";
+import DishDetailModal from "../components/dish/DishModal";
 import baseAxios from "../api/axios";
 
 const DishesPage = () => {

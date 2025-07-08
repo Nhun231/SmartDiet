@@ -1,30 +1,20 @@
 const Meal = require('../models/meal.model');
-const calculateNutrition = require("../utils/calculateNutrition");
+const { calculateNutrition } = require("../utils/calculateNutrition");
+const { calculateNutritionForMeal } = require("../utils/calculateNutrition");
 
 // Tạo bữa ăn mới
 const createMeal = async (req, res) => {
     try {
-        const { mealType, date, ingredients } = req.body;
-        const userId = req.body.userId;
+        const { mealType, date, ingredients = [], dish = [], userId } = req.body;
+        if (!userId) return res.status(400).json({ message: "Thiếu userId" });
 
-        if (!userId) {
-            return res.status(400).json({ message: "Thiếu userId" });
-        }
+        const totals = await calculateNutritionForMeal(ingredients, dish);
 
-        const totals = await calculateNutrition(ingredients);
-
-        const meal = new Meal({
-            mealType,
-            date,
-            ingredients,
-            totals,
-            userId,
-        });
-
+        const meal = new Meal({ mealType, date, ingredients, dish, totals, userId });
         const saved = await meal.save();
         res.status(201).json(saved);
-    } catch (error) {
-        res.status(500).json({ message: "Lỗi tạo bữa ăn", error: error.message });
+    } catch (err) {
+        res.status(500).json({ message: "Lỗi tạo bữa ăn", error: err.message });
     }
 };
 
@@ -37,7 +27,7 @@ const getAllMeals = async (req, res) => {
             return res.status(400).json({ message: "Thiếu userId trong query" });
         }
 
-        const meals = await Meal.find({ userId }).populate('ingredients.ingredientId');
+        const meals = await Meal.find({ userId }).populate('ingredients.ingredientId').populate('dish.dishId');
         res.status(200).json(meals);
     } catch (error) {
         res.status(500).json({ message: 'Lỗi lấy danh sách bữa ăn', error: error.message });
@@ -47,7 +37,7 @@ const getAllMeals = async (req, res) => {
 // Lấy bữa ăn theo ID
 const getMealById = async (req, res) => {
     try {
-        const meal = await Meal.findById(req.params.id).populate('ingredients.ingredientId');
+        const meal = await Meal.findById(req.params.id).populate('ingredients.ingredientId').populate('dish.dishId');
         if (!meal) {
             return res.status(404).json({ message: 'Không tìm thấy bữa ăn' });
         }
@@ -60,28 +50,21 @@ const getMealById = async (req, res) => {
 // Cập nhật bữa ăn theo ID
 const updateMeal = async (req, res) => {
     try {
-        const { mealType, date, ingredients } = req.body;
-
-        const totals = await calculateNutrition(ingredients);
+        const { mealType, date, ingredients = [], dish = [] } = req.body;
+        const totals = await calculateNutritionForMeal(ingredients, dish);
 
         const updated = await Meal.findByIdAndUpdate(
             req.params.id,
-            {
-                mealType,
-                date,
-                ingredients,
-                totals,
-            },
+            { mealType, date, ingredients, dish, totals },
             { new: true, runValidators: true }
-        ).populate("ingredients.ingredientId");
+        )
+            .populate("ingredients.ingredientId")
+            .populate("dish.dishId");
 
-        if (!updated) {
-            return res.status(404).json({ message: "Bữa ăn không tồn tại" });
-        }
-
+        if (!updated) return res.status(404).json({ message: "Bữa ăn không tồn tại" });
         res.status(200).json(updated);
-    } catch (error) {
-        res.status(500).json({ message: "Lỗi cập nhật bữa ăn", error: error.message });
+    } catch (err) {
+        res.status(500).json({ message: "Lỗi cập nhật bữa ăn", error: err.message });
     }
 };
 
@@ -117,7 +100,7 @@ const getMealByDate = async (req, res) => {
             mealType,
             userId,
             date: { $gte: parsedDate, $lt: nextDay },
-        }).populate('ingredients.ingredientId');
+        }).populate('ingredients.ingredientId').populate('dish.dishId');
 
         if (!meal) {
             return res.status(404).json({ message: "Không tìm thấy bữa ăn theo ngày và loại bữa đã chọn" });
