@@ -115,6 +115,7 @@ router.post('/calculate', verifyJWTs, validateCalculate, tdeeController.calculat
  *         description: Lỗi phía server
  */
 router.get('/calculate/newest', verifyJWTs, tdeeController.getNewestCalculateByEmail);
+router.get('/calculate/history', verifyJWTs, tdeeController.getAllCalculationsByUserId);
 
 router.post('/dietplan/create', verifyJWTs,dietPlanController.generateDietPlan);
 router.put('/dietplan/update',verifyJWTs, dietPlanController.updateDietPlan);

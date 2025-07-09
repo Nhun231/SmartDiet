@@ -12,13 +12,16 @@ const errorHandlerMiddleware = require("./src/middlewares/errorHandleMiddleware"
 const cookieParser = require("cookie-parser");
 const passport = require("passport");
 const PORT = process.env.PORT || 8080;
-var corsOptions = {
-    origin: "http://localhost:5173",// co thể sau này nó là restfull api, để sẵn
-    credentials: true,
-}
+// var corsOptions = {
+//     origin: "http://localhost:5173",// co thể sau này nó là restfull api, để sẵn
+//     credentials: true,
+// }
 app.use(morgan('combined')) //theo dõi log GET, POST...
 swaggerDocs(app, PORT);
-app.use(cors(corsOptions)); //cross domain...
+app.use(cors({
+    origin: true, // Reflects the request origin
+    credentials: true,
+})); //cross domain...
 
 //app.use(express.static('public', {'extensions': ['jsx']} ));
 //app.set('view engine', 'ejs');

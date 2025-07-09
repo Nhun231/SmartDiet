@@ -1,4 +1,5 @@
 const waterService = require('../services/waterTracking.service');
+const catchAsync = require("../utils/catchAsync");
 
 exports.getWaterData = async (req, res) => {
     await waterService.getWaterData(req, res);
@@ -11,3 +12,6 @@ exports.addWater = async (req, res) => {
 exports.updateTarget = async (req, res) => {
     await waterService.updateTarget(req, res);
 };
+exports.getWaterReport = catchAsync(async (req, res) => {
+    await waterService.getWaterSummary(req, res);
+});

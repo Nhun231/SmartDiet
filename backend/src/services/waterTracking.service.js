@@ -1,6 +1,8 @@
 const User = require('../models/user.model');
 const Calculate = require('../models/calculate.model');
 const UserWaterData = require('../models/userwaterdata.model');
+const { StatusCodes } = require('http-status-codes');
+const BaseError = require('../utils/BaseError');
 
 const getTodayDate = () => {
     const now = new Date();
@@ -115,5 +117,40 @@ exports.updateTarget = async (req, res) => {
     } catch (err) {
         console.error('Lỗi khi cập nhật target:', err.message);
         res.status(500).json({ message: `Lỗi khi cập nhật target: ${err.message}` });
+    }
+};
+
+exports.getWaterSummary = async (req, res) => {
+    try {
+        const userId = req.user.id;
+        if (!userId) {
+            return res.status(StatusCodes.BAD_REQUEST).json({ message: 'Không có userId trong token!' });
+        }
+        const { filter } = req.query;
+        let dateFilter = {};
+        if (filter === 'week' || filter === 'month' || filter === 'year') {
+            const now = new Date();
+            let startDate = new Date(now);
+            if (filter === 'week') {
+                startDate.setDate(now.getDate() - 7);
+            } else if (filter === 'month') {
+                startDate.setDate(now.getDate() - 30);
+            } else if (filter === 'year') {
+                startDate.setDate(now.getDate() - 365);
+            }
+            dateFilter = { createdAt: { $gte: startDate, $lte: now } };
+        }
+        const waterData = await UserWaterData.find({ userId, ...dateFilter }).sort({ createdAt: 1 });
+        if (!waterData || waterData.length === 0) {
+            return res.status(StatusCodes.NOT_FOUND).json({ message: 'Không có dữ liệu nước cho người dùng này.' });
+        }
+        const report = waterData.map(item => ({
+            date: item.date,
+            consumed: Array.isArray(item.history) ? item.history.reduce((sum, h) => sum + (h.amount || 0), 0) : 0
+        }));
+        return res.status(StatusCodes.OK).json({ report });
+    } catch (error) {
+        if (error instanceof BaseError) throw error;
+        return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ message: `Lỗi server: ${error.message}` });
     }
 };
