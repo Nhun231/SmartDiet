@@ -15,6 +15,7 @@ const calcuSchema = new Schema({
     protein: { type: Number },
     fat: { type: Number },
     carbs: { type: Number },
+    fiber: { type: Number, default: 0 },
 }, { timestamps: true });
 
 module.exports = mongoose.model('Calculate', calcuSchema);

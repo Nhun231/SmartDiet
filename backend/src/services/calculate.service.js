@@ -124,6 +124,18 @@ const getLatestCalculateByEmail = async (req, res) => {
             height: latestCalc.height,
             weight: latestCalc.weight,
             activity: latestCalc.activity,
+            protein: latestCalc.protein,
+            fat: latestCalc.fat,
+            carbs: latestCalc.carbs,
+            proteinGram: latestCalc.protein,
+            fatGram: latestCalc.fat,
+            carbGram: latestCalc.carbs,
+            proteinKcal: +(latestCalc.protein * 4).toFixed(0),
+            fatKcal: +(latestCalc.fat * 9).toFixed(0),
+            carbKcal: +(latestCalc.carbs * 4).toFixed(0),
+            fiber: latestCalc.fiber,
+            fiberGram: latestCalc.fiber,
+            fiberKcal: +(latestCalc.fiber * 2).toFixed(0),
             createdAt: latestCalc.createdAt,
         });
 
@@ -133,4 +145,44 @@ const getLatestCalculateByEmail = async (req, res) => {
     }
 };
 
-module.exports = { calculateTDEE, getLatestCalculateByEmail };
+// Update marco nutrition 
+const updateNutrition = async (req) => {
+    try {
+        const { proteinPercent, fatPercent, carbPercent, fiberPercent } = req.body;
+        const userId = req.user.id;
+
+        const total = proteinPercent + fatPercent + carbPercent + fiberPercent;
+        if (total !== 100) {
+            throw new Error('Tổng % phải bằng 100%');
+        }
+
+        const latestCalc = await Calculate.findOne({ userId }).sort({ createdAt: -1 });
+        if (!latestCalc) {
+            throw new Error('Không có dữ liệu để cập nhật!');
+        }
+
+        const proteinCalories = latestCalc.tdee * (proteinPercent / 100);
+        const fatCalories = latestCalc.tdee * (fatPercent / 100);
+        const carbsCalories = latestCalc.tdee * (carbPercent / 100);
+        const fiberCalories = latestCalc.tdee * (fiberPercent / 100); // Thường lấy 2 kcal/g, có thể chỉnh
+
+        latestCalc.protein = +(proteinCalories / 4).toFixed(2);
+        latestCalc.fat = +(fatCalories / 9).toFixed(2);
+        latestCalc.carbs = +(carbsCalories / 4).toFixed(2);
+        latestCalc.fiber = +(fiberCalories / 2).toFixed(2); // Giả định 2 kcal/g cho chất xơ
+        await latestCalc.save();
+
+        return {
+            message: 'Cập nhật thành công!',
+            protein: latestCalc.protein,
+            fat: latestCalc.fat,
+            carbs: latestCalc.carbs,
+            fiber: latestCalc.fiber
+        };
+    } catch (error) {
+        console.error('>> [ERROR] updateNutrition:', error.message);
+        throw error;
+    }
+};
+
+module.exports = { calculateTDEE, getLatestCalculateByEmail, updateNutrition };

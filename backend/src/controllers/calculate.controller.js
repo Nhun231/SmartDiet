@@ -9,7 +9,14 @@ const calculateTDEE = catchAsync(async (req, res) => {
 const getNewestCalculateByEmail = catchAsync(async (req, res) => {
     await calcuService.getLatestCalculateByEmail(req, res);
 });
+
+const updateNutrition = catchAsync(async (req, res) => {
+    const result = await calcuService.updateNutrition(req);
+    res.status(200).json(result);
+});
+
 module.exports = {
     calculateTDEE,
-    getNewestCalculateByEmail
+    getNewestCalculateByEmail,
+    updateNutrition
 };

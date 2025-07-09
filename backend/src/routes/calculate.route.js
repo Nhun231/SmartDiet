@@ -123,4 +123,55 @@ router.post('/calculate', verifyJWTs, validateCalculate, tdeeController.calculat
  *         description: Lỗi phía server
  */
 router.get('/calculate/newest', verifyJWTs, tdeeController.getNewestCalculateByEmail);
+
+/**
+ * @swagger
+ * /calculate/update-nutrition:
+ *   patch:
+ *     summary: Cập nhật % Nutrition (Carbs, Protein, Fat)
+ *     tags: [Calculate]
+ *     security:
+ *       - bearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - proteinPercent
+ *               - fatPercent
+ *               - carbPercent
+ *             properties:
+ *               proteinPercent:
+ *                 type: number
+ *               fatPercent:
+ *                 type: number
+ *               carbPercent:
+ *                 type: number
+ *     responses:
+ *       200:
+ *         description: Cập nhật thành công
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                 protein:
+ *                   type: number
+ *                 fat:
+ *                   type: number
+ *                 carbs:
+ *                   type: number
+ *                fiber:
+ *                   type: number
+ *       400:
+ *         description: Tổng % không hợp lệ
+ *       404:
+ *         description: Không tìm thấy dữ liệu
+ */
+router.patch('/calculate/update-nutrition', verifyJWTs, tdeeController.updateNutrition);
+
 module.exports = router;
