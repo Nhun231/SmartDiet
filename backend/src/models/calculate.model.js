@@ -12,6 +12,9 @@ const calcuSchema = new Schema({
     tdee: { type: Number, required: true },
     bmi: { type: Number, required: true },
     waterNeeded: String,
+    protein: { type: Number },
+    fat: { type: Number },
+    carbs: { type: Number },
 }, { timestamps: true });
 
 module.exports = mongoose.model('Calculate', calcuSchema);

@@ -61,6 +61,15 @@ const allowedRoles = require('../middlewares/allowedRole');
  *                   type: number
  *                 bmi:
  *                   type: number
+ *                 nutrition:
+ *                   type: object
+ *                   properties:
+ *                     protein:
+ *                       type: number
+ *                     fat:
+ *                       type: number
+ *                     carbs:
+ *                       type: number
  */
 
 router.post('/calculate', verifyJWTs, validateCalculate, tdeeController.calculateTDEE);

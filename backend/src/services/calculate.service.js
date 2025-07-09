@@ -61,14 +61,40 @@ const calculateTDEE = async (req) => {
     });
     await result.save();
 
+    const latestCalc = await Calculate.findOne({ userId }).sort({ createdAt: -1 });
+
+    if (latestCalc) {
+        const proteinRatio = 0.25;  // 25% Protein
+        const fatRatio = 0.25;      // 25% Fat
+        const carbsRatio = 1 - proteinRatio - fatRatio;
+
+        const proteinCalories = latestCalc.tdee * proteinRatio;
+        const fatCalories = latestCalc.tdee * fatRatio;
+        const carbsCalories = latestCalc.tdee * carbsRatio;
+
+        const proteinGrams = +(proteinCalories / 4).toFixed(2);
+        const fatGrams = +(fatCalories / 9).toFixed(2);
+        const carbsGrams = +(carbsCalories / 4).toFixed(2);
+
+        latestCalc.protein = proteinGrams;
+        latestCalc.fat = fatGrams;
+        latestCalc.carbs = carbsGrams;
+        await latestCalc.save();
+    }
+
     return {
         message: 'Successful!',
         bmr: result.bmr,
         tdee: result.tdee,
         bmi: result.bmi,
-        waterIntake: result.waterNeeded
-    }
-}
+        waterIntake: result.waterNeeded,
+        nutrition: {
+            protein: latestCalc.protein,
+            fat: latestCalc.fat,
+            carbs: latestCalc.carbs
+        }
+    };
+};
 
 // Get newest Calculate Record by email
 const getLatestCalculateByEmail = async (req, res) => {
