@@ -14,6 +14,7 @@ import NotFoundPage from "../components/common/NotFound404.jsx";
 import UnauthorizedPage from "../components/common/Unautorized401.jsx";
 import IngredientList from "../pages/IngredientList.jsx";
 import DishesPage from "../pages/DishPage.jsx"
+import UserHomePage from "../pages/UserHomePage.jsx";
 
 const AuthLayout = () => (
   <AuthProvider>
@@ -26,7 +27,10 @@ const router = createBrowserRouter([
     path: "/login",
     element: <Login />,
   },
-
+  {
+    path: "/dashboard",
+    element: <UserHomePage />,
+  },
   {
     path: "/changepassword/:token",
     element: <ChangePassword />,

@@ -13,13 +13,12 @@ const dishSchema = new mongoose.Schema({
         required: true,
       },
       quantity: {
-        type: Number, // tính theo gram
+        type: Number,
         required: true,
         min: 1
       },
     },
   ],
-
   totals: {
     calories: { type: Number, default: 0 },
     protein: { type: Number, default: 0 },
@@ -27,13 +26,11 @@ const dishSchema = new mongoose.Schema({
     carbs: { type: Number, default: 0 },
     fiber: { type: Number, default: 0 },
   },
-
   userId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",
     required: true,
   },
-
   type: {
     type: String,
     enum: ["dish"],

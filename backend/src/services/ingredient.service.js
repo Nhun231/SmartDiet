@@ -4,6 +4,8 @@ const Ingredient = require('../models/ingredient.model');
 const createIngredient = async (req, res) => {
     try {
         const ingredient = new Ingredient(req.body);
+        console.log("Creating ingredient:", ingredient);
+        
         const saved = await ingredient.save();
         res.status(201).json(saved);
     } catch (error) {
@@ -14,7 +16,7 @@ const createIngredient = async (req, res) => {
 // Get all ingredients
 const getAllIngredients = async (req, res) => {
     try {
-        const ingredients = await Ingredient.find();
+        const ingredients = await Ingredient.find().populate('userId');
         res.status(200).json(ingredients);
     } catch (error) {
         res.status(500).json({ message: 'Lỗi khi lấy các món', error: error.message });

@@ -14,7 +14,7 @@ import DishCard from "../components/dish/DishCard";
 import DishForm from "../components/dish/DishForm";
 import DishDetailModal from "../components/dish/DishModal";
 import baseAxios from "../api/axios";
-
+import FloatingChatBox from "../components/OpenAIChatbox/Chatbox.jsx";
 const DishesPage = () => {
     /* ─────────────── state */
     const [dishes, setDishes] = useState([]);
@@ -29,6 +29,8 @@ const DishesPage = () => {
     /* ─────────────── initial fetch */
     useEffect(() => {
         (async () => {
+
+            console.log('User ID:', userId);
             try {
                 const [dishRes, ingRes] = await Promise.all([
                     baseAxios.get(`/dish`, { params: { userId } }),
@@ -142,6 +144,7 @@ const DishesPage = () => {
             >
                 <Alert severity="success">{toast.msg}</Alert>
             </Snackbar>
+            <FloatingChatBox />
         </Box>
     );
 };

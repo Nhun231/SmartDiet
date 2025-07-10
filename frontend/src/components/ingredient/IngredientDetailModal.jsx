@@ -110,6 +110,9 @@ const IngredientDetailModal = ({
             </DialogTitle>
 
             <DialogContent>
+                <Typography variant="h6" fontWeight="bold" mt={1} mb={2}>
+                    {name}
+                </Typography>
                 <Typography
                     variant="subtitle1"
                     fontWeight="bold"
