@@ -60,15 +60,18 @@ const handleLogin = async (req, res) => {
     }
 }
 const handleRefreshToken = async (req, res) => {
-    const cookies = req.cookies;
-    //search for jwt in cookies appearance
-    if (!cookies?.jwt) {
-        console.log("Cookie khong ton tai")
-        return res.status(StatusCodes.UNAUTHORIZED).json({ 'message': 'Cookie không tồn tại' });
+    // Try to get refresh token from cookie (web)
+    let refreshToken = req.cookies?.jwt;
+    // Or from body (mobile)
+    if (!refreshToken && req.body?.refreshToken) {
+        refreshToken = req.body.refreshToken;
     }
-    console.log(cookies.jwt);
+    if (!refreshToken) {
+        console.log("No refresh token provided");
+        return res.status(StatusCodes.UNAUTHORIZED).json({ 'message': 'No refresh token provided' });
+    }
+    console.log(refreshToken);
     //This is the refresh token have set in auth.service.js
-    const refreshToken = cookies.jwt;
     //find user in db
     const user = await User.findOne({ refreshToken: refreshToken });
     //if user notfound throw error
@@ -93,8 +96,6 @@ const handleRefreshToken = async (req, res) => {
             res.json({ accessToken })
         }
     )
-
-
 }
 const handleLogout = async (req, res) => {
     //On front-end also delete access token in memory
