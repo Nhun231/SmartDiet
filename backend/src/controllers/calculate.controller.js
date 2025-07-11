@@ -12,8 +12,15 @@ const getNewestCalculateByEmail = catchAsync(async (req, res) => {
 const getAllCalculationsByUserId = catchAsync(async (req, res) => {
     await calcuService.getAllCalculationsByUserId(req, res);
 });
+
+const updateNutrition = catchAsync(async (req, res) => {
+    const result = await calcuService.updateNutrition(req);
+    res.status(200).json(result);
+});
+
 module.exports = {
     calculateTDEE,
     getNewestCalculateByEmail,
-    getAllCalculationsByUserId
+    getAllCalculationsByUserId,
+    updateNutrition
 };

@@ -12,6 +12,10 @@ const calcuSchema = new Schema({
     tdee: { type: Number, required: true },
     bmi: { type: Number, required: true },
     waterNeeded: String,
+    protein: { type: Number },
+    fat: { type: Number },
+    carbs: { type: Number },
+    fiber: { type: Number, default: 0 },
 }, { timestamps: true });
 
 calcuSchema.post('save', async function (doc) {

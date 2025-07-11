@@ -15,6 +15,7 @@ import UnauthorizedPage from "../components/common/Unautorized401.jsx";
 import IngredientList from "../pages/IngredientList.jsx";
 import SetGoal from "../components/dietPlan/SetGoal.jsx";
 import DietPlan from "../components/dietPlan/DietPlan.jsx"
+import UpdateNutrition from "../components/nutritions/UpdateNutrition.jsx"
 
 import WaterInformationPage from "../pages/WaterInformationPage.jsx";
 const AuthLayout = () => (
@@ -40,6 +41,10 @@ const router = createBrowserRouter([
           {
             path: "/calculate",
             element: <Calculator />
+          },
+          {
+            path: "/update-nutrition",
+            element: <UpdateNutrition />
           },
           {
             path: "/setgoal",
