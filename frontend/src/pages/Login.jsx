@@ -73,7 +73,7 @@ export default function Login() {
             setLoading(true);
             console.log(res);
             localStorage.setItem("accessToken", res.accessToken);
-            navigate("/calculate");
+            navigate("/daily");
         } catch (err) {
             const backendMessage =
                 err?.response?.data?.message ||

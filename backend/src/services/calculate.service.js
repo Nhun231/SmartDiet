@@ -6,6 +6,7 @@ const mongoose = require('mongoose');
 
 const calculateTDEE = async (req) => {
     const userId = req.user.id;
+    // const userId = req.user?._id || '6868f24a6671d5a2a4853549';
     const { gender, age, height, weight, activity } = req.body;
     return await calculateTDEEWithoutRequest(userId, gender, age, height, weight, activity);
 }
@@ -140,6 +141,12 @@ const getLatestCalculateByEmail = async (req, res) => {
             fiberGram: latestCalc.fiber,
             fiberKcal: +(latestCalc.fiber * 2).toFixed(0),
             createdAt: latestCalc.createdAt,
+            nutrition: {
+                carbPercent: latestCalc.carbPercent,
+                proteinPercent: latestCalc.proteinPercent,
+                fatPercent: latestCalc.fatPercent,
+                fiberPercent: latestCalc.fiberPercent,
+            },
         });
 
     } catch (error) {
@@ -206,12 +213,18 @@ const updateNutrition = async (req) => {
         const proteinCalories = latestCalc.tdee * (proteinPercent / 100);
         const fatCalories = latestCalc.tdee * (fatPercent / 100);
         const carbsCalories = latestCalc.tdee * (carbPercent / 100);
-        const fiberCalories = latestCalc.tdee * (fiberPercent / 100); // Thường lấy 2 kcal/g, có thể chỉnh
+        const fiberCalories = latestCalc.tdee * (fiberPercent / 100);
 
         latestCalc.protein = +(proteinCalories / 4).toFixed(2);
         latestCalc.fat = +(fatCalories / 9).toFixed(2);
         latestCalc.carbs = +(carbsCalories / 4).toFixed(2);
-        latestCalc.fiber = +(fiberCalories / 2).toFixed(2); // Giả định 2 kcal/g cho chất xơ
+        latestCalc.fiber = +(fiberCalories / 2).toFixed(2);
+
+        latestCalc.proteinPercent = proteinPercent;
+        latestCalc.fatPercent = fatPercent;
+        latestCalc.carbPercent = carbPercent;
+        latestCalc.fiberPercent = fiberPercent;
+
         await latestCalc.save();
 
         return {

@@ -123,6 +123,7 @@ router.post('/calculate', verifyJWTs, validateCalculate, tdeeController.calculat
  *       500:
  *         description: Lỗi phía server
  */
+// router.get('/calculate/newest', tdeeController.getNewestCalculateByEmail);
 router.get('/calculate/newest', verifyJWTs, tdeeController.getNewestCalculateByEmail);
 
 /**
@@ -174,6 +175,7 @@ router.get('/calculate/newest', verifyJWTs, tdeeController.getNewestCalculateByE
  *         description: Không tìm thấy dữ liệu
  */
 router.patch('/calculate/update-nutrition', verifyJWTs, tdeeController.updateNutrition);
+// router.patch('/calculate/update-nutrition', tdeeController.updateNutrition);
 
 router.get('/calculate/history', verifyJWTs, tdeeController.getAllCalculationsByUserId);
 

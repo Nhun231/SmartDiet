@@ -6,9 +6,9 @@ import { PieChart, Pie, Cell, Legend } from 'recharts';
 import baseAxios from '../../api/axios';
 
 const NutritionDashboard = () => {
-    const [proteinPercent, setProteinPercent] = useState(35);
-    const [fatPercent, setFatPercent] = useState(30);
-    const [carbPercent, setCarbPercent] = useState(35);
+    const [proteinPercent, setProteinPercent] = useState(0);
+    const [fatPercent, setFatPercent] = useState(0);
+    const [carbPercent, setCarbPercent] = useState(0);
     const [fiberPercent, setFiberPercent] = useState(0);
     const [error, setError] = useState('');
     const [nutritionData, setNutritionData] = useState({ tdee: 2000 });
@@ -17,8 +17,16 @@ const NutritionDashboard = () => {
 
     const fetchData = async () => {
         try {
-            const res = await baseAxios.get('customers/calculate/newest');
-            setNutritionData(res.data);
+            const res = await baseAxios.get('customer/calculate/newest');
+            const data = res.data;
+            setNutritionData(data);
+            // Auto set % từ backend
+            if (data.nutrition) {
+                setCarbPercent(data.nutrition.carbPercent);
+                setProteinPercent(data.nutrition.proteinPercent);
+                setFatPercent(data.nutrition.fatPercent);
+                setFiberPercent(data.nutrition.fiberPercent);
+            }
         } catch (err) {
             console.error(err);
         }
@@ -35,12 +43,12 @@ const NutritionDashboard = () => {
             return;
         }
         try {
-            await baseAxios.patch('customers/calculate/update-nutrition', {
+            await baseAxios.patch('customer/calculate/update-nutrition', {
                 proteinPercent, fatPercent, carbPercent, fiberPercent
             });
             setError('');
             setSuccessOpen(true);
-            await fetchData();
+            await fetchData(); // Load lại dữ liệu sau khi cập nhật
         } catch (err) {
             setError(err.response?.data?.message || 'Lỗi cập nhật!');
         }
@@ -61,7 +69,6 @@ const NutritionDashboard = () => {
     const proteinKcal = ((nutritionData.tdee * proteinPercent) / 100).toFixed(0);
     const fatKcal = ((nutritionData.tdee * fatPercent) / 100).toFixed(0);
     const fiberKcal = ((nutritionData.tdee * fiberPercent) / 100).toFixed(0);
-
     const totalPercent = proteinPercent + fatPercent + carbPercent + fiberPercent;
 
     return (

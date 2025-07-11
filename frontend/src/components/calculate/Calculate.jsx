@@ -69,7 +69,7 @@ const Calculate = () => {
             }
         }
         try {
-            const res = await baseAxios.post("customers/calculate", {
+            const res = await baseAxios.post("customer/calculate", {
                 ...form,
 
             });

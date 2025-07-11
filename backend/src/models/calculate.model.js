@@ -16,6 +16,11 @@ const calcuSchema = new Schema({
     fat: { type: Number },
     carbs: { type: Number },
     fiber: { type: Number, default: 0 },
+    proteinPercent: { type: Number, default: 0 },
+    fatPercent: { type: Number, default: 0 },
+    carbPercent: { type: Number, default: 0 },
+    fiberPercent: { type: Number, default: 0 },
+
 }, { timestamps: true });
 
 calcuSchema.post('save', async function (doc) {
