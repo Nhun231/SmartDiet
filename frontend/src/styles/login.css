@@ -1,8 +1,9 @@
 :root {
-  --main-green: #4CAF50; /* màu xanh lá chủ đạo */
+  --main-green: #4caf50; /* màu xanh lá chủ đạo */
   --light-green: #e8f5e9;
   --text-green: #2e7d32;
 }
+
 .sidebar {
   background-color: rgba(182, 150, 9, 0.24);
   padding: 20px;
@@ -10,7 +11,7 @@
   box-shadow: 4px 0 10px -2px rgba(45, 59, 47, 0.9);
   z-index: 1;
   border-radius: 10px;
-  position: absolute
+  position: absolute;
 }
 
 .image-full {
@@ -23,19 +24,21 @@
 .no-padding {
   padding: 0 !important;
 }
+
 .title {
   color: var(--main-green);
   font-weight: 700;
   text-align: center;
 }
+
 .label {
-  color: #4CAF50;
+  color: var(--main-green);
   font-weight: bold !important;
   margin-bottom: 6px;
   margin-top: 10px !important;
   display: block;
-
 }
+
 .subtitle {
   margin-top: 10px !important;
   text-align: center;
@@ -43,6 +46,8 @@
   color: #444;
   font-weight: bold !important;
 }
+
+/* Updated login button styles */
 .login-buttons button {
   flex: 1;
   border: 1px solid var(--main-green);
@@ -55,7 +60,25 @@
   transition: all 0.3s;
 }
 
-.login-buttons .active {
+.login-buttons .active,
+.login-buttons button:hover {
   background-color: var(--main-green);
   color: white;
+}
+
+/* Additional Material-UI overrides */
+.MuiButton-containedPrimary {
+  background-color: var(--main-green) !important;
+}
+
+.MuiButton-containedPrimary:hover {
+  background-color: var(--text-green) !important;
+}
+
+.MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline {
+  border-color: var(--main-green) !important;
+}
+
+.MuiInputLabel-root.Mui-focused {
+  color: var(--main-green) !important;
 }

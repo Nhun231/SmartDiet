@@ -13,12 +13,13 @@ const cookieParser = require("cookie-parser");
 const passport = require("passport");
 const cron = require('node-cron'); // cron để gửi thông báo real-time
 const { sendReminders } = require('./src/controllers/waterReminderSetting.controller');
+const PORT = process.env.PORT;
 var corsOptions = {
     origin: "http://localhost:5173",// co thể sau này nó là restfull api, để sẵn
     credentials: true,
 }
 app.use(morgan('combined')) //theo dõi log GET, POST...
-
+swaggerDocs(app, PORT);
 app.use(cors(corsOptions)); //cross domain...
 
 //app.use(express.static('public', {'extensions': ['jsx']} ));
@@ -41,7 +42,7 @@ require('./src/routes')(app);//importing route
 // Middleware for centralized error handling
 app.use(errorHandlerMiddleware);
 
-const PORT = process.env.PORT;
+
 app.listen(PORT, '0.0.0.0', () => {
     console.log(`Server is running on port ${PORT}.`);
 });
@@ -52,4 +53,3 @@ cron.schedule('* * * * *', async () => {
     await sendReminders();
 });
 
-swaggerDocs(app, PORT);

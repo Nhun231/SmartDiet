@@ -140,8 +140,8 @@ export default function Login() {
 
                         <Typography variant="body2" sx={{ mb: 2 }}>
                             Bạn chưa có tài khoản?{" "}
-                            <Typography component="span" sx={{ color: "#007fff", fontWeight: 600, cursor: "pointer" }}
-                                onClick={handleOpenRegister}>
+                            <Typography component="span" sx={{ color: "#4caf50", fontWeight: 600, cursor: "pointer" }}
+                                onClick={handleOpenRegister} >
                                 Đăng kí
                             </Typography>
                         </Typography>
@@ -151,12 +151,12 @@ export default function Login() {
                             variant="outlined"
                             fullWidth
                             startIcon={<GoogleIcon />}
-                            sx={{ mb: 1, textTransform: "none" }}
+                            sx={{ color: "#4caf50",mb: 1, textTransform: "none" }}
                             href={`${import.meta.env.VITE_API_BASE_URL}/auth/google`}
                         >
                             Đăng nhập bằng Google
                         </Button>
-                        <Typography component="span" sx={{ color: "#007fff", fontWeight: 600, cursor: "pointer" }}
+                        <Typography component="span" sx={{ color: "#4caf50", fontWeight: 600, cursor: "pointer" }}
                             onClick={handleOpenForgotPassword}>
                             Quên mật khẩu?
                         </Typography>

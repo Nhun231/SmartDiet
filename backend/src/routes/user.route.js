@@ -10,6 +10,7 @@ const router = Router();
 const userController = require('../controllers/user.controller.js');
 const verifyJWTs = require('../middlewares/verifyJWTs.js');
 const userValidation = require('../validations/user.validator.js');
+const allowRoles = require("../middlewares/allowedRole");
 
 /**
  * @swagger

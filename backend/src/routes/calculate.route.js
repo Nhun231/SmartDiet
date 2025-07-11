@@ -3,6 +3,7 @@ const router = express.Router();
 const tdeeController = require('../controllers/calculate.controller');
 const { validateCalculate } = require('../validations/calculate.validator');
 const verifyJWTs = require('../middlewares/verifyJWTs');
+const allowedRoles = require('../middlewares/allowedRole');
 
 /**
  * @swagger
@@ -112,5 +113,5 @@ router.post('/calculate', validateCalculate, tdeeController.calculateTDEE);
  *       500:
  *         description: Lỗi phía server
  */
-router.get('/calculate/newest', verifyJWTs, tdeeController.getNewestCalculateByEmail);
+router.get('/calculate/newest',allowedRoles(["user"]), verifyJWTs, tdeeController.getNewestCalculateByEmail);
 module.exports = router;

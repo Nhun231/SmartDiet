@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import heroBanner from "../../assets/healthyfood.jpg";
 import Register from "../login/Register";
 import { Apple, Calculate, Favorite, Restaurant } from "@mui/icons-material";
+import FloatingChatBox from "../OpenAIChatbox/Chatbox.jsx";
 
 const HomePage = () => {
     const navigate = useNavigate();
@@ -63,7 +64,7 @@ const HomePage = () => {
                     maxWidth: "1600px",
                     mx: "auto",
                     color: "#2e7d32",
-                    mt: 10,
+                    my: 10,
                 }}
             >
                 <Grid container spacing={4} justifyContent="center">
@@ -112,6 +113,7 @@ const HomePage = () => {
                     ))}
                 </Grid>
             </Box>
+            <FloatingChatBox />
         </>
     );
 };
