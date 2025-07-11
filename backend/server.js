@@ -11,6 +11,8 @@ const app = express();
 const errorHandlerMiddleware = require("./src/middlewares/errorHandleMiddleware");
 const cookieParser = require("cookie-parser");
 const passport = require("passport");
+const cron = require('node-cron'); // cron để gửi thông báo real-time
+const { sendReminders } = require('./src/controllers/waterReminderSetting.controller');
 var corsOptions = {
     origin: "http://localhost:5173",// co thể sau này nó là restfull api, để sẵn
     credentials: true,
@@ -40,7 +42,14 @@ require('./src/routes')(app);//importing route
 app.use(errorHandlerMiddleware);
 
 const PORT = process.env.PORT;
-app.listen(PORT, () => {
+app.listen(PORT, '0.0.0.0', () => {
     console.log(`Server is running on port ${PORT}.`);
 });
+
+// Chạy cron mỗi phút
+cron.schedule('* * * * *', async () => {
+    console.log('Running water reminder job...');
+    await sendReminders();
+});
+
 swaggerDocs(app, PORT);
