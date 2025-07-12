@@ -6,7 +6,7 @@ import OAuthCallback from "../components/common/oauth-callback.jsx";
 import Calculator from "../pages/Calculator";
 import ChangePassword from "../pages/ChangePassword";
 import HomePage from "../pages/HomePage";
-import MainLayout from "../components/common/mainLayout";
+import MainLayout from "../components/common/MainLayout.jsx";
 import ProfilePage from "../pages/ProfilePage";
 import EditProfilePage from "../pages/EditProfilePage";
 import RequireRole from "../components/common/RequireRole";
@@ -17,7 +17,8 @@ import SetGoal from "../components/dietPlan/SetGoal.jsx";
 import DietPlan from "../components/dietPlan/DietPlan.jsx"
 import UpdateNutrition from "../components/nutritions/UpdateNutrition.jsx"
 import Daily from "../components/common/Daily.jsx";
-
+import DishesPage from "../pages/DishPage.jsx";
+import UserHomePage from "../pages/UserHomePage.jsx";
 import WaterInformationPage from "../pages/WaterInformationPage.jsx";
 const AuthLayout = () => (
   <AuthProvider>
@@ -28,6 +29,10 @@ const router = createBrowserRouter([
   {
     path: "/login",
     element: <Login />,
+  },
+  {
+    path: "/dashboard",
+    element: <UserHomePage />,
   },
   {
     path: "/changepassword/:token",
@@ -42,6 +47,14 @@ const router = createBrowserRouter([
           {
             path: "/calculate",
             element: <Calculator />
+          },
+          {
+            path: "/meal",
+            element: <IngredientList />,
+          },
+          {
+            path: "/dishes",
+            element: <DishesPage />,
           },
           {
             path: "/daily",
@@ -76,12 +89,6 @@ const router = createBrowserRouter([
           {
             path: "/water-infor",
             element: <WaterInformationPage />,
-          },
-          {
-            path: "/meal",
-            element: <RequireRole allowedRoles={["admin", "customer"]}>
-              <IngredientList />
-            </RequireRole>,
           },
           {
             path: "/homepage",

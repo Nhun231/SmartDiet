@@ -86,7 +86,12 @@ const ingredientSchema = new Schema({
     description: {
         type: String,
         default: ''
-    }
+    },
+    userId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User",
+        required: true,
+      },
 });
 
 const Ingredient = mongoose.model('Ingredient', ingredientSchema);

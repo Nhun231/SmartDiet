@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import heroBanner from "../../assets/healthyfood.jpg";
 import Register from "../login/Register";
 import { Apple, Calculate, Favorite, Restaurant } from "@mui/icons-material";
+import FloatingChatBox from "../OpenAIChatbox/Chatbox.jsx";
 
 const HomePage = () => {
     const navigate = useNavigate();
@@ -112,6 +113,7 @@ const HomePage = () => {
                     ))}
                 </Grid>
             </Box>
+            <FloatingChatBox />
         </>
     );
 };

@@ -1,9 +1,42 @@
 import React from "react";
-import { Card, CardContent, Typography, IconButton, Tooltip } from "@mui/material";
+import {
+    Card,
+    CardContent,
+    Typography,
+    IconButton,
+    Tooltip,
+    Box
+} from "@mui/material";
+import { useEffect } from "react";
 import AddIcon from "@mui/icons-material/Add";
+import EditIcon from "@mui/icons-material/Edit";
+import DeleteIcon from "@mui/icons-material/Delete";
+import baseAxios from "../../api/axios";
+const IngredientCard = ({ name, calories, onAdd, onClick, onEdit, userID, id }) => {
+    useEffect(() => {
+        console.log("🔍 Kiểm tra props:");
+        console.log("userID:", name);
+    }, [userID]);
 
-const IngredientCard = ({ name, calories, onAdd, onClick }) => (
-    <Card onClick={onClick}
+    const handleDelete = async (e) => {
+        e.stopPropagation();
+        try {
+            try {
+                const response = await baseAxios.delete(`/ingredients/${id}`);
+                if (response.status === 200) {
+                    window.location.reload(); 
+                }
+            } catch (error) {
+                console.error("Error deleting ingredient:", error);
+            }
+        } catch (error) {
+            console.error("Error deleting ingredient:", error);
+        }
+    }
+
+    return (
+    <Card
+        onClick={onClick}
         sx={{
             borderRadius: 3,
             display: "flex",
@@ -11,11 +44,11 @@ const IngredientCard = ({ name, calories, onAdd, onClick }) => (
             alignItems: "center",
             px: 5,
             py: 1,
-            width: "50%",   // mỗi card chiếm ~23% chiều ngang
+            width: "50%",
             minWidth: 300,
-            maxWidth: 300,   // có thể set tối thiểu nếu muốn
+            maxWidth: 300,
             boxSizing: "border-box",
-            margin: "1%",   // khoảng cách giữa các card
+            margin: "1%",
             cursor: "pointer",
         }}
     >
@@ -32,15 +65,41 @@ const IngredientCard = ({ name, calories, onAdd, onClick }) => (
             </Tooltip>
             <Typography variant="body2">100g - {calories} calo</Typography>
         </CardContent>
-        <IconButton
-            onClick={(e) => {
-                e.stopPropagation(); // 👈 Dòng quan trọng
-                onAdd();
-            }}
-        >
-            <AddIcon />
-        </IconButton>
+
+        {/* Nhóm các nút hành động với icon nhỏ */}
+        <Box sx={{ display: "flex", gap: 0.5 }}>
+            <IconButton
+                size="small"
+                onClick={(e) => {
+                    e.stopPropagation();
+                    onAdd();
+                }}
+            >
+                <AddIcon fontSize="small" />
+            </IconButton>
+            {userID != null && (
+                <>
+                    <IconButton
+                        size="small"
+                        onClick={(e) => {
+                            e.stopPropagation();
+                            onEdit();
+                        }}
+                    >
+                        <EditIcon fontSize="small" />
+                    </IconButton>
+                    <IconButton
+                        size="small"
+                        onClick={handleDelete}
+                    >
+                        <DeleteIcon fontSize="small" />
+                    </IconButton>
+                </>
+            )}
+
+
+        </Box>
     </Card>
-);
+)};
 
 export default IngredientCard;

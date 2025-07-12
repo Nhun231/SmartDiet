@@ -4,8 +4,12 @@ const userRoutes = require('./user.route');
 const authRoutes = require('./auth.route');
 const ingredientRoutes = require('./ingredient-route')
 const mealRoutes = require('./meal-route')
+const dishRoutes = require('./dish.route')
+const openAIRoutes = require('./openAI.route');
+
 const applicationName = process.env.APPLICATION_NAME;
 const waterTrackingRoutes = require('./waterTracking.route')
+const waterReminderRoutes = require('./waterSchedule.route')
 module.exports = (app) => {
     app.use(`/${applicationName}/users`, userRoutes);
     app.use(`/${applicationName}/auth`, authRoutes);
@@ -14,4 +18,8 @@ module.exports = (app) => {
     app.use(`/${applicationName}/ingredients`, ingredientRoutes);
     app.use(`/${applicationName}/meals`, mealRoutes);
     app.use(`/${applicationName}/water`, waterTrackingRoutes);
+    app.use(`/${applicationName}/email`, emailRoutes);
+    app.use(`/${applicationName}/dish`, dishRoutes);
+    app.use(`/${applicationName}/ai`, openAIRoutes);
+    app.use(`/${applicationName}/water-reminders`, waterReminderRoutes);
 };
