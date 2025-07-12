@@ -62,12 +62,14 @@ const router = createBrowserRouter([
           {
             path: "/my-profile",
             element:
-              <ProfilePage />
+                <RequireRole allowedRoles={["admin", "customer"]}>
+                  <ProfilePage />
+                </RequireRole>,
 
           },
           {
             path: "/edit-profile",
-            element: <RequireRole allowedRoles={["admin", "user"]}>
+            element: <RequireRole allowedRoles={["admin", "customer"]}>
               <EditProfilePage />
             </RequireRole>,
           },
@@ -77,7 +79,7 @@ const router = createBrowserRouter([
           },
           {
             path: "/meal",
-            element: <RequireRole allowedRoles={["admin", "user"]}>
+            element: <RequireRole allowedRoles={["admin", "customer"]}>
               <IngredientList />
             </RequireRole>,
           },

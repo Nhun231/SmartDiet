@@ -21,6 +21,7 @@ const AuthProvider = ({ children }) => {
   const [auth, setAuth] = useState({accessToken: null, user: null});
   const [isRefreshing, setIsRefreshing] = useState(false);
   const alertShownRef = useRef(false);
+  const [loading, setLoading] = useState(true);
   const nav = useNavigate();
   // Set token from localStorage on mount
   useLayoutEffect(() => {
@@ -35,6 +36,7 @@ const AuthProvider = ({ children }) => {
         localStorage.removeItem("accessToken");
       }
     }
+    setLoading(false); // <-- set loading to false after check
   }, []);
   useLayoutEffect(() => {
     const authInterceptor = axios.interceptors.request.use((config) => {
@@ -109,7 +111,7 @@ const AuthProvider = ({ children }) => {
     };
   }, [nav, isRefreshing]);
   return (
-    <AuthContext.Provider value={{ ...auth, setAuth }}>
+    <AuthContext.Provider value={{ ...auth, setAuth, loading }}>
       {children}
     </AuthContext.Provider>
   );

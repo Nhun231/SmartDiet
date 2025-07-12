@@ -53,7 +53,7 @@ const EditProfilePage = () => {
 
     const fetchPhysicalData = async () => {
       try {
-        const response = await baseAxios.get(`/customers/calculate/newest`, {});
+        const response = await baseAxios.get(`/customer/calculate/newest`, {});
         setPhysicalData(response.data);
         setUserData((prev) => ({
           ...prev,
@@ -138,7 +138,7 @@ const EditProfilePage = () => {
       };
 
       const calcRes = await baseAxios.post(
-        "/customers/calculate",
+        "/customer/calculate",
         calculatePayload
       );
 

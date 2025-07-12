@@ -40,7 +40,7 @@ const ProfilePage = () => {
 
     const fetchPhysicalData = async () => {
       try {
-        const response = await baseAxios.get(`/customers/calculate/newest`, {});
+        const response = await baseAxios.get(`/customer/calculate/newest`, {});
         setPhysicalData(response.data);
       } catch (err) {
         console.error("Lỗi khi lấy dữ liệu thể chất:", err);

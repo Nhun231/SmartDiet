@@ -12,6 +12,7 @@ const Daily = () => {
         const checkCalculateData = async () => {
             try {
                 const res = await baseAxios.get('/customer/calculate/newest');
+                console.log(res.data)
                 if (res.data && res.data.tdee) {
                     setCalculationData(res.data);
                 } else {
