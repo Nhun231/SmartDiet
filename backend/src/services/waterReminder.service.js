@@ -39,7 +39,7 @@ exports.sendReminders = async () => {
                 await sendPushNotification(
                     setting.expoPushToken,
                     '💧 Nhắc nhở uống nước',
-                    `Đã đến lúc uống ${match.amount}ml nước!`,
+                    `Đã đến lúc uống ${match.amount} nước!`,
                     { type: 'water-reminder' }
                 );
                 console.log(`Đã gửi nhắc nhở cho user ${setting.userId} với token ${setting.expoPushToken} lúc ${currentTimeStr}`);
