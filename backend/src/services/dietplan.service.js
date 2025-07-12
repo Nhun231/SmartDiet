@@ -3,6 +3,7 @@ const Calculate = require('../models/calculate.model');
 const User = require('../models/user.model');
 const { StatusCodes } = require('http-status-codes');
 const BaseError = require('../utils/baseError');
+const catchAsync = require("../utils/catchAsync");
 
 function calculateDietPlanDetails({ TDEE, goal, targetWeightChange }) {
     let dailyCalories = TDEE;
@@ -85,4 +86,11 @@ const updateDietPlan = async ({ userId, goal, targetWeightChange }) => {
     return plan;
 };
 
-module.exports = { generateDietPlan, updateDietPlan }; 
+const getCurrentDietPlan = async (userId) => {
+    const plan = await DietPlan.findOne({userId: userId});
+    if (!plan) {
+        throw new BaseError(StatusCodes.NOT_FOUND, 'Không tìm thấy kế hoạch ăn kiêng');
+    }
+    return plan;
+}
+module.exports = { generateDietPlan, updateDietPlan, getCurrentDietPlan };

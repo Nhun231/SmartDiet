@@ -14,6 +14,11 @@ const updateDietPlan = catchAsync(async (req, res) => {
     const plan = await dietPlanService.updateDietPlan({ userId, goal, targetWeightChange });
     res.status(200).json(plan);
 });
+const getCurrentDietPlan = catchAsync(async (req, res) => {
+    const userId = req.user?.id;
+    if (!userId) throw new BaseError(StatusCodes.UNAUTHORIZED, 'User not authenticated');
+    const plan = await dietPlanService.getCurrentDietPlan(userId);
+    res.status(200).json(plan);
+})
 
-
-module.exports = { generateDietPlan, updateDietPlan };
+module.exports = { generateDietPlan, updateDietPlan, getCurrentDietPlan };

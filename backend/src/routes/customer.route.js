@@ -179,7 +179,7 @@ router.patch('/calculate/update-nutrition', verifyJWTs, tdeeController.updateNut
 
 router.get('/calculate/history', verifyJWTs, tdeeController.getAllCalculationsByUserId);
 
-router.get('/dietplan/get-current', verifyJWTs,dietPlanController.generateDietPlan)
+router.get('/dietplan/get-current', verifyJWTs,dietPlanController.getCurrentDietPlan)
 router.post('/dietplan/create', verifyJWTs,dietPlanController.generateDietPlan);
 router.put('/dietplan/update',verifyJWTs, dietPlanController.updateDietPlan);
 module.exports = router;

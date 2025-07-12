@@ -18,7 +18,6 @@ const { sendReminders } = require('./src/controllers/waterReminderSetting.contro
 //     credentials: true,
 // }
 app.use(morgan('combined')) //theo dõi log GET, POST...
-swaggerDocs(app, PORT);
 app.use(cors({
     origin: true, // Reflects the request origin
     credentials: true,
