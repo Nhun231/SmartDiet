@@ -12,7 +12,7 @@ const allowRoles = require("../middlewares/allowedRole");
  *   name: Tính chỉ số
  *   description: API tính TDEE, BMR, BMI
  *
- * /customers/calculate:
+ * /customer/calculate:
  *   post:
  *     summary: Tính toán TDEE, BMR và BMI
  *     tags: [Tính chỉ số]
@@ -179,6 +179,7 @@ router.patch('/calculate/update-nutrition', verifyJWTs, tdeeController.updateNut
 
 router.get('/calculate/history', verifyJWTs, tdeeController.getAllCalculationsByUserId);
 
+router.get('/dietplan/get-current', verifyJWTs,dietPlanController.generateDietPlan)
 router.post('/dietplan/create', verifyJWTs,dietPlanController.generateDietPlan);
 router.put('/dietplan/update',verifyJWTs, dietPlanController.updateDietPlan);
 module.exports = router;

@@ -32,7 +32,7 @@ const handleLogin = async (req, res) => {
         const accessToken = jwt.sign(
             { email: user.email,
                       username: user.username,
-                      role: user.role,
+                      role: user.role || 'customer',
                       id: user._id,},
             process.env.ACCESS_TOKEN_SECRET,   
             { expiresIn: process.env.ACCESS_TOKEN_LIFE }
@@ -40,7 +40,7 @@ const handleLogin = async (req, res) => {
         const refreshToken = jwt.sign(
             { email: user.email,
                       username: user.username,
-                      role: user.role,
+                      role: user.role || 'customer',
                       id: user._id,},
             process.env.REFRESH_TOKEN_SECRET,
             { expiresIn: process.env.REFRESH_TOKEN_LIFE }
@@ -88,7 +88,7 @@ const handleRefreshToken = async (req, res) => {
             const accessToken = jwt.sign(
                 { email: user.email,
                     username: user.username,
-                    role: user.role,
+                    role: user.role || 'customer',
                     id: user._id,},
                 process.env.ACCESS_TOKEN_SECRET,
                 { expiresIn: process.env.ACCESS_TOKEN_LIFE }

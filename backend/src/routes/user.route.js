@@ -177,6 +177,6 @@ router.get('/find-by-id/', userController.getUserByUserId);
  *       404:
  *         description: Not found user with the provided email
  */
-router.get('/find-by-email', verifyJWTs, userController.getUserByEmail1);
+router.get('/find-by-email', verifyJWTs, allowRoles('customer','admin'), userController.getUserByEmail1);
 
 module.exports = router;
