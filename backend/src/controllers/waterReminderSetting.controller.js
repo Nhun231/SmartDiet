@@ -1,6 +1,6 @@
 const reminderService = require('../services/waterReminder.service');
 const catchAsync = require('../utils/catchAsync');
-
+const { generateSchedule } = require('../utils/generateSchedule');
 // 1. Cập nhật cài đặt nhắc nhở
 exports.updateReminderSetting = catchAsync(async (req, res) => {
     const userId = req.user?.id || '684c019b2466626c52af67b7';

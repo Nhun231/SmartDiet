@@ -1,6 +1,6 @@
 const { GoogleGenAI } = require("@google/genai")
 
-const genAI = new GoogleGenAI({});
+const genAI = new GoogleGenAI({ apiKey: process.env.GOOGLE_API_KEY });
 
 let chatSession = genAI.chats.create({
     model: "gemini-2.5-flash",
