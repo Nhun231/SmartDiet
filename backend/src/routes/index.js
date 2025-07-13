@@ -7,7 +7,7 @@ const ingredientRoutes = require('./ingredient-route')
 const mealRoutes = require('./meal-route')
 const dishRoutes = require('./dish.route')
 const openAIRoutes = require('./openAI.route');
-
+const waterRoute = require('./waterintake.route')
 const applicationName = process.env.APPLICATION_NAME;
 const verifyJWTs = require("../middlewares/verifyJWTs");
 module.exports = (app) => {
@@ -23,4 +23,5 @@ module.exports = (app) => {
     app.use(`/${applicationName}/customers`, calcuRoutes);
     app.use(`/${applicationName}/ingredients`, ingredientRoutes);
     app.use(`/${applicationName}/meals`, mealRoutes);
+    app.use(`/${applicationName}/water-intake`, waterRoute);
 };

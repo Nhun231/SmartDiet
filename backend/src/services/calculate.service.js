@@ -73,16 +73,50 @@ const calculateTDEE = async (req) => {
 const getLatestCalculateByEmail = async (req, res) => {
     try {
         const email = req.user; // Lấy email từ token đã decode bởi middleware verifyJWTs
+        console.log("Email from token:", email);
         if (!email) {
             return res.status(StatusCodes.BAD_REQUEST).json({ message: 'Không có email trong token!' });
         }
         // Tìm user theo email
-        const user = await User.findOne({ email });
+        const user = await User.findOne({ email: email.email });
         if (!user) {
             return res.status(StatusCodes.NOT_FOUND).json({ message: 'Không tìm thấy người dùng với email này!' });
         }
         // Lấy record Calculate mới nhất theo userId
         const latestCalc = await Calculate.findOne({ userId: user._id }).sort({ createdAt: -1 });
+
+        if (!latestCalc) {
+            return res.status(StatusCodes.NOT_FOUND).json({ message: 'Không có dữ liệu tính toán nào cho người dùng này.' });
+        }
+        return res.status(StatusCodes.OK).json({
+            bmr: latestCalc.bmr,
+            tdee: latestCalc.tdee,
+            bmi: latestCalc.bmi,
+            waterIntake: latestCalc.waterNeeded,
+            age: latestCalc.age,
+            gender: latestCalc.gender,
+            height: latestCalc.height,
+            weight: latestCalc.weight,
+            activity: latestCalc.activity,
+            createdAt: latestCalc.createdAt,
+        });
+
+    } catch (error) {
+        console.error('>> [ERROR] getLatestCalculateByEmail:', error.message);
+        return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ message: `Lỗi server: ${error.message}` });
+    }
+};
+
+// Get newest Calculate Record by email
+const getLatestCalculateByEmailByUserId = async (req, res) => {
+    try {
+        const _id = req.params.id; 
+        if (!_id) {
+            return res.status(StatusCodes.BAD_REQUEST).json({ message: 'Không có email trong token!' });
+        }
+        
+        // Lấy record Calculate mới nhất theo userId
+        const latestCalc = await Calculate.findOne({ userId: _id }).sort({ createdAt: -1 });
 
         if (!latestCalc) {
             return res.status(StatusCodes.NOT_FOUND).json({ message: 'Không có dữ liệu tính toán nào cho người dùng này.' });

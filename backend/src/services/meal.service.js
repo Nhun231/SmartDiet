@@ -34,6 +34,35 @@ const getAllMeals = async (req, res) => {
     }
 };
 
+const getUserMealByUserIdAndDate = async (req, res) => {
+
+    try {
+        const { userId, date } = req.query;
+
+        if (!userId || !date) {
+            return res.status(400).json({ message: "Thiếu userId hoặc date trong body" });
+        }
+
+        const startOfDay = new Date(date + 'T00:00:00.000Z');
+        const endOfDay = new Date(date + 'T23:59:59.999Z');
+
+        const meals = await Meal.find({
+            userId,
+            date: {
+                $gte: startOfDay,
+                $lte: endOfDay
+            }
+        }).populate('ingredients.ingredientId').populate('dish.dishId');
+
+
+        res.status(200).json(meals);
+    } catch (error) {
+        console.error('Error fetching meals:', error);
+        res.status(500).json({ message: 'Lỗi lấy danh sách bữa ăn', error: error.message });
+    }
+};
+
+
 // Lấy bữa ăn theo ID
 const getMealById = async (req, res) => {
     try {
@@ -119,4 +148,5 @@ module.exports = {
     updateMeal,
     deleteMeal,
     getMealByDate,
+    getUserMealByUserIdAndDate
 };

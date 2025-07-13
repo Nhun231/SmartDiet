@@ -28,10 +28,6 @@ const router = createBrowserRouter([
     element: <Login />,
   },
   {
-    path: "/dashboard",
-    element: <UserHomePage />,
-  },
-  {
     path: "/changepassword/:token",
     element: <ChangePassword />,
   },
@@ -57,7 +53,10 @@ const router = createBrowserRouter([
               <DishesPage />
             ,
           },
-
+          {
+            path: "/dashboard",
+            element: <UserHomePage />,
+          },
           {
             path: "/my-profile",
             element: <RequireRole allowedRoles={["admin", "user"]}>
