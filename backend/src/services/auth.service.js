@@ -15,6 +15,7 @@ const handleLogin = async (req, res) => {
     let isEmail = validator.isEmail(emailOrName);
     //find user in db
     const user = await User.findOne(isEmail ? { email: emailOrName } : { username: emailOrName });
+    console.log("User found:", user);
     //if user notfound throw error
     if (!user) {
         return res.status(StatusCodes.UNAUTHORIZED).json({ 'message': 'Tài khoản không tồn tại' });

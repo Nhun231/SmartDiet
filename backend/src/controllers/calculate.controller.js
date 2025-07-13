@@ -9,6 +9,11 @@ const calculateTDEE = catchAsync(async (req, res) => {
 const getNewestCalculateByEmail = catchAsync(async (req, res) => {
     await calcuService.getLatestCalculateByEmail(req, res);
 });
+
+//Find lastest record of calculate by email(email decode tu accesstoken)
+const getNewestCalculateByEmailByUserId = catchAsync(async (req, res) => {
+    await calcuService.getLatestCalculateByEmail(req, res);
+});
 const getAllCalculationsByUserId = catchAsync(async (req, res) => {
     await calcuService.getAllCalculationsByUserId(req, res);
 });

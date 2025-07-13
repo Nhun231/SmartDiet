@@ -242,7 +242,7 @@ const EditIngredient = ({ editIngredient, setEditIngredient, newObject, setNewIn
                 <DialogActions sx={{ justifyContent: "center", mt: 3 }}>
                     <Button
                         variant="outlined"
-                        onClick={() => setAddIngredientOpen(false)}
+                        onClick={handleClose}
                         sx={{
                             borderRadius: 3,
                             px: 4,

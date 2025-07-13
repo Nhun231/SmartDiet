@@ -31,10 +31,6 @@ const router = createBrowserRouter([
     element: <Login />,
   },
   {
-    path: "/dashboard",
-    element: <UserHomePage />,
-  },
-  {
     path: "/changepassword/:token",
     element: <ChangePassword />,
   },
@@ -72,6 +68,10 @@ const router = createBrowserRouter([
             path: "/dietplan/create",
             element: <DietPlan />
           },
+            {
+                path: "/dashboard",
+                element: <UserHomePage />,
+            },
           {
             path: "/my-profile",
             element:

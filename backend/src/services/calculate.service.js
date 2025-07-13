@@ -239,5 +239,54 @@ const updateNutrition = async (req) => {
         throw error;
     }
 };
+// Get newest Calculate Record by email
+const getLatestCalculateByEmailByUserId = async (req, res) => {
+    try {
+        const _id = req.params.id;
+        if (!_id) {
+            return res.status(StatusCodes.BAD_REQUEST).json({ message: 'Không có email trong token!' });
+        }
 
+        // Lấy record Calculate mới nhất theo userId
+        const latestCalc = await Calculate.findOne({ userId: _id }).sort({ createdAt: -1 });
+
+        if (!latestCalc) {
+            return res.status(StatusCodes.NOT_FOUND).json({ message: 'Không có dữ liệu tính toán nào cho người dùng này.' });
+        }
+        return res.status(StatusCodes.OK).json({
+            bmr: latestCalc.bmr,
+            tdee: latestCalc.tdee,
+            bmi: latestCalc.bmi,
+            waterIntake: latestCalc.waterNeeded,
+            age: latestCalc.age,
+            gender: latestCalc.gender,
+            height: latestCalc.height,
+            weight: latestCalc.weight,
+            activity: latestCalc.activity,
+            protein: latestCalc.protein,
+            fat: latestCalc.fat,
+            carbs: latestCalc.carbs,
+            proteinGram: latestCalc.protein,
+            fatGram: latestCalc.fat,
+            carbGram: latestCalc.carbs,
+            proteinKcal: +(latestCalc.protein * 4).toFixed(0),
+            fatKcal: +(latestCalc.fat * 9).toFixed(0),
+            carbKcal: +(latestCalc.carbs * 4).toFixed(0),
+            fiber: latestCalc.fiber,
+            fiberGram: latestCalc.fiber,
+            fiberKcal: +(latestCalc.fiber * 2).toFixed(0),
+            createdAt: latestCalc.createdAt,
+            nutrition: {
+                carbPercent: latestCalc.carbPercent,
+                proteinPercent: latestCalc.proteinPercent,
+                fatPercent: latestCalc.fatPercent,
+                fiberPercent: latestCalc.fiberPercent,
+            },
+        });
+
+    } catch (error) {
+        console.error('>> [ERROR] getLatestCalculateByEmail:', error.message);
+        return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ message: `Lỗi server: ${error.message}` });
+    }
+};
 module.exports = { calculateTDEE, getLatestCalculateByEmail, updateNutrition, calculateTDEEWithoutRequest, getAllCalculationsByUserId };

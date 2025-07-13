@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Box, Typography, IconButton } from "@mui/material";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
@@ -20,30 +20,159 @@ import "react-circular-progressbar/dist/styles.css";
 import Footer from "../components/common/Footer";
 import Header from "../components/common/Header";
 import { Nav } from "react-bootstrap";
+import baseAxios from "../api/axios";
 
 const UserHomePage = () => {
     const navigate = useNavigate();
-    const caloriesTaken = 500;
-    const caloriesTarget = 2279;
+    const userId = localStorage.getItem("userId");
+    const [caloriesTarget, setCaloriesTarget] = useState(0);
+    const [totalWater, setTotalWater] = useState(0);
+    const [caloriesTaken, setCaloriesTaken] = useState(0);
+    const [carbs, setCarbs] = useState(0);
+    const [protein, setProtein] = useState(0);
+    const [fat, setFat] = useState(0);
     const percentage = Math.min(100, (caloriesTaken / caloriesTarget) * 100);
     const totalWaterCups = 8;
-    const waterPerCup = 296;
+    const [waterPerCup, setWaterPerCup] = useState(0);
     const [cupsDrank, setCupsDrank] = useState(0);
     const [selectedDate, setSelectedDate] = useState(dayjs());
     const [selectedMeal, setSelectedMeal] = useState("");
+    const [consumption, setConsumption] = useState(0);
     const meals = {
         "Bữa sáng": ["Trứng chiên", "Bánh mì nguyên cám", "Sữa đậu nành"],
         "Bữa trưa": ["Cơm gạo lứt", "Ức gà", "Rau xanh luộc"],
         "Bữa tối": ["Salad cá ngừ", "Khoai lang", "Súp rau củ"]
     };
-    const handleDrinkClick = (index) => {
+    const handleDrinkClick = async (index) => {
         const newCups = index + 1;
+        console.log(`Cups clicked: ${newCups}`);
+        const newAmount = newCups * waterPerCup;
+        console.log(`Cups drank: ${newCups}, Amount: ${newAmount}`);
+        if (cupsDrank == 0) {
+            try {
+                const create = await baseAxios.post("/water-intake", {
+                    userId: userId,
+                    amount: newAmount,
+                    date: selectedDate.format("YYYY-MM-DD")
+                });
+                console.log("Water intake created:", create.data);
+            } catch (error) {
+                console.error("Error creating water intake:", error);
+            }
+        } else {
+            try {
+                const update = await baseAxios.put("/water-intake", {
+                    userId: userId,
+                    date: selectedDate.format("YYYY-MM-DD"),
+                    amount: newAmount
+                });
+                console.log("Water intake updated:", update.data);
+            } catch (error) {
+                console.error("Error creating water intake:", error);
+            }
+        }
+
         setCupsDrank(newCups);
     };
 
+    const getTarget = async () => {
+        try {
+            const response = await baseAxios.get("/customers/calculate/newest");
+            console.log("Latest calculate data:", response.data);
+            if (response.status == 200) {
+                setCaloriesTarget(response.data.tdee);
+                setConsumption(response.data.tdee - response.data.bmr);
+                setTotalWater(response.data.waterIntake);
+                setWaterPerCup((response.data.waterIntake * 1000) / 8);
+            }
+            return response;
+        } catch (error) {
+            console.error("Error fetching latest calculate data:", error);
+        }
+    }
+
+    const getMeal = async () => {
+        try {
+            const response = await baseAxios.get("/meals", {
+                params: {
+                    userId: userId,
+                    date: selectedDate.format("YYYY-MM-DD")
+                }
+            });
+            if (response.status == 200) {
+                let totalCalories = 0;
+                let totalCarbs = 0;
+                let totalProtein = 0;
+                let totalFat = 0;
+                response.data.forEach(meal => {
+                    if (meal.totals && typeof meal.totals.calories === 'number') {
+                        totalCalories += meal.totals.calories || 0;
+                        totalCarbs += meal.totals.carbs || 0;
+                        totalProtein += meal.totals.protein || 0;
+                        totalFat += meal.totals.fat || 0;
+                    }
+                });
+                setCaloriesTaken(totalCalories);
+                setCarbs(totalCarbs);
+                setProtein(totalProtein);
+                setFat(totalFat);
+            }
+            return response;
+        } catch (error) {
+            console.error("Error fetchin meals data:", error);
+        }
+    }
+
+    const getWaterIntake = async () => {
+        try {
+            console.log("Fetching water intake for user:", userId, "on date:", selectedDate.format("YYYY-MM-DD"));
+            const response = await baseAxios.get("/water-intake", {
+                params: { userId, date: selectedDate.format("YYYY-MM-DD") }
+            });
+            if (response.status === 200 && response.data) {
+                const calculatedCups = response.data.amount / waterPerCup;
+                console.log("Caulate cups", calculatedCups);
+                if (cupsDrank !== calculatedCups) {
+                    setCupsDrank(calculatedCups);
+                }
+            } else {
+                setCupsDrank(0);
+            }
+
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
+
+    useEffect(() => {
+        try {
+            getTarget();
+            getMeal();
+        } catch (error) {
+            console.error("Error fetching latest calculate data:", error);
+        }
+    }, []);
+
+    useEffect(() => {
+        if (totalWater > 0) {
+            getWaterIntake();
+        }
+    }, [totalWater]);
+
+    useEffect(() => {
+        getMeal();
+        if (totalWater > 0) {
+            getWaterIntake();
+        }
+    }, [selectedDate]);
+
+    useEffect(() => {
+
+    }, [cupsDrank]);
+
     return (
         <Box sx={{ backgroundColor: "#F1F8E9", minHeight: "100vh", fontFamily: "sans-serif" }}>
-            <Header />
             <Box
                 sx={{
                     backgroundColor: "rgb(91, 122, 72)",
@@ -96,9 +225,9 @@ const UserHomePage = () => {
 
                     <Box mt={3} textAlign="center">
                         <Typography variant="h5">Calories Hôm Nay</Typography>
-                        <Box display="flex" justifyContent="space-around" alignItems="center" mt={2}>
-                            <Typography fontSize={20}>{caloriesTaken} đã nạp</Typography>
-                            <Box sx={{ width: 200, height: 200 }}>
+                        <Box display="flex" justifyContent="center" alignItems="center" mt={2}>
+                            <Typography sx={{ position: 'absolute', left: '28vw' }} fontSize={20}>{caloriesTaken} đã nạp</Typography>
+                            <Box sx={{ width: 200, height: 200, position: "relative" }}>
                                 <CircularProgressbar
                                     value={percentage}
                                     text={`${caloriesTaken}/${caloriesTarget}`}
@@ -110,15 +239,15 @@ const UserHomePage = () => {
                                     })}
                                 />
                             </Box>
-                            <Typography fontSize={20}>0 tiêu hao</Typography>
+                            <Typography sx={{ position: 'absolute', right: '28vw' }} fontSize={20}>{consumption} tiêu hao</Typography>
                         </Box>
                     </Box>
 
                     <Box mt={4} display="flex" justifyContent="space-around">
                         {[
-                            { label: "Carbs", value: "0/199" },
-                            { label: "Chất đạm", value: "0/199" },
-                            { label: "Chất béo", value: "0/76" }
+                            { label: "Carbs", value: carbs },
+                            { label: "Chất đạm", value: protein },
+                            { label: "Chất béo", value: fat }
                         ].map((item, index) => (
                             <Box key={index} textAlign="center">
                                 <Typography variant="body2" fontSize={19}>{item.label}</Typography>
@@ -131,7 +260,7 @@ const UserHomePage = () => {
                     <Box mt={4}>
                         <Typography>Bạn đã uống bao nhiêu nước?</Typography>
                         <Typography variant="h6" sx={{ mt: 1 }}>
-                            {cupsDrank * waterPerCup}/{totalWaterCups * waterPerCup} ml
+                            {cupsDrank * waterPerCup}/{totalWater * 1000} ml
                         </Typography>
 
                         <Box display="flex" justifyContent="center" mt={2}>
@@ -154,7 +283,6 @@ const UserHomePage = () => {
                 </Box>
             </Box>
 
-            {/* Intro Section */}
             <Box sx={{ mt: 6, px: 4, textAlign: "center" }}>
                 <Typography variant="h5" fontWeight="bold" color="#00C896">
                     Giải pháp theo dõi dinh dưỡng và sức khỏe mỗi ngày
@@ -219,12 +347,9 @@ const UserHomePage = () => {
                 ))}
             </Box>
 
-
-
             <Box sx={{ mt: 8, py: 4, textAlign: "center", backgroundColor: "#F1F8E9", color: "#4E944F" }}>
 
             </Box>
-            <Footer />
         </Box>
     );
 };

@@ -6,7 +6,8 @@ const createMeal = catchAsync(async (req, res) => {
 });
 
 const getAllMeals = catchAsync(async (req, res) => {
-    await mealService.getAllMeals(req, res);
+    console.log("Fetching all meals for user");
+    await mealService.getUserMealByUserIdAndDate(req, res);
 });
 
 const getMealById = catchAsync(async (req, res) => {

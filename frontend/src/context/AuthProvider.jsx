@@ -44,6 +44,7 @@ const AuthProvider = ({ children }) => {
       if (accessToken) {
         config.headers.Authorization = `Bearer ${accessToken}`;
       }
+      console.log("Request config with auth:", config);
       return config;
     });
     return () => {

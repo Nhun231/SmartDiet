@@ -21,6 +21,7 @@ import EmojiFoodBeverageIcon from '@mui/icons-material/EmojiFoodBeverage';
 import DishModalForMeal from "../components/dish/DishModalForMeal";
 import FloatingChatBox from "../components/OpenAIChatbox/Chatbox.jsx";
 import EditIngredient from "../components/ingredient/EditIngredient.jsx";
+import dayjs from 'dayjs';
 const mealTypes = [
     { label: "Bữa sáng", value: "breakfast" },
     { label: "Bữa trưa", value: "lunch" },
@@ -28,7 +29,7 @@ const mealTypes = [
     { label: "Bữa phụ", value: "snack" },
 ];
 
-const today = new Date().toISOString().split("T")[0];
+const today = dayjs().format('YYYY-MM-DD');
 
 const IngredientList = () => {
     const [searchTerm, setSearchTerm] = useState("");
@@ -163,7 +164,6 @@ const IngredientList = () => {
     const openEditIgredientModal = (i) => {
         setNewIngredient(i);
         setEditIngredient(true);
-        console.log("Edit ingredient:", newIngredient);
     }
 
 
@@ -208,10 +208,8 @@ const IngredientList = () => {
             setCategoryError(true);
             return;
         }
-        console.log("Thêm nguyên liệu:", ingredient);
         try {
             const response = await baseAxios.post("/ingredients", ingredient);
-            console.log("Nguyên liệu đã được thêm:", response);
             setIngredients((prev) => [...prev, response.data]);
             setAddIngredientOpen(false);
             setNewIngredient({
@@ -249,6 +247,10 @@ const IngredientList = () => {
         setNewIngredientImage(null);
         setCategoryError(false);
     }
+
+    useEffect(() => {
+        console.log("UserID:", userId);
+    }, []);
 
     return (
         <Box sx={{ display: "flex", height: "100vh", bgcolor: "#F1F8E9" }}>
@@ -387,6 +389,7 @@ const IngredientList = () => {
                             </Grid>
                         ))}
                         {filtered.map((i, idx) =>
+                            console.log("UserID:", userId) || console.log("Ingredient UserID:", i.userId?._id) ||
                             (i.userId?._id === userId || i.userId == null) && (
                                 <Grid item xs={12} sm={6} md={4} key={`ing-${idx}`}>
                                     <IngredientCard
@@ -412,7 +415,6 @@ const IngredientList = () => {
             </Box>
 
             <IngredientDetailModal
-                name={selectedIngredient?.name}
                 open={!!selectedIngredient}
                 onClose={() => setSelectedIngredient(null)}
                 ingredient={selectedIngredient}
