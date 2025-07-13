@@ -23,7 +23,7 @@ exports.sendReminders = async () => {
     const currentTimeStr = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
     const settings = await WaterReminderSetting.find();
     for (const setting of settings) {
-        console.log(`User ${setting.userId}: wakeUpTime = ${setting.wakeUpTime}, sleepTime = ${setting.sleepTime}, reminderGap = ${setting.reminderGap}`);
+        //console.log(`User ${setting.userId}: wakeUpTime = ${setting.wakeUpTime}, sleepTime = ${setting.sleepTime}, reminderGap = ${setting.reminderGap}`);
         const schedule = setting.schedule;
         // // Log kết quả so sánh cho từng khoảng thời gian trong lịch
         // for (const item of schedule) {
