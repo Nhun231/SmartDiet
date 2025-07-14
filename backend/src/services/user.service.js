@@ -1,7 +1,7 @@
 const bcrypt = require("bcrypt");
 const User = require("../models/user.model.js");
 const { StatusCodes } = require("http-status-codes");
-const BaseError = require("../utils/baseError.js");
+const BaseError = require("../utils/BaseError.js");
 const EmailService = require("../services/email.service.js");
 const { getLatestCalculateByUserId } = require("./calculate.service.js");
 

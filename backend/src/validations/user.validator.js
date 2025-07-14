@@ -1,5 +1,5 @@
 const Joi = require('joi');
-const BaseError = require('../utils/baseError');
+const BaseError = require('../utils/BaseError');
 
 const createUser = async (req, res, next) => {
     const condition = Joi.object({

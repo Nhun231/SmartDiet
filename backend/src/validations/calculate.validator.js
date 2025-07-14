@@ -1,5 +1,5 @@
 const Joi = require('joi');
-const BaseError = require('../utils/baseError.js');
+const BaseError = require('../utils/BaseError.js');
 
 const calculateSchema = Joi.object({
     gender: Joi.string().valid('Nam', 'Nữ').required()

@@ -2,7 +2,7 @@ const DietPlan = require('../models/dietplan.model');
 const Calculate = require('../models/calculate.model');
 const User = require('../models/user.model');
 const { StatusCodes } = require('http-status-codes');
-const BaseError = require('../utils/baseError');
+const BaseError = require('../utils/BaseError');
 const catchAsync = require("../utils/catchAsync");
 
 function calculateDietPlanDetails({ TDEE, goal, targetWeightChange }) {

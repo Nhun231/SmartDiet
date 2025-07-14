@@ -1,5 +1,5 @@
 const { StatusCodes } = require('http-status-codes');
-const BaseError = require('../utils/baseError.js');
+const BaseError = require('../utils/BaseError.js');
 const Water = require('../models/waterintake.model.js');
 const User = require('../models/user.model.js');
 const mongoose = require('mongoose');

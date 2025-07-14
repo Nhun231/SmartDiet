@@ -1,5 +1,5 @@
 const transporter = require('../config/nodeMailer');
-const BaseError = require('../utils/baseError.js');
+const BaseError = require('../utils/BaseError.js');
 const { StatusCodes } = require('http-status-codes');
 const path = require('path');
 const User = require('../models/user.model.js');
