@@ -11,6 +11,8 @@ const loginService = async (emailOrName, password) => {
             }
         );
         const accessToken = response.data.accessToken;
+        localStorage.removeItem('userId');
+        localStorage.setItem('userId', response.data.userId);
         console.log('Đăng nhập thành công');
         return { accessToken };
     } catch (error) {

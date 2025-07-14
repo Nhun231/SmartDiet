@@ -77,7 +77,7 @@ const UserHomePage = () => {
 
     const getTarget = async () => {
         try {
-            const response = await baseAxios.get("/customers/calculate/newest");
+            const response = await baseAxios.get("/customer/calculate/newest");
             console.log("Latest calculate data:", response.data);
             if (response.status == 200) {
                 setCaloriesTarget(response.data.tdee);
@@ -245,9 +245,9 @@ const UserHomePage = () => {
 
                     <Box mt={4} display="flex" justifyContent="space-around">
                         {[
-                            { label: "Carbs", value: carbs },
-                            { label: "Chất đạm", value: protein },
-                            { label: "Chất béo", value: fat }
+                            { label: "Carbs", value: carbs.toFixed(1) },
+                            { label: "Chất đạm", value: protein.toFixed(1) },
+                            { label: "Chất béo", value: fat.toFixed(1) }
                         ].map((item, index) => (
                             <Box key={index} textAlign="center">
                                 <Typography variant="body2" fontSize={19}>{item.label}</Typography>
