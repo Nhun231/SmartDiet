@@ -104,16 +104,6 @@ const IngredientList = () => {
         await loadMealByType(mealType);
     };
 
-    const handleAddDishToMeal = async (dish) => {
-        const payload = {
-            dishId: dish._id,
-            quantity: 1,
-        };
-        const existingMeal = meals[selectedMeal];
-        const updatedDishes = [...(existingMeal?.dish || []), payload];
-        await saveMeal(selectedMeal, existingMeal?.ingredients || [], updatedDishes);
-    };
-
     const handleDeleteIngredient = async (mealType, index) => {
         const meal = meals[mealType];
         const updated = meal.ingredients.filter((_, i) => i !== index);
@@ -247,11 +237,6 @@ const IngredientList = () => {
         setNewIngredientImage(null);
         setCategoryError(false);
     }
-
-    useEffect(() => {
-        console.log("UserID:", userId);
-    }, []);
-
     return (
         <Box sx={{ display: "flex", height: "100vh", bgcolor: "#F1F8E9" }}>
             <Box sx={{ width: 400, bgcolor: "#fff", p: 2, borderRight: "1px solid #ccc", flexShrink: 0 }}>
@@ -384,13 +369,12 @@ const IngredientList = () => {
                                     onClick={() => openAddDishModal(d)}
                                     onEdit={() => { console.log("Edit dish") }}
                                     onDelete={() => { console.log("Delete dish") }}
-                                    userID={d?.userId?._id}
+                                    userID={d?.userId}
                                 />
                             </Grid>
                         ))}
                         {filtered.map((i, idx) =>
-                            console.log("UserID:", userId) || console.log("Ingredient UserID:", i.userId?._id) ||
-                            (i.userId?._id === userId || i.userId == null) && (
+                            (i.userId === userId || i.userId == null) && (
                                 <Grid item xs={12} sm={6} md={4} key={`ing-${idx}`}>
                                     <IngredientCard
                                         name={i.name}
@@ -404,7 +388,7 @@ const IngredientList = () => {
                                             setModalMode("add");
                                         }}
                                         onEdit={() => openEditIgredientModal(i)}
-                                        userID={i?.userId?._id}
+                                        userID={i?.userId}
                                         id={i._id}
                                     />
                                 </Grid>
@@ -458,81 +442,6 @@ const IngredientList = () => {
                                 InputProps={{ startAdornment: <InputAdornment position="start">🍃</InputAdornment> }}
                             />
 
-                            {/* <Box>
-                                <Typography fontWeight="bold" mb={1}>🖼️ Ảnh minh họa</Typography>
-
-                                <Button
-                                    variant="outlined"
-                                    component="label"
-                                    sx={{
-                                        borderRadius: 2,
-                                        textTransform: "none",
-                                        px: 3,
-                                        py: 1,
-                                        fontWeight: "bold",
-                                        color: "#4CAF50",
-                                        borderColor: "#4CAF50",
-                                        "&:hover": {
-                                            backgroundColor: "#E8F5E9"
-                                        }
-                                    }}
-                                >
-                                    Chọn ảnh từ máy
-                                    <input
-                                        type="file"
-                                        hidden
-                                        accept="image/*"
-                                        onChange={(e) => {
-                                            const file = e.target.files?.[0];
-                                            if (file) {
-                                                const reader = new FileReader();
-                                                reader.onload = () => {
-                                                    setNewIngredientImage(reader.result); // lưu ảnh đã chọn
-                                                    setNewIngredient({ ...newIngredient, imageUrl: reader.result }); // nếu dùng base64
-                                                };
-                                                reader.readAsDataURL(file);
-                                            }
-                                        }}
-                                    />
-                                </Button>
-
-                                {newIngredientImage && (
-                                    <Box mt={2} position="relative" display="inline-block">
-                                        <Typography variant="body2" mb={1}>📌 Xem trước:</Typography>
-
-                                        <Box
-                                            component="img"
-                                            src={newIngredientImage}
-                                            alt="Preview"
-                                            sx={{
-                                                maxWidth: "100%",
-                                                height: "auto",
-                                                borderRadius: 2,
-                                                boxShadow: 1
-                                            }}
-                                        />
-
-                                        <IconButton
-                                            size="small"
-                                            sx={{
-                                                position: "absolute",
-                                                right: 4,
-                                                backgroundColor: "rgba(255,255,255,0.8)",
-                                                "&:hover": { backgroundColor: "rgba(255,255,255,1)" }
-                                            }}
-                                            onClick={() => {
-                                                setNewIngredientImage(null);
-                                                setNewIngredient({ ...newIngredient, imageUrl: "" });
-                                            }}
-                                        >
-                                            ❌
-                                        </IconButton>
-                                    </Box>
-                                )}
-
-                            </Box> */}
-
-
                             <TextField
                                 label="Mô tả"
                                 fullWidth
@@ -549,7 +458,7 @@ const IngredientList = () => {
                                     value={newIngredient.category}
                                     onChange={(e) => {
                                         setNewIngredient({ ...newIngredient, category: e.target.value });
-                                        setCategoryError(false); // đã chọn → xoá lỗi
+                                        setCategoryError(false); 
                                     }}
                                     label="Loại nguyên liệu"
                                     sx={{
@@ -572,7 +481,6 @@ const IngredientList = () => {
                             </FormControl>
                         </Box>
 
-                        {/* DINH DƯỠNG */}
                         <Box flex={1} display="flex" flexDirection="column" gap={2}>
                             <Typography fontWeight="bold" color="#2E7D32">Thông tin dinh dưỡng (trên 100g)</Typography>
 
