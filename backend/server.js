@@ -48,10 +48,10 @@ app.listen(PORT, '0.0.0.0', () => {
     console.log(`Server is running on port ${PORT}.`);
 });
 app.get('/', (req, res) => {
-    res.send('Server is running');
+    res.status(200).send('Server is running');
 });
 app.get("/ping", (req, res) => {
-    res.send("pong");
+    res.status(200).send('pong');
 });
 // Chạy cron mỗi phút
 cron.schedule('* * * * *', async () => {
