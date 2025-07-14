@@ -47,7 +47,12 @@ const PORT = process.env.PORT;
 app.listen(PORT, '0.0.0.0', () => {
     console.log(`Server is running on port ${PORT}.`);
 });
-
+app.get('/', (req, res) => {
+    res.send('Server is running');
+});
+app.get("/ping", (req, res) => {
+    res.send("pong");
+});
 // Chạy cron mỗi phút
 cron.schedule('* * * * *', async () => {
     console.log('Running water reminder job...');
