@@ -16,3 +16,7 @@ exports.updateTarget = catchAsync(async (req, res) => {
 exports.getWaterReport = catchAsync(async (req, res) => {
     await waterService.getWaterSummary(req, res);
 });
+exports.getWaterDataByDate = catchAsync(async (req, res) => {
+    await waterService.getWaterDataByDate(req, res);
+});
+

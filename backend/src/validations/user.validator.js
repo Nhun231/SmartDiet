@@ -11,7 +11,7 @@ const createUser = async (req, res, next) => {
             .required(),
         email: Joi.string()
             .email({ tlds: { allow: false } })
-            .pattern(new RegExp('@gmail\\.com$'))
+            .pattern(/^[^\s@]+@[^\s@]+\.[^\s@.]+(?:\.[^\s@.]+)?$/)
             .required(),
         dob: Joi.string()
     });

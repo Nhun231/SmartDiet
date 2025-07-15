@@ -49,6 +49,45 @@ exports.getWaterData = async (req, res) => {
     }
 };
 
+exports.getWaterDataByDate = async (req, res) => {
+    try {
+        const email = req.user.email; 
+        const today = req.query.date;
+
+        // Tìm user theo email
+        const user = await User.findOne({ email });
+        if (!user) {
+            return res.status(404).json({ message: 'Không tìm thấy người dùng.' });
+        }
+
+        // Tìm dữ liệu nước theo userId
+        let waterData = await UserWaterData.findOne({ userId: user._id, date: today });
+
+        // Nếu chưa có, tạo mới
+        if (!waterData) {
+            // Lấy chỉ số nước cần thiết từ Calculate mới nhất
+            const latestCalc = await Calculate.findOne({ userId: user._id }).sort({ createdAt: -1 });
+            const targetWater = latestCalc ? Math.round(parseFloat(latestCalc.waterNeeded) * 1000) : 2500;
+
+            waterData = new UserWaterData({
+                userId: user._id,
+                email: user.email,
+                date: today,
+                target: targetWater,
+                consumed: 0,
+                unit: 'ml',
+                history: []
+            });
+
+            await waterData.save();
+        }
+
+        res.status(200).json(waterData);
+    } catch (err) {
+        console.error('Lỗi khi lấy dữ liệu nước:', err.message);
+        res.status(500).json({ message: `Lỗi khi lấy dữ liệu nước: ${err.message}` });
+    }
+};
 
 exports.addWaterIntake = async (req, res) => {
     try {

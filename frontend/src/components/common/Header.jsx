@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Box, Button, Typography, Menu, MenuItem } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import { Link } from 'react-router-dom';
 
 const Header = () => {
     const navigate = useNavigate();
@@ -49,7 +50,13 @@ const Header = () => {
                 px={4}
                 py={2}
             >
-                <Typography variant="h5" fontWeight="bold" color="white">
+                <Typography
+                    variant="h5"
+                    fontWeight="bold"
+                    color="white"
+                    sx={{ cursor: 'pointer' }}
+                    onClick={() => window.location.href = "http://localhost:5173/dashboard"}
+                >
                     SmartDiet
                 </Typography>
 

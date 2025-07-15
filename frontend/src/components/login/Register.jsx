@@ -54,7 +54,7 @@ export default function UserProfileForm({ setSuccess, setError }) {
     const handleChangeEmailChange = (event) => {
         const value = event.target.value;
         setEmail(value);
-        const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+        const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@.]+(?:\.[^\s@.]+)?$/;
         setErrorEmail(!emailPattern.test(value));
     };
 

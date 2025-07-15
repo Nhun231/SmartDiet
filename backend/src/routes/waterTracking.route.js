@@ -111,4 +111,5 @@ router.post('/add-water', controller.addWater);
  */
 router.put('/update-target', controller.updateTarget);
 router.get('/get-report', controller.getWaterReport)
+router.get('/water-bydate', controller.getWaterDataByDate)
 module.exports = router;

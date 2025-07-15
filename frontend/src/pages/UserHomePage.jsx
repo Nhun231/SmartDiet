@@ -123,14 +123,35 @@ const UserHomePage = () => {
         }
     }
 
+    // const getWaterIntake = async () => {
+    //     try {
+    //         console.log("Fetching water intake for user:", userId, "on date:", selectedDate.format("YYYY-MM-DD"));
+    //         const response = await baseAxios.get("/water-intake", {
+    //             params: { userId, date: selectedDate.format("YYYY-MM-DD") }
+    //         });
+    //         if (response.status === 200 && response.data) {
+    //             const calculatedCups = response.data.amount / waterPerCup;
+    //             console.log("Caulate cups", calculatedCups);
+    //             if (cupsDrank !== calculatedCups) {
+    //                 setCupsDrank(calculatedCups);
+    //             }
+    //         } else {
+    //             setCupsDrank(0);
+    //         }
+
+    //     } catch (error) {
+    //         console.error(error);
+    //     }
+    // };
+
     const getWaterIntake = async () => {
         try {
             console.log("Fetching water intake for user:", userId, "on date:", selectedDate.format("YYYY-MM-DD"));
-            const response = await baseAxios.get("/water-intake", {
-                params: { userId, date: selectedDate.format("YYYY-MM-DD") }
+            const response = await baseAxios.get("/water/water-bydate", {
+                params: { date: selectedDate.format("YYYY-MM-DD") }
             });
             if (response.status === 200 && response.data) {
-                const calculatedCups = response.data.amount / waterPerCup;
+                const calculatedCups = response.data.consumed / waterPerCup;
                 console.log("Caulate cups", calculatedCups);
                 if (cupsDrank !== calculatedCups) {
                     setCupsDrank(calculatedCups);
@@ -143,7 +164,6 @@ const UserHomePage = () => {
             console.error(error);
         }
     };
-
 
     useEffect(() => {
         try {
@@ -267,11 +287,11 @@ const UserHomePage = () => {
                             {[...Array(totalWaterCups)].map((_, i) => (
                                 <IconButton
                                     key={i}
-                                    onClick={() => handleDrinkClick(i)}
+                                    // onClick={() => handleDrinkClick(i)}
                                     sx={{
                                         mx: 0.5,
-                                        transform: cupsDrank > i ? "scale(1.2)" : "scale(1)",
-                                        transition: "transform 0.2s ease",
+                                        // transform: cupsDrank > i ? "scale(1.2)" : "scale(1)",
+                                        // transition: "transform 0.2s ease",
                                         color: cupsDrank > i ? "#fff" : "rgba(255,255,255,0.3)"
                                     }}
                                 >
