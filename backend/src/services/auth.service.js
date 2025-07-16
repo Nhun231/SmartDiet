@@ -57,7 +57,7 @@ const handleLogin = async (req, res) => {
             sameSite: 'none',
             maxAge: ms(process.env.REFRESH_TOKEN_LIFE)
         }) // convert to ms
-        res.json({ accessToken, emailOrName, password, userId: user._id})
+        res.json({ accessToken, emailOrName,userId: user._id})
     }
 }
 const handleRefreshToken = async (req, res) => {

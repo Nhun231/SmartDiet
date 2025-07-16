@@ -12,7 +12,7 @@ const allowRoles = require("../middlewares/allowedRole");
  *   name: Tính chỉ số
  *   description: API tính TDEE, BMR, BMI
  *
- * /customer/calculate:
+ * customer/calculate:
  *   post:
  *     summary: Tính toán TDEE, BMR và BMI
  *     tags: [Calculate]
@@ -76,7 +76,7 @@ const allowRoles = require("../middlewares/allowedRole");
 router.post('/calculate', verifyJWTs, validateCalculate, tdeeController.calculateTDEE);
 /**
  * @swagger
- * /calculate/newest:
+ * customer/calculate/newest:
  *   get:
  *     summary: Lấy dữ liệu tính toán mới nhất của người dùng
  *     tags: [Calculate]
@@ -147,7 +147,7 @@ router.get('/calculate/newest', verifyJWTs, tdeeController.getNewestCalculateByE
 
 /**
  * @swagger
- * /calculate/update-nutrition:
+ * customer/calculate/update-nutrition:
  *   patch:
  *     summary: Cập nhật % Nutrition (Carbs, Protein, Fat)
  *     tags: [Calculate]
@@ -198,7 +198,7 @@ router.patch('/calculate/update-nutrition', verifyJWTs, tdeeController.updateNut
 
 /**
  * @swagger
- * /calculate/history:
+ * customer/calculate/history:
  *   get:
  *     summary: Lấy toàn bộ lịch sử tính toán chỉ số theo user
  *     tags: [Calculate]
@@ -248,7 +248,7 @@ router.get('/calculate/history', verifyJWTs, tdeeController.getAllCalculationsBy
 
 /**
  * @swagger
- * /dietplan/get-current:
+ * customer/dietplan/get-current:
  *   get:
  *     summary: Lấy kế hoạch ăn kiêng hiện tại của người dùng
  *     tags: [DietPlan]
@@ -270,7 +270,7 @@ router.get('/dietplan/get-current', verifyJWTs,dietPlanController.getCurrentDiet
 
 /**
  * @swagger
- * /dietplan/create:
+ * customer/dietplan/create:
  *   post:
  *     summary: Tạo kế hoạch ăn kiêng mới
  *     tags: [DietPlan]
@@ -286,9 +286,6 @@ router.get('/dietplan/get-current', verifyJWTs,dietPlanController.getCurrentDiet
  *               - userId
  *               - goal
  *             properties:
- *               userId:
- *                 type: string
- *                 example: 665f3ccbe6f7f1a9ef300001
  *               goal:
  *                 type: string
  *                 enum: [lose, keep, gain]
@@ -313,7 +310,7 @@ router.post('/dietplan/create', verifyJWTs,dietPlanController.generateDietPlan);
 
 /**
  * @swagger
- * /dietplan/update:
+ * customer/dietplan/update:
  *   put:
  *     summary: Cập nhật kế hoạch ăn kiêng
  *     tags: [DietPlan]
