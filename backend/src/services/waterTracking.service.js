@@ -52,7 +52,7 @@ exports.getWaterData = async (req, res) => {
 exports.getWaterDataByDate = async (req, res) => {
     try {
         const email = req.user.email; 
-        const today = req.query.date;
+        const date = req.query.date;
 
         // Tìm user theo email
         const user = await User.findOne({ email });
@@ -61,7 +61,7 @@ exports.getWaterDataByDate = async (req, res) => {
         }
 
         // Tìm dữ liệu nước theo userId
-        let waterData = await UserWaterData.findOne({ userId: user._id, date: today });
+        let waterData = await UserWaterData.findOne({ userId: user._id, date: date });
 
         // Nếu chưa có, tạo mới
         if (!waterData) {
@@ -72,7 +72,7 @@ exports.getWaterDataByDate = async (req, res) => {
             waterData = new UserWaterData({
                 userId: user._id,
                 email: user.email,
-                date: today,
+                date: date,
                 target: targetWater,
                 consumed: 0,
                 unit: 'ml',

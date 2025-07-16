@@ -15,6 +15,9 @@ const mealController = require('../controllers/meal.controller');
  *   schemas:
  *     MealIngredient:
  *       type: object
+ *       required:
+ *         - ingredientId
+ *         - quantity
  *       properties:
  *         ingredientId:
  *           type: string
@@ -24,12 +27,51 @@ const mealController = require('../controllers/meal.controller');
  *           type: number
  *           description: Quantity in grams
  *           example: 100
+ *     MealDish:
+ *       type: object
+ *       required:
+ *         - dishId
+ *         - quantity
+ *       properties:
+ *         dishId:
+ *           type: string
+ *           description: ID of the dish
+ *           example: 665f3ccbe6f7f1a9ef308bb3
+ *         quantity:
+ *           type: number
+ *           description: Quantity in grams
+ *           example: 150
+ *     NutritionTotals:
+ *       type: object
+ *       properties:
+ *         calories:
+ *           type: number
+ *           description: Total calories
+ *           example: 400
+ *         protein:
+ *           type: number
+ *           description: Total protein (g)
+ *           example: 35
+ *         fat:
+ *           type: number
+ *           description: Total fat (g)
+ *           example: 10
+ *         carbs:
+ *           type: number
+ *           description: Total carbohydrates (g)
+ *           example: 50
+ *         fiber:
+ *           type: number
+ *           description: Total fiber (g)
+ *           example: 5
  *     Meal:
  *       type: object
  *       required:
  *         - mealType
  *         - date
+ *         - userId
  *         - ingredients
+ *         - dish
  *       properties:
  *         mealType:
  *           type: string
@@ -40,11 +82,25 @@ const mealController = require('../controllers/meal.controller');
  *           type: string
  *           format: date
  *           description: Date of the meal
- *           example: 2025-06-08
+ *           example: 2025-07-16
+ *         userId:
+ *           type: string
+ *           description: ID of the user
+ *           example: 665f3ccbe6f7f1a9ef300001
  *         ingredients:
  *           type: array
  *           items:
  *             $ref: '#/components/schemas/MealIngredient'
+ *         dish:
+ *           type: array
+ *           items:
+ *             $ref: '#/components/schemas/MealDish'
+ *         totals:
+ *           $ref: '#/components/schemas/NutritionTotals'
+ *         createdAt:
+ *           type: string
+ *           format: date-time
+ *           description: Created time
  */
 
 /**
@@ -62,6 +118,8 @@ const mealController = require('../controllers/meal.controller');
  *     responses:
  *       201:
  *         description: Meal created successfully
+ *       400:
+ *         description: Missing required fields
  *       500:
  *         description: Internal server error
  */
@@ -71,11 +129,22 @@ router.post('/', mealController.createMeal);
  * @swagger
  * /meals:
  *   get:
- *     summary: Get all meals
+ *     summary: Get all meals by userId
  *     tags: [Meals]
+ *     parameters:
+ *       - in: query
+ *         name: userId
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: User ID
  *     responses:
  *       200:
  *         description: List of meals
+ *       400:
+ *         description: Missing userId
+ *       500:
+ *         description: Internal server error
  */
 router.get('/', mealController.getAllMeals);
 
@@ -83,7 +152,7 @@ router.get('/', mealController.getAllMeals);
  * @swagger
  * /meals/by-date:
  *   get:
- *     summary: Get meals by date and optional meal type
+ *     summary: Get meal by date and type
  *     tags: [Meals]
  *     parameters:
  *       - in: query
@@ -92,18 +161,29 @@ router.get('/', mealController.getAllMeals);
  *         schema:
  *           type: string
  *           format: date
- *         description: Date of the meal (e.g. 2025-06-08)
+ *         description: Date of the meal (e.g. 2025-07-16)
  *       - in: query
  *         name: mealType
+ *         required: true
  *         schema:
  *           type: string
  *           enum: [breakfast, lunch, dinner, snack]
- *         description: Optional meal type to filter
+ *         description: Meal type
+ *       - in: query
+ *         name: userId
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: User ID
  *     responses:
  *       200:
- *         description: Meals for given date (and optionally type)
+ *         description: Meal found
+ *       400:
+ *         description: Missing date, mealType or userId
  *       404:
- *         description: No meals found
+ *         description: No meal found
+ *       500:
+ *         description: Internal server error
  */
 router.get('/by-date', mealController.getMealByDate);
 
@@ -117,9 +197,9 @@ router.get('/by-date', mealController.getMealByDate);
  *       - in: path
  *         name: id
  *         required: true
- *         description: Meal ID
  *         schema:
  *           type: string
+ *         description: Meal ID
  *     responses:
  *       200:
  *         description: Meal found
@@ -138,9 +218,9 @@ router.get('/:id', mealController.getMealById);
  *       - in: path
  *         name: id
  *         required: true
- *         description: Meal ID
  *         schema:
  *           type: string
+ *         description: Meal ID
  *     requestBody:
  *       required: true
  *       content:
@@ -152,6 +232,8 @@ router.get('/:id', mealController.getMealById);
  *         description: Meal updated
  *       404:
  *         description: Meal not found
+ *       500:
+ *         description: Internal server error
  */
 router.put('/:id', mealController.updateMeal);
 
@@ -165,17 +247,17 @@ router.put('/:id', mealController.updateMeal);
  *       - in: path
  *         name: id
  *         required: true
- *         description: Meal ID
  *         schema:
  *           type: string
+ *         description: Meal ID
  *     responses:
  *       200:
  *         description: Meal deleted
  *       404:
  *         description: Meal not found
+ *       500:
+ *         description: Internal server error
  */
 router.delete('/:id', mealController.deleteMeal);
-
-
 
 module.exports = router;

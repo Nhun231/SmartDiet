@@ -82,7 +82,7 @@ export default function ChangePassword() {
         try {
             const result = baseAxios.put('users/update', body)
 
-            if (result.status = 200) {
+            if (result.status === 200) {
                 setMessage({ type: "success", text: "Đổi mật khẩu thành công! Bạn sẽ được chuyển về trang chủ" });
                 setDisabled(true);
             }

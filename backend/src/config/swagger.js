@@ -18,13 +18,9 @@ const options = {
         },
         servers: [
             {
-                url: `http://localhost:${port}/${applicationName}`,
+                url: `https://smartdiet-np8j.onrender.com/${applicationName}`,
                 description: "Local server"
-            },
-            {
-                url: "<your live url here>",
-                description: "Live server"
-            },
+            }
         ]
     },
     // looks for configuration in specified directories
