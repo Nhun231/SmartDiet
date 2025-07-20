@@ -280,7 +280,7 @@ const UserHomePage = () => {
                     <Box mt={4}>
                         <Typography>Bạn đã uống bao nhiêu nước?</Typography>
                         <Typography variant="h6" sx={{ mt: 1 }}>
-                            {cupsDrank * waterPerCup}/{totalWater * 1000} ml
+                            {(cupsDrank * waterPerCup).toFixed(1)}/{(totalWater * 1000).toFixed(1)} ml
                         </Typography>
 
                         <Box display="flex" justifyContent="center" mt={2}>

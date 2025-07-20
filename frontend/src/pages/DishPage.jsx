@@ -15,28 +15,31 @@ import DishForm from "../components/dish/DishForm";
 import DishDetailModal from "../components/dish/DishModal";
 import baseAxios from "../api/axios";
 import FloatingChatBox from "../components/OpenAIChatbox/Chatbox.jsx";
+
 const DishesPage = () => {
-    /* ─────────────── state */
     const [dishes, setDishes] = useState([]);
     const [ingredients, setIngredients] = useState([]);
-    const [selectedDish, setSelectedDish] = useState(null);   // xem chi tiết
-    const [editingDish, setEditingDish] = useState(null);   // đang sửa
-    const [openForm, setOpenForm] = useState(false);  // modal tạo/sửa
+    const [selectedDish, setSelectedDish] = useState(null);
+    const [editingDish, setEditingDish] = useState(null);
+    const [openForm, setOpenForm] = useState(false);
     const [toast, setToast] = useState({ open: false, msg: "" });
 
     const userId = localStorage.getItem("userId");
 
-    /* ─────────────── initial fetch */
+    // ⬇️ Trích xuất ra thành hàm riêng
+    const fetchDishes = async () => {
+        const res = await baseAxios.get(`/dish`, { params: { userId } });
+        setDishes(res.data);
+        return res.data;
+    };
+
     useEffect(() => {
         (async () => {
-
-            console.log('User ID:', userId);
             try {
                 const [dishRes, ingRes] = await Promise.all([
-                    baseAxios.get(`/dish`, { params: { userId } }),
+                    fetchDishes(),
                     baseAxios.get("/ingredients"),
                 ]);
-                setDishes(dishRes.data);
                 setIngredients(ingRes.data);
             } catch (err) {
                 console.error("Fetch error:", err);
@@ -44,63 +47,113 @@ const DishesPage = () => {
         })();
     }, [userId]);
 
-    /* ─────────────── create / update */
     const saveDish = async (formData) => {
         try {
-            let res;
             if (editingDish) {
-                res = await baseAxios.put(`/dish/${editingDish._id}`, { ...formData, userId });
-                setDishes(prev =>
-                    prev.map(d => (d._id === editingDish._id ? res.data : d))
+                const res = await baseAxios.put(`/dish/${editingDish._id}`, {
+                    ...formData,
+                    userId,
+                });
+                setDishes((prev) =>
+                    prev.map((d) => (d._id === editingDish._id ? res.data : d))
                 );
+                setToast({ open: true, msg: "Đã cập nhật!" });
             } else {
-                res = await baseAxios.post("/dish", { ...formData, userId });
-                setDishes(prev => [...prev, res.data]);
+                const res = await baseAxios.post("/dish", { ...formData, userId });
+                const updated = await fetchDishes();
+                const createdDish = updated.find((d) => d._id === res.data._id);
+                setToast({ open: true, msg: "Đã thêm món mới!" });
             }
-
-            setToast({ open: true, msg: editingDish ? "Đã cập nhật!" : "Đã thêm món mới!" });
             closeForm();
         } catch (err) {
             console.error("Save dish error:", err);
         }
     };
 
-    /* ─────────────── delete */
     const deleteDish = async (dish) => {
         if (!window.confirm(`Xóa "${dish.name}"?`)) return;
         try {
             await baseAxios.delete(`/dish/${dish._id}`);
-            setDishes(prev => prev.filter(d => d._id !== dish._id));
+            setDishes((prev) => prev.filter((d) => d._id !== dish._id));
             setToast({ open: true, msg: "Đã xóa món!" });
         } catch (err) {
             console.error("Delete dish error:", err);
         }
     };
 
-    /* ─────────────── helpers */
-    const openCreateForm = () => { setEditingDish(null); setOpenForm(true); };
-    const openEditForm = (dish) => { setEditingDish(dish); setOpenForm(true); };
-    const closeForm = () => { setOpenForm(false); setEditingDish(null); };
+    const openCreateForm = () => {
+        setEditingDish(null);
+        setOpenForm(true);
+    };
 
-    /* ─────────────── render */
+    const openEditForm = (dish) => {
+        setEditingDish(dish);
+        setOpenForm(true);
+    };
+
+    const closeForm = () => {
+        setOpenForm(false);
+        setEditingDish(null);
+    };
+
     return (
-        <Box sx={{ p: 4, bgcolor: "#f5fef9", minHeight: "100vh" }}>
-            {/* header */}
+        <Box sx={{ p: 4, bgcolor: "#F1F8E9", minHeight: "100vh" }}>
             <Box display="flex" justifyContent="space-between" alignItems="center" mb={3}>
                 <Typography variant="h4" fontWeight="bold" color="green">
                     Món ăn cá nhân
                 </Typography>
-                <Button variant="contained" color="success" onClick={openCreateForm}>
-                    + Tạo món ăn mới
-                </Button>
+
+                <Box display="flex" gap={2}>
+                    <Button
+                        variant="contained"
+                        size="medium"
+                        sx={{
+                            textTransform: "none",
+                            borderRadius: "20px",
+                            backgroundColor: "#4CAF50",
+                            color: "#fff",
+                            borderColor: "#4CAF50",
+                            "&:hover": {
+                                backgroundColor: "#E8F5E9",
+                                borderColor: "#388E3C",
+                                color: "#388E3C",
+                            },
+                        }}
+                        onClick={() => window.history.back()}
+                    >
+                        ← Quay lại thực đơn
+                    </Button>
+
+                    <Button
+                        variant="contained"
+                        size="medium"
+                        sx={{
+                            backgroundColor: "#4CAF50",
+                            color: "#fff",
+                            textTransform: "none",
+                            borderRadius: "20px",
+                            px: 3,
+                            height: 50,
+                            whiteSpace: "nowrap",
+                            "&:hover": {
+                                backgroundColor: "#388E3C",
+                            },
+                        }}
+                        onClick={openCreateForm}
+                    >
+                        Tạo món ăn mới
+                    </Button>
+                </Box>
             </Box>
 
-            {/* list */}
-            <Typography variant="h6" color="green" mb={1}>Danh sách món ăn</Typography>
+
+            <Typography variant="h6" color="green" mb={1}>
+                Danh sách món ăn
+            </Typography>
             <Divider sx={{ mb: 2 }} />
 
             <Grid container spacing={2}>
-                {dishes.map(dish => (
+                {dishes.map((dish) => (
                     <Grid item xs={12} sm={6} md={4} key={dish._id}>
                         <DishCard
                             dish={dish}
@@ -112,7 +165,6 @@ const DishesPage = () => {
                 ))}
             </Grid>
 
-            {/* modal form (create / edit) */}
             <Dialog
                 open={openForm}
                 onClose={closeForm}
@@ -123,20 +175,18 @@ const DishesPage = () => {
                 <DialogContent>
                     <DishForm
                         ingredients={ingredients}
-                        initialData={editingDish}   /* <= form sẽ preload khi sửa */
+                        initialData={editingDish}
                         onSubmit={saveDish}
                     />
                 </DialogContent>
             </Dialog>
 
-            {/* modal detail */}
             <DishDetailModal
                 open={!!selectedDish}
                 onClose={() => setSelectedDish(null)}
                 dish={selectedDish}
             />
 
-            {/* snackbar */}
             <Snackbar
                 open={toast.open}
                 autoHideDuration={2500}
@@ -144,6 +194,7 @@ const DishesPage = () => {
             >
                 <Alert severity="success">{toast.msg}</Alert>
             </Snackbar>
+
             <FloatingChatBox />
         </Box>
     );

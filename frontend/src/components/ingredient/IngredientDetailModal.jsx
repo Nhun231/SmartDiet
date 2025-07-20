@@ -27,7 +27,8 @@ const IngredientDetailModal = ({
     ingredient,
     onAdd,
     mode = "add", // "add" or "edit"
-    initialQuantity = 100
+    initialQuantity = 100,
+    readonly = false
 }) => {
     const [quantity, setQuantity] = useState(initialQuantity);
 
@@ -113,62 +114,72 @@ const IngredientDetailModal = ({
                 <Typography variant="h6" fontWeight="bold" mt={1} mb={2}>
                     {name}
                 </Typography>
-                <Typography
-                    variant="subtitle1"
-                    fontWeight="bold"
-                    color="#000"
-                    mb={1}
-                    mt={1}
-                >
-                    Thêm vào bữa ăn
-                </Typography>
-                <Box
-                    sx={{
-                        display: "flex",
-                        alignItems: "center",
-                        gap: 2,
-                        mt: 2,
-                        mb: 3,
-                        justifyContent: "flex-start",
-                    }}
-                >
-                    <TextField
-                        type="number"
-                        label="Gram"
-                        value={quantity}
-                        onChange={(e) => setQuantity(e.target.value)}
-                        size="small"
-                        variant="outlined"
-                        InputProps={{
-                            sx: {
-                                borderRadius: 8,
-                            },
-                        }}
-                        sx={{
-                            width: 200,
-                            "& .MuiOutlinedInput-root": {
-                                "&.Mui-focused fieldset": {
-                                    borderColor: "#4CAF50",
-                                },
-                            },
-                        }}
-                    />
+                {!readonly && (
+                    <>
+                        <Typography
+                            variant="subtitle1"
+                            fontWeight="bold"
+                            color="#000"
+                            mb={1}
+                            mt={1}
+                        >
+                            Thêm vào bữa ăn
+                        </Typography>
+                        <Box
+                            sx={{
+                                display: "flex",
+                                alignItems: "center",
+                                gap: 2,
+                                mt: 2,
+                                mb: 3,
+                                justifyContent: "flex-start",
+                            }}
+                        >
+                            <TextField
+                                type="number"
+                                label="Gram"
+                                value={quantity}
+                                onChange={(e) => setQuantity(e.target.value)}
+                                size="small"
+                                variant="outlined"
+                                InputProps={{
+                                    sx: {
+                                        borderRadius: 8,
+                                    },
+                                }}
+                                sx={{
+                                    width: 200,
+                                    "& .MuiOutlinedInput-root": {
+                                        "&.Mui-focused fieldset": {
+                                            borderColor: "#4CAF50",
+                                        },
+                                    },
+                                }}
+                            />
 
-                    <IconButton
-                        onClick={() => onAdd(ingredient, quantity)}
-                        sx={{
-                            bgcolor: "#4CAF50",
-                            color: "#fff",
-                            width: 33,
-                            height: 33,
-                            "&:hover": {
-                                bgcolor: "#388E3C",
-                            },
-                        }}
-                    >
-                        <AddIcon />
-                    </IconButton>
-                </Box>
+                            <IconButton
+                                onClick={() => onAdd(ingredient, quantity)}
+                                sx={{
+                                    bgcolor: "#4CAF50",
+                                    color: "#fff",
+                                    width: 33,
+                                    height: 33,
+                                    "&:hover": {
+                                        bgcolor: "#388E3C",
+                                    },
+                                }}
+                            >
+                                <AddIcon />
+                            </IconButton>
+                        </Box>
+                    </>
+                )}
+                <Typography variant="h6" >
+                    Mô tả
+                </Typography>
+                <Typography variant="body1" mt={1} mb={2}>
+                    {description}
+                </Typography>
                 <Typography
                     variant="subtitle1"
                     fontWeight="bold"

@@ -1,4 +1,6 @@
 const Dish = require("../models/dish.model");
+const Meal = require('../models/meal.model');
+
 const { calculateNutrition } = require("../utils/calculateNutrition");
 
 // ─────────────────────────────────────────────────────
@@ -113,15 +115,21 @@ const updateDishById = async (req, res) => {
 // ─────────────────────────────────────────────────────
 const deleteDishById = async (req, res) => {
     try {
-        const deleted = await Dish.findByIdAndDelete(req.params.id);
+        const { id } = req.params;
+
+        const deleted = await Dish.findByIdAndDelete(id);
         if (!deleted) {
-            return res.status(404).json({ message: "Món ăn không tồn tại" });
+            return res.status(404).json({ message: 'Món ăn không tồn tại' });
         }
-        res.status(200).json({ message: "Xóa món ăn thành công" });
+
+        await Meal.updateMany(
+            { 'dish.dishId': id },
+            { $pull: { dish: { dishId: id } } }
+        );
+
+        res.status(200).json({ message: 'Xóa món ăn và tham chiếu thành công' });
     } catch (error) {
-        res
-            .status(500)
-            .json({ message: "Lỗi khi xóa món ăn", error: error.message });
+        res.status(500).json({ message: 'Lỗi khi xóa món ăn', error: error.message });
     }
 };
 

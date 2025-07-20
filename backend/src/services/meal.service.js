@@ -135,7 +135,13 @@ const getMealByDate = async (req, res) => {
             mealType,
             userId,
             date: { $gte: parsedDate, $lt: nextDay },
-        }).populate('ingredients.ingredientId').populate('dish.dishId');
+        }).populate('ingredients.ingredientId')
+            .populate({
+                path: 'dish.dishId',
+                populate: {
+                    path: 'ingredients.ingredientId',
+                },
+            });
 
         if (!meal) {
             return res.status(404).json({ message: "Không tìm thấy bữa ăn theo ngày và loại bữa đã chọn" });

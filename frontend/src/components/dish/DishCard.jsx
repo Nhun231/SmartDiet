@@ -19,7 +19,7 @@ const DishCard = ({ dish, onClick, onEdit, onDelete }) => {
         <Card
             onClick={onClick}
             sx={{
-                borderRadius: 3,
+                borderRadius: 5,
                 display: "flex",
                 flexDirection: "column",
                 justifyContent: "space-between",
