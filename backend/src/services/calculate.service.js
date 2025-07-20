@@ -70,19 +70,24 @@ const calculateTDEEWithoutRequest = async ( userId, gender, age, height, weight,
     if (latestCalc) {
         const proteinRatio = 0.25;  // 25% Protein
         const fatRatio = 0.25;      // 25% Fat
-        const carbsRatio = 1 - proteinRatio - fatRatio;
+        const fiberRatio = 0.05;
+        const carbsRatio = 1 - proteinRatio - fatRatio - fiberRatio;
 
         const proteinCalories = latestCalc.tdee * proteinRatio;
         const fatCalories = latestCalc.tdee * fatRatio;
+        const fiberCalories = latestCalc.tdee * fiberRatio;
         const carbsCalories = latestCalc.tdee * carbsRatio;
 
         const proteinGrams = +(proteinCalories / 4).toFixed(2);
         const fatGrams = +(fatCalories / 9).toFixed(2);
+        const fiberGrams = +(fatCalories / 2).toFixed(2);
         const carbsGrams = +(carbsCalories / 4).toFixed(2);
 
         latestCalc.protein = proteinGrams;
         latestCalc.fat = fatGrams;
+        latestCalc.fiber = fiberGrams;
         latestCalc.carbs = carbsGrams;
+
         await latestCalc.save();
     }
 
@@ -95,7 +100,9 @@ const calculateTDEEWithoutRequest = async ( userId, gender, age, height, weight,
         nutrition: {
             protein: latestCalc.protein,
             fat: latestCalc.fat,
-            carbs: latestCalc.carbs
+            fiber: latestCalc.fiber,
+            carbs: latestCalc.carbs,
+
         }
     };
 };

@@ -29,6 +29,7 @@ const UserHomePage = () => {
     const [totalWater, setTotalWater] = useState(0);
     const [caloriesTaken, setCaloriesTaken] = useState(0);
     const [carbs, setCarbs] = useState(0);
+    const [fiber, setFiber] = useState(0);
     const [protein, setProtein] = useState(0);
     const [fat, setFat] = useState(0);
     const percentage = Math.min(100, (caloriesTaken / caloriesTarget) * 100);
@@ -75,24 +76,22 @@ const UserHomePage = () => {
             });
 
             const response2 = await baseAxios.get("/customer/calculate/newest")
-            console.log("Latest calculate data:", response1.data);
-            console.log("Latest calculate data:", response2.data);
 
-            if (response2.status == 200 && response1.status == 200) {
-                setCaloriesTarget(response1.data.referenceTDEE);
+            setCaloriesTarget(response1.data.dailyCalories);
                 setConsumption(response1.data.referenceTDEE - response2.data.bmr);
                 setTotalWater(response2.data.waterIntake);
                 setWaterPerCup((response2.data.waterIntake * 1000) / 8);
-            } else if (response2.status == 200 && response1.status != 200) {
+
+
+        } catch (error) {
+            const response2 = await baseAxios.get("/customer/calculate/newest")
+            console.log('2', response2.data.tdee)
                 setCaloriesTarget(response2.data.tdee);
                 setConsumption(response2.data.tdee - response2.data.bmr);
                 setTotalWater(response2.data.waterIntake);
                 setWaterPerCup((response2.data.waterIntake * 1000) / 8);
             }
-            return response2;
-        } catch (error) {
-            console.error("Error fetching latest calculate data:", error);
-        }
+
     }
 
     const getMeal = async () => {
@@ -108,18 +107,21 @@ const UserHomePage = () => {
                 let totalCarbs = 0;
                 let totalProtein = 0;
                 let totalFat = 0;
+                let totalFiber = 0;
                 response.data.forEach(meal => {
                     if (meal.totals && typeof meal.totals.calories === 'number') {
                         totalCalories += meal.totals.calories || 0;
                         totalCarbs += meal.totals.carbs || 0;
                         totalProtein += meal.totals.protein || 0;
                         totalFat += meal.totals.fat || 0;
+                        totalFiber += meal.totals.fiber || 0;
                     }
                 });
                 setCaloriesTaken(totalCalories);
                 setCarbs(totalCarbs);
                 setProtein(totalProtein);
                 setFat(totalFat);
+                setFiber(totalFiber);
             }
             return response;
         } catch (error) {
@@ -149,12 +151,8 @@ const UserHomePage = () => {
     };
 
     useEffect(() => {
-        try {
             getTarget();
             getMeal();
-        } catch (error) {
-            console.error("Error fetching latest calculate data:", error);
-        }
     }, []);
 
     useEffect(() => {
@@ -282,7 +280,8 @@ const UserHomePage = () => {
 
                     <Box mt={4} display="flex" justifyContent="space-around">
                         {[
-                            { label: "Carbs", value: carbs.toFixed(1) },
+                            { label: "Chất xơ", value: fiber.toFixed(1) },
+                            { label: "Tinh bột", value: carbs.toFixed(1) },
                             { label: "Chất đạm", value: protein.toFixed(1) },
                             { label: "Chất béo", value: fat.toFixed(1) }
                         ].map((item, index) => (
