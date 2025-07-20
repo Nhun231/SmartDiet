@@ -5,18 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c0ca266a-c1a1-4fd5-91ea-e5eef9e32317" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/frontend/vercel.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/controllers/openAI.controller.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/controllers/openAI.controller.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/controllers/waterReminderSetting.controller.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/controllers/waterReminderSetting.controller.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/services/auth.service.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/services/auth.service.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/services/ingredient.service.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/services/ingredient.service.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/services/oauth.service.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/services/oauth.service.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/services/user.service.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/services/user.service.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/common/DefaultRedirect.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/common/DefaultRedirect.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/dietPlan/DietPlan.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/dietPlan/DietPlan.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/pages/IngredientList.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/IngredientList.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/pages/UserHomePage.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/UserHomePage.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/utils/base64TokenUtils.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/utils/base64TokenUtils.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -75,7 +65,7 @@
       <option name="presentableId" value="Default" />
       <updated>1753007356822</updated>
       <workItem from="1753007359501" duration="7820000" />
-      <workItem from="1753031814434" duration="456000" />
+      <workItem from="1753031814434" duration="1779000" />
     </task>
     <servers />
   </component>
