@@ -6,7 +6,6 @@ const ingredientRoutes = require('./ingredient-route')
 const mealRoutes = require('./meal-route')
 const dishRoutes = require('./dish.route')
 const openAIRoutes = require('./openAI.route');
-const waterRoute = require('./waterintake.route')
 const applicationName = process.env.APPLICATION_NAME;
 const waterTrackingRoutes = require('./waterTracking.route')
 const waterReminderRoutes = require('./waterSchedule.route')
@@ -22,5 +21,4 @@ module.exports = (app) => {
     app.use(`/${applicationName}/dish`, dishRoutes);
     app.use(`/${applicationName}/ai`, openAIRoutes);
     app.use(`/${applicationName}/water-reminders`, waterReminderRoutes);
-    app.use(`/${applicationName}/water-intake`, waterRoute);
 };

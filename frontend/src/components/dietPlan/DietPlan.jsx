@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Container, Typography, TextField, MenuItem, Button, Paper, Box, Divider } from '@mui/material';
 import { useLocation } from 'react-router-dom';
+import baseAxios from '../../api/axios';
 
 const DietPlan = () => {
     const location = useLocation();
@@ -8,19 +9,30 @@ const DietPlan = () => {
     const [weightChange, setWeightChange] = useState('');
     const [result, setResult] = useState(null);
 
-    const handleSubmit = () => {
-        let calories = 2000; // Giả lập
+    const handleSubmit = async () => {
         if (goal === 'lose') calories -= 500;
         if (goal === 'gain') calories += 500;
 
-        setResult({
-            calories,
-            message: `Để đạt mục tiêu an toàn và hiệu quả, hãy kiên trì trong ít nhất 30 ngày.
+        try {
+            const response = await baseAxios.post('/customer/dietplan/create', {
+                goal: goal,
+                targetWeightChange: weightChange
+            })
+            const target = response.data.dailyCalories;
+            console.log("target", target)
+            setResult({
+                calories: target,
+                message: `Để đạt mục tiêu an toàn và hiệu quả, hãy kiên trì trong ít nhất 30 ngày.
 
 Mức thay đổi calo mỗi ngày không nên vượt quá 500 calo/ngày.
 
 Hãy đồng hành cùng SmartDiet để đạt mục tiêu một cách bền vững!`,
-        });
+            });
+        } catch (error) {
+            console.log(error)
+        }
+
+
     };
 
     return (
@@ -43,11 +55,11 @@ Hãy đồng hành cùng SmartDiet để đạt mục tiêu một cách bền v�
                         onChange={(e) => setGoal(e.target.value)}
                     >
                         <MenuItem value="lose">Giảm cân</MenuItem>
-                        <MenuItem value="maintain">Giữ nguyên cân nặng</MenuItem>
+                        <MenuItem value="keep">Giữ nguyên cân nặng</MenuItem>
                         <MenuItem value="gain">Tăng cân</MenuItem>
                     </TextField>
 
-                    {goal !== 'maintain' && (
+                    {goal !== 'keep' && (
                         <TextField
                             label="Số cân nặng cần thay đổi (kg)"
                             type="number"
@@ -70,7 +82,7 @@ Hãy đồng hành cùng SmartDiet để đạt mục tiêu một cách bền v�
                             backgroundColor: '#4CAF50',
                             '&:hover': { backgroundColor: '#388E3C' },
                         }}
-                        disabled={!goal || (goal !== 'maintain' && !weightChange)}
+                        disabled={!goal || (goal !== 'keep' && !weightChange)}
                     >
                         Tạo kế hoạch
                     </Button>

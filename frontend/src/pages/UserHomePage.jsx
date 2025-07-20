@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {Box, Typography, IconButton, CircularProgress} from "@mui/material";
+import { Box, Typography, IconButton, CircularProgress } from "@mui/material";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import EmojiFoodBeverageIcon from "@mui/icons-material/EmojiFoodBeverage";
@@ -41,57 +41,55 @@ const UserHomePage = () => {
     const [loading, setLoading] = useState(true);
     const [calculationData, setCalculationData] = useState(null);
     const [shouldRedirect, setShouldRedirect] = useState(false);
+    const [waterConsum, setWaterConsum] = useState(0)
+    const currentCupIndex = Math.floor(cupsDrank);
+    const [isToday, setIsToday] = useState(new Date(selectedDate).toDateString() === new Date().toDateString());
 
-
-
-    const meals = {
-        "Bữa sáng": ["Trứng chiên", "Bánh mì nguyên cám", "Sữa đậu nành"],
-        "Bữa trưa": ["Cơm gạo lứt", "Ức gà", "Rau xanh luộc"],
-        "Bữa tối": ["Salad cá ngừ", "Khoai lang", "Súp rau củ"]
-    };
     const handleDrinkClick = async (index) => {
         const newCups = index + 1;
-        console.log(`Cups clicked: ${newCups}`);
-        const newAmount = newCups * waterPerCup;
+        const newAmount = newCups * waterPerCup - waterConsum;
         console.log(`Cups drank: ${newCups}, Amount: ${newAmount}`);
-        if (cupsDrank == 0) {
-            try {
-                const create = await baseAxios.post("/water-intake", {
-                    userId: userId,
-                    amount: newAmount,
-                    date: selectedDate.format("YYYY-MM-DD")
-                });
-                console.log("Water intake created:", create.data);
-            } catch (error) {
-                console.error("Error creating water intake:", error);
-            }
-        } else {
-            try {
-                const update = await baseAxios.put("/water-intake", {
-                    userId: userId,
-                    date: selectedDate.format("YYYY-MM-DD"),
-                    amount: newAmount
-                });
-                console.log("Water intake updated:", update.data);
-            } catch (error) {
-                console.error("Error creating water intake:", error);
-            }
-        }
 
-        setCupsDrank(newCups);
+        try {
+            const response = await baseAxios.post('/water/add-water', {
+                amount: newAmount
+            })
+
+            if (response.status == 200) {
+                setCupsDrank(newCups);
+                getWaterIntake()
+            }
+        } catch (error) {
+            console.log(error)
+        }
     };
+
+    const checkValidCurrentTime = () => {
+        return new Date(selectedDate).toDateString() === new Date().toDateString();
+    }
 
     const getTarget = async () => {
         try {
-            const response = await baseAxios.get("/customer/calculate/newest");
-            console.log("Latest calculate data:", response.data);
-            if (response.status == 200) {
-                setCaloriesTarget(response.data.tdee);
-                setConsumption(response.data.tdee - response.data.bmr);
-                setTotalWater(response.data.waterIntake);
-                setWaterPerCup((response.data.waterIntake * 1000) / 8);
+            const response1 = await baseAxios.get("/customer/dietplan/get-by-date", {
+                params: { date: selectedDate.format("YYYY-MM-DD") }
+            });
+
+            const response2 = await baseAxios.get("/customer/calculate/newest")
+            console.log("Latest calculate data:", response1.data);
+            console.log("Latest calculate data:", response2.data);
+
+            if (response2.status == 200 && response1.status == 200) {
+                setCaloriesTarget(response1.data.referenceTDEE);
+                setConsumption(response1.data.referenceTDEE - response2.data.bmr);
+                setTotalWater(response2.data.waterIntake);
+                setWaterPerCup((response2.data.waterIntake * 1000) / 8);
+            } else if (response2.status == 200 && response1.status != 200) {
+                setCaloriesTarget(response2.data.tdee);
+                setConsumption(response2.data.tdee - response2.data.bmr);
+                setTotalWater(response2.data.waterIntake);
+                setWaterPerCup((response2.data.waterIntake * 1000) / 8);
             }
-            return response;
+            return response2;
         } catch (error) {
             console.error("Error fetching latest calculate data:", error);
         }
@@ -129,27 +127,6 @@ const UserHomePage = () => {
         }
     }
 
-    // const getWaterIntake = async () => {
-    //     try {
-    //         console.log("Fetching water intake for user:", userId, "on date:", selectedDate.format("YYYY-MM-DD"));
-    //         const response = await baseAxios.get("/water-intake", {
-    //             params: { userId, date: selectedDate.format("YYYY-MM-DD") }
-    //         });
-    //         if (response.status === 200 && response.data) {
-    //             const calculatedCups = response.data.amount / waterPerCup;
-    //             console.log("Caulate cups", calculatedCups);
-    //             if (cupsDrank !== calculatedCups) {
-    //                 setCupsDrank(calculatedCups);
-    //             }
-    //         } else {
-    //             setCupsDrank(0);
-    //         }
-
-    //     } catch (error) {
-    //         console.error(error);
-    //     }
-    // };
-
     const getWaterIntake = async () => {
         try {
             console.log("Fetching water intake for user:", userId, "on date:", selectedDate.format("YYYY-MM-DD"));
@@ -157,6 +134,7 @@ const UserHomePage = () => {
                 params: { date: selectedDate.format("YYYY-MM-DD") }
             });
             if (response.status === 200 && response.data) {
+                setWaterConsum(response.data.consumed)
                 const calculatedCups = response.data.consumed / waterPerCup;
                 console.log("Caulate cups", calculatedCups);
                 if (cupsDrank !== calculatedCups) {
@@ -188,6 +166,8 @@ const UserHomePage = () => {
 
     useEffect(() => {
         getMeal();
+        getTarget();
+        setIsToday(checkValidCurrentTime());
         if (totalWater > 0) {
             getWaterIntake();
         }
@@ -196,6 +176,7 @@ const UserHomePage = () => {
     useEffect(() => {
 
     }, [cupsDrank]);
+
     useEffect(() => {
         const checkCalculateData = async () => {
             try {
@@ -214,6 +195,7 @@ const UserHomePage = () => {
 
         checkCalculateData();
     }, []);
+
     useEffect(() => {
         if (shouldRedirect) {
             navigate('/calculate');
@@ -323,15 +305,42 @@ const UserHomePage = () => {
                             {[...Array(totalWaterCups)].map((_, i) => (
                                 <IconButton
                                     key={i}
-                                    // onClick={() => handleDrinkClick(i)}
+                                    onClick={isToday && i === currentCupIndex ? () => handleDrinkClick(i) : undefined}
                                     sx={{
                                         mx: 0.5,
-                                        // transform: cupsDrank > i ? "scale(1.2)" : "scale(1)",
-                                        // transition: "transform 0.2s ease",
-                                        color: cupsDrank > i ? "#fff" : "rgba(255,255,255,0.3)"
+                                        cursor: isToday && i === currentCupIndex ? "pointer" : "default",
+                                        pointerEvents: isToday && i === currentCupIndex ? "auto" : "none",
+                                        color:
+                                            i < currentCupIndex
+                                                ? "#fff"
+                                                : i === currentCupIndex
+                                                    ? "#6db0b4ff"
+                                                    : "rgba(255,255,255,0.3)",
+                                        position: "relative"
                                     }}
                                 >
                                     <EmojiFoodBeverageIcon sx={{ fontSize: 32 }} />
+
+                                    {isToday && i === currentCupIndex && (
+                                        <Box
+                                            sx={{
+                                                position: "absolute",
+                                                top: -8,
+                                                right: -8,
+                                                backgroundColor: "#1976d2",
+                                                borderRadius: "50%",
+                                                width: 20,
+                                                height: 20,
+                                                display: "flex",
+                                                alignItems: "center",
+                                                justifyContent: "center",
+                                                color: "#fff",
+                                                fontSize: 14
+                                            }}
+                                        >
+                                            +
+                                        </Box>
+                                    )}
                                 </IconButton>
                             ))}
                         </Box>
@@ -362,17 +371,17 @@ const UserHomePage = () => {
                     {
                         title: "Tính chỉ số BMI/BMR",
                         icon: <LocalFireDepartmentIcon sx={{ fontSize: 40, color: "#00C896" }} />,
-                        onClick: () => console.log("Đi tới BMI")
+                        onClick: () => navigate("/my-profile")
                     },
                     {
                         title: "Thực đơn theo mục tiêu",
                         icon: <EmojiFoodBeverageIcon sx={{ fontSize: 40, color: "#00C896" }} />,
-                        onClick: () => console.log("Đi tới thực đơn")
+                        onClick: () => navigate("/dietplan/create")
                     },
                     {
                         title: "Theo dõi nước & dinh dưỡng",
                         icon: <Typography sx={{ fontSize: 40, color: "#00C896" }}>💧</Typography>,
-                        onClick: () => console.log("Đi tới nước & dinh dưỡng")
+                        onClick: () => navigate("/water-infor")
                     },
                     {
                         title: "Thực đơn hôm nay",

@@ -63,7 +63,7 @@ const generateDietPlan = async ({ userId, goal, targetWeightChange }) => {
 };
 
 const updateDietPlan = async ({ userId, goal, targetWeightChange }) => {
-    const plan = await DietPlan.findOne({userId: userId});
+    const plan = await DietPlan.findOne({ userId: userId });
     if (!plan) {
         throw new BaseError(StatusCodes.NOT_FOUND, 'Không tìm thấy kế hoạch ăn kiêng');
     }
@@ -87,10 +87,30 @@ const updateDietPlan = async ({ userId, goal, targetWeightChange }) => {
 };
 
 const getCurrentDietPlan = async (userId) => {
-    const plan = await DietPlan.findOne({userId: userId});
+    const plan = await DietPlan.findOne({ userId: userId });
     if (!plan) {
         throw new BaseError(StatusCodes.NOT_FOUND, 'Không tìm thấy kế hoạch ăn kiêng');
     }
     return plan;
 }
-module.exports = { generateDietPlan, updateDietPlan, getCurrentDietPlan };
+
+const getDietPlanByDate = async (userId, date) => {
+    console.log('input data', userId)
+    console.log('input data', date)
+    const dateToFind = new Date(`${date}T23:59:59.000Z`);
+    console.log(dateToFind)
+    const plan = await DietPlan.findOne({
+        userId: userId,
+        startDate: { $lte: dateToFind },
+        $or: [
+            { endDate: { $gte: dateToFind } },
+            { endDate: null }
+        ]
+    });
+    if (!plan) {
+        throw new BaseError(StatusCodes.NOT_FOUND, 'Không tìm thấy kế hoạch ăn kiêng');
+    }
+    return plan;
+};
+
+module.exports = { generateDietPlan, updateDietPlan, getCurrentDietPlan, getDietPlanByDate };

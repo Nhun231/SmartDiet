@@ -23,4 +23,14 @@ const getCurrentDietPlan = catchAsync(async (req, res) => {
     res.status(200).json(plan);
 })
 
-module.exports = { generateDietPlan, updateDietPlan, getCurrentDietPlan };
+const getDietPlanByDate = catchAsync(async (req, res) => {
+    const userId = req.user?.id;
+    if (!userId) throw new BaseError(StatusCodes.UNAUTHORIZED, 'User not authenticated');
+
+    const date = req.query.date;
+    console.log('date', date)
+    const plan = await dietPlanService.getDietPlanByDate(userId, date);
+    res.status(200).json(plan);
+})
+
+module.exports = { generateDietPlan, updateDietPlan, getCurrentDietPlan, getDietPlanByDate };
