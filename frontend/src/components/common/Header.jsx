@@ -55,7 +55,7 @@ const Header = () => {
                     fontWeight="bold"
                     color="white"
                     sx={{ cursor: 'pointer' }}
-                    onClick={() => window.location.href = "http://localhost:5173/dashboard"}
+                    onClick={() => window.location.href = "https://smart-diet-gamma.vercel.app/dashboard"}
                 >
                     SmartDiet
                 </Typography>

@@ -4,7 +4,6 @@ const Ingredient = require('../models/ingredient.model');
 const createIngredient = async (req, res) => {
     try {
         const ingredient = new Ingredient(req.body);
-        console.log("Creating ingredient:", ingredient);
         
         const saved = await ingredient.save();
         res.status(201).json(saved);

@@ -129,7 +129,6 @@ const UserHomePage = () => {
 
     const getWaterIntake = async () => {
         try {
-            console.log("Fetching water intake for user:", userId, "on date:", selectedDate.format("YYYY-MM-DD"));
             const response = await baseAxios.get("/water/water-bydate", {
                 params: { date: selectedDate.format("YYYY-MM-DD") }
             });

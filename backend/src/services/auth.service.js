@@ -15,7 +15,6 @@ const handleLogin = async (req, res) => {
     let isEmail = validator.isEmail(emailOrName);
     //find user in db
     const user = await User.findOne(isEmail ? { email: emailOrName } : { username: emailOrName });
-    console.log("User found:", user);
     //if user notfound throw error
     if (!user) {
         return res.status(StatusCodes.UNAUTHORIZED).json({ 'message': 'Tài khoản không tồn tại' });
@@ -68,10 +67,8 @@ const handleRefreshToken = async (req, res) => {
         refreshToken = req.body.refreshToken;
     }
     if (!refreshToken) {
-        console.log("No refresh token provided");
         return res.status(StatusCodes.UNAUTHORIZED).json({ 'message': 'No refresh token provided' });
     }
-    console.log(refreshToken);
     //This is the refresh token have set in auth.service.js
     //find user in db
     const user = await User.findOne({ refreshToken: refreshToken });

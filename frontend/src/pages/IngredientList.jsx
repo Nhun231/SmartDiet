@@ -152,7 +152,6 @@ const IngredientList = () => {
     };
 
     const openAddDishModal = (dish) => {
-        console.log(dish)
         setSelectedDish(dish);
         setDishMode("add");
         setDishEditIndex(null);

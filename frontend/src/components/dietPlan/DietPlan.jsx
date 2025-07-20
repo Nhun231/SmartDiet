@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Container, Typography, TextField, MenuItem, Button, Paper, Box, Divider } from '@mui/material';
-import { useLocation } from 'react-router-dom';
+import {useLocation, useNavigate} from 'react-router-dom';
 import baseAxios from '../../api/axios';
 
 const DietPlan = () => {
@@ -8,7 +8,10 @@ const DietPlan = () => {
     const [goal, setGoal] = useState(location.state?.goal || '');
     const [weightChange, setWeightChange] = useState('');
     const [result, setResult] = useState(null);
-
+    const navigate = useNavigate();
+    const handleNavigate = () => {
+        navigate('/dashboard');
+    }
     const handleSubmit = async () => {
         try {
             const response = await baseAxios.post('/customer/dietplan/create', {
@@ -133,6 +136,23 @@ Hãy đồng hành cùng SmartDiet để đạt mục tiêu một cách bền v�
                         </Box>
                     </>
                 )}
+                <Button
+                    variant="contained"
+                    color="success"
+                    fullWidth
+                    onClick={handleNavigate}
+                    sx={{
+                        borderRadius: 50,
+                        py: 1.5,
+                        fontWeight: 'bold',
+                        fontSize: 16,
+                        backgroundColor: '#4CAF50',
+                        '&:hover': { backgroundColor: '#388E3C' },
+                    }}
+                    disabled={!goal || (goal !== 'keep' && !weightChange)}
+                >
+                    Xem nhật ký hôm nay
+                </Button>
             </Paper>
         </Container>
     );

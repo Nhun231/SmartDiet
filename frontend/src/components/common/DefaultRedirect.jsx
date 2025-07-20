@@ -9,7 +9,6 @@ const DefaultRedirect = () => {
     if (!user) {
         return <Navigate to="/homepage" replace />;
     }
-    console.log("user role to redirect: ", user.role);
     if (user.role === "admin") {
         return <Navigate to="/create-ingredient" replace />;
     }

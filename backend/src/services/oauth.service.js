@@ -8,7 +8,6 @@ const handleLoginByGooglePassport = passport.authenticate("google", {
 const handleGoogleCallback = (req, res, next) => {
     passport.authenticate("google", {failureRedirect: "/login",session:false}
  ,  async (err, user, info) => {
-        console.log(err);
     if (err || !user) {
         const errorMessage = info?.message || "Đăng nhập OAuth thất bại";
         return res.redirect(

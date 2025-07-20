@@ -1,11 +1,9 @@
 export function generateEncodedToken(email, expiresInMinutes) {
-    const expiry = Date.now() + expiresInMinutes * 60 * 1000; 
-    console.log(expiry)
+    const expiry = Date.now() + expiresInMinutes * 60 * 1000;
     const payload = {
         email: email,
         exp: expiry
     };
-    console.log('payload',payload);
     const json = JSON.stringify(payload);
     const encoded = btoa(json);
     return encoded;
@@ -17,7 +15,6 @@ export function decodeToken(encodedToken) {
         const data = JSON.parse(json);
         return data;
     } catch (e) {
-        console.log(e)
         return null;
     }
 }

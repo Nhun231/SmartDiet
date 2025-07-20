@@ -9,7 +9,6 @@ const { getLatestCalculateByUserId } = require("./calculate.service.js");
 const createUser = async (req, res) => {
     try {
         const user = await User.findOne({ email: req.body.email });
-        console.log("createUser is invoked");
 
         //password hash
         const passwordHash = await bcrypt.hash(req.body.password, 10);

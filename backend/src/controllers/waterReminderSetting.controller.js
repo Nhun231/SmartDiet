@@ -4,7 +4,6 @@ const { generateSchedule } = require('../utils/generateSchedule');
 // 1. Cập nhật cài đặt nhắc nhở
 exports.updateReminderSetting = catchAsync(async (req, res) => {
     const userId = req.user?.id || '684c019b2466626c52af67b7';
-    //console.log(userId)
     const setting = await reminderService.updateSetting(userId, req.body);
     res.status(200).json(setting);
 });
@@ -46,7 +45,6 @@ exports.getReminderSchedule = catchAsync(async (req, res) => {
             await setting.save();
         }
 
-        //console.log('Tạo setting mặc định cho user:', userId);
     }
 
     res.status(200).json({
