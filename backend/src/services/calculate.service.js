@@ -70,7 +70,8 @@ const calculateTDEEWithoutRequest = async ( userId, gender, age, height, weight,
     if (latestCalc) {
         const proteinRatio = 0.25;  // 25% Protein
         const fatRatio = 0.25;      // 25% Fat
-        const carbsRatio = 1 - proteinRatio - fatRatio;
+        const fiberRatio = 0.05; 
+        const carbsRatio = 1 - proteinRatio - fatRatio - fiberRatio;
 
         const proteinCalories = latestCalc.tdee * proteinRatio;
         const fatCalories = latestCalc.tdee * fatRatio;
