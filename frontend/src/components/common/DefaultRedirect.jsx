@@ -11,7 +11,7 @@ const DefaultRedirect = () => {
     }
     console.log("user role to redirect: ", user.role);
     if (user.role === "admin") {
-        return <Navigate to="/daily" replace />; //change when admin function completed
+        return <Navigate to="/create-ingredient" replace />;
     }
 
     if (user.role === "customer") {

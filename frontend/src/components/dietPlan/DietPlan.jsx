@@ -10,9 +10,6 @@ const DietPlan = () => {
     const [result, setResult] = useState(null);
 
     const handleSubmit = async () => {
-        if (goal === 'lose') calories -= 500;
-        if (goal === 'gain') calories += 500;
-
         try {
             const response = await baseAxios.post('/customer/dietplan/create', {
                 goal: goal,
