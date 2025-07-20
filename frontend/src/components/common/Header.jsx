@@ -67,6 +67,10 @@ const Header = () => {
                     >
                         Công cụ tính toán
                     </Button>
+                    <Button onClick={() => navigate("/meal")}
+                        sx={{ color: "#ffffff", fontWeight: "bold" }}>
+                        Thực đơn hôm nay
+                    </Button>
                     <Button sx={{ color: "#ffffff", fontWeight: "bold" }}>
                         Lập kế hoạch ăn uống
                     </Button>

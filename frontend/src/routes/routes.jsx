@@ -24,6 +24,8 @@ import { Navigate } from "react-router-dom";
 import DefaultRedirect from "../components/common/DefaultRedirect.jsx";
 
 //For token, logout provide
+import AdminIngredientPage from "../pages/AdminIngredient.jsx";
+
 const AuthLayout = () => (
     <AuthProvider>
       <Outlet />
@@ -127,11 +129,15 @@ const router = createBrowserRouter([
           },
           {
             path: "/edit-profile",
-            element: (
-                <RequireRole allowedRoles={["admin", "customer"]}>
-                  <EditProfilePage />
-                </RequireRole>
-            )
+            element: <RequireRole allowedRoles={["admin", "customer"]}>
+              <EditProfilePage />
+            </RequireRole>,
+          },
+          {
+            path: "/create-ingredient",
+            element: <RequireRole allowedRoles={["admin"]}>
+              <AdminIngredientPage />
+            </RequireRole>,
           },
           {
             path: "/water-infor",

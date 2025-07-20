@@ -1,4 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, } from "react";
+import { useNavigate } from "react-router-dom";
+
 import baseAxios from "../api/axios";
 import {
     Box, Typography, TextField, Grid, IconButton, Accordion,
@@ -21,7 +23,9 @@ import EmojiFoodBeverageIcon from '@mui/icons-material/EmojiFoodBeverage';
 import DishModalForMeal from "../components/dish/DishModalForMeal";
 import FloatingChatBox from "../components/OpenAIChatbox/Chatbox.jsx";
 import EditIngredient from "../components/ingredient/EditIngredient.jsx";
+
 import dayjs from 'dayjs';
+import DishCardOnMeal from "../components/dish/DishCardOnMeal.jsx";
 const mealTypes = [
     { label: "Bữa sáng", value: "breakfast" },
     { label: "Bữa trưa", value: "lunch" },
@@ -32,6 +36,8 @@ const mealTypes = [
 const today = dayjs().format('YYYY-MM-DD');
 
 const IngredientList = () => {
+    const navigate = useNavigate();
+
     const [searchTerm, setSearchTerm] = useState("");
     const [ingredients, setIngredients] = useState([]);
     const [dishes, setDishes] = useState([]);
@@ -146,6 +152,7 @@ const IngredientList = () => {
     };
 
     const openAddDishModal = (dish) => {
+        console.log(dish)
         setSelectedDish(dish);
         setDishMode("add");
         setDishEditIndex(null);
@@ -156,6 +163,14 @@ const IngredientList = () => {
         setEditIngredient(true);
     }
 
+    const handleEditDish = (mealType, index) => {
+        const dishItem = meals[mealType]?.dish[index];
+        console.log(dishItem)
+        setSelectedDish(dishItem.dishId);
+        setSelectedMeal(mealType);
+        setDishMode("edit");
+        setDishEditIndex(index);
+    };
 
     const handleSaveDish = async (dish, quantity) => {
         const meal = meals[selectedMeal];
@@ -163,20 +178,20 @@ const IngredientList = () => {
 
         if (dishMode === "add") {
             const idx = updated.findIndex((it) =>
-                (typeof it.dishId === "string" ? it.dishId : it.dishId?._id) === dish._id
+                (typeof it?.dishId === "string" ? it?.dishId : it?.dishId?._id) === dish._id
             );
             if (idx !== -1) updated[idx].quantity += quantity;
             else updated.push({ dishId: dish._id, quantity });
         } else {
-            updated[dishEditIndex] = { dishId: dish._id, quantity };
+            updated[dishEditIndex] = { dishId: dish?._id, quantity };
         }
 
         await saveMeal(selectedMeal, meal?.ingredients || [], updated);
     };
 
 
-    const filtered = ingredients.filter((i) =>
-        i.name.toLowerCase().includes(searchTerm.toLowerCase())
+    const filtered = ingredients.filter((ingredient) =>
+        ingredient.name.toLowerCase().includes(searchTerm.toLowerCase())
     );
 
     const getMealColor = (mealType) => ({
@@ -298,7 +313,7 @@ const IngredientList = () => {
                                                     </>
                                                 }>
                                                 <ListItemText
-                                                    primary={`🍽️ ${d.dishId.name || "Món ăn"}- ${d.quantity} suất`}
+                                                    primary={`🍽️ ${d.dishId?.name || "Món ăn"}- ${d.quantity} suất`}
                                                     primaryTypographyProps={{ fontSize: 13, color: "#4E342E" }}
                                                 />
                                             </ListItem>
@@ -312,7 +327,18 @@ const IngredientList = () => {
             </Box>
 
             <Box sx={{ flex: 1, display: "flex", flexDirection: "column", height: "100vh", overflow: "hidden" }}>
-                <Box sx={{ px: 4, py: 3, display: "flex", alignItems: "center", justifyContent: "left" }}>
+                <Box
+                    sx={{
+                        px: 4,
+                        py: 2,
+                        display: "flex",
+                        flexWrap: "wrap",
+                        alignItems: "center",
+                        justifyContent: "flex-start", // CHỈNH chỗ này
+                        rowGap: 2,
+                    }}
+                >
+                    {/* Ô tìm kiếm */}
                     <TextField
                         variant="outlined"
                         placeholder="Tìm nguyên liệu..."
@@ -320,7 +346,11 @@ const IngredientList = () => {
                         onChange={(e) => setSearchTerm(e.target.value)}
                         size="small"
                         sx={{
-                            width: 1000, backgroundColor: "#fff", borderRadius: "30px",
+                            flexGrow: 1,
+                            maxWidth: 600,
+                            backgroundColor: "#fff",
+                            borderRadius: "30px",
+                            mr: 2,
                             "& .MuiOutlinedInput-root": {
                                 borderRadius: "30px",
                                 "& fieldset": { borderColor: "#4CAF50", borderWidth: "1px" },
@@ -337,6 +367,7 @@ const IngredientList = () => {
                         }}
                     />
 
+                    {/* Nút thêm nguyên liệu */}
                     <Button
                         variant="contained"
                         size="medium"
@@ -345,31 +376,56 @@ const IngredientList = () => {
                             color: "#fff",
                             textTransform: "none",
                             borderRadius: "20px",
-                            marginLeft: 10,
                             px: 3,
+                            ml: 4,
+                            mr: 1.5, // Cách nhau nhẹ
+                            whiteSpace: "nowrap",
+                            height: 50,
                             "&:hover": {
-                                backgroundColor: "#388E3C"
-                            }
+                                backgroundColor: "#388E3C",
+                            },
                         }}
                         onClick={() => setAddIngredientOpen(true)}
                     >
                         Thêm nguyên liệu
                     </Button>
+
+                    {/* Nút tạo món ăn */}
+                    <Button
+                        variant="contained"
+                        size="medium"
+                        sx={{
+                            backgroundColor: "#4CAF50",
+                            color: "#fff",
+                            textTransform: "none",
+                            borderRadius: "20px",
+                            px: 3,
+                            whiteSpace: "nowrap",
+                            height: 50,
+                            "&:hover": {
+                                backgroundColor: "#388E3C",
+                            },
+                        }}
+                        onClick={() => navigate("/dishes")}
+                    >
+                        Danh sách món ăn
+                    </Button>
                 </Box>
+
 
                 <Box sx={{ flex: 1, overflowY: "auto", px: 4, pb: 4 }}>
                     <Grid container spacing={3}>
 
                         {dishes.map((d, idx) => (
                             <Grid item xs={12} sm={6} md={4} key={`dish-${idx}`}>
-                                <IngredientCard
-                                    name={`🍽️ ${d.name}`}
+                                <DishCardOnMeal
+                                    name={`🍽️ ${d?.name}`}
                                     calories={d.total?.calories}
                                     onAdd={() => openAddDishModal(d)}
                                     onClick={() => openAddDishModal(d)}
-                                    onEdit={() => { console.log("Edit dish") }}
-                                    onDelete={() => { console.log("Delete dish") }}
                                     userID={d?.userId}
+                                    id={d._id}
+
                                 />
                             </Grid>
                         ))}
@@ -377,7 +433,7 @@ const IngredientList = () => {
                             (i.userId === userId || i.userId == null) && (
                                 <Grid item xs={12} sm={6} md={4} key={`ing-${idx}`}>
                                     <IngredientCard
-                                        name={i.name}
+                                        name={i?.name}
                                         calories={i.caloriesPer100g}
                                         onAdd={() => {
                                             setSelectedIngredient(i);
@@ -458,7 +514,7 @@ const IngredientList = () => {
                                     value={newIngredient.category}
                                     onChange={(e) => {
                                         setNewIngredient({ ...newIngredient, category: e.target.value });
-                                        setCategoryError(false); 
+                                        setCategoryError(false);
                                     }}
                                     label="Loại nguyên liệu"
                                     sx={{

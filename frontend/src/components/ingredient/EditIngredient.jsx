@@ -29,7 +29,7 @@ const EditIngredient = ({ editIngredient, setEditIngredient, newObject, setNewIn
             fiberPer100g: "",
             imageUrl: "",
             description: "",
-            userId: newIngredientForEdit.userId._id
+            userId: newIngredientForEdit?.userId?._id || ""
         });
         setEditIngredient(false);
     }

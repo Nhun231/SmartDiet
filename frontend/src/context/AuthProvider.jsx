@@ -18,7 +18,7 @@ export const useAuth = () => {
 };
 
 const AuthProvider = ({ children }) => {
-  const [auth, setAuth] = useState({accessToken: null, user: null});
+  const [auth, setAuth] = useState({ accessToken: null, user: null });
   const [isRefreshing, setIsRefreshing] = useState(false);
   const alertShownRef = useRef(false);
   const [loading, setLoading] = useState(true);
