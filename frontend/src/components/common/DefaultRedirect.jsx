@@ -5,6 +5,7 @@ const DefaultRedirect = () => {
     const { user, loading } = useAuth();
 
     if (loading) return <div>Loading...</div>;
+    console.log("user role to redirect: ", user.role);
     if (!user) {
         return <Navigate to="/homepage" replace />;
     }

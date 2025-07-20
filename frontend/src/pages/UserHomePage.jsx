@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Box, Typography, IconButton } from "@mui/material";
+import {Box, Typography, IconButton, CircularProgress} from "@mui/material";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import EmojiFoodBeverageIcon from "@mui/icons-material/EmojiFoodBeverage";
@@ -38,6 +38,37 @@ const UserHomePage = () => {
     const [selectedDate, setSelectedDate] = useState(dayjs());
     const [selectedMeal, setSelectedMeal] = useState("");
     const [consumption, setConsumption] = useState(0);
+    const [loading, setLoading] = useState(true);
+    const [calculationData, setCalculationData] = useState(null);
+
+    useEffect(() => {
+        const checkCalculateData = async () => {
+            try {
+                const res = await baseAxios.get('/customer/calculate/newest');
+                console.log(res.data)
+                if (res.data && res.data.tdee) {
+                    setCalculationData(res.data);
+                } else {
+                    navigate('/calculate');
+                }
+            } catch (err) {
+                console.error('Lỗi khi kiểm tra dữ liệu:', err);
+                navigate('/calculate');
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        checkCalculateData();
+    }, [navigate]);
+
+    if (loading) {
+        return (
+            <Box display="flex" justifyContent="center" alignItems="center" height="100vh">
+                <CircularProgress />
+            </Box>
+        );
+    }
     const meals = {
         "Bữa sáng": ["Trứng chiên", "Bánh mì nguyên cám", "Sữa đậu nành"],
         "Bữa trưa": ["Cơm gạo lứt", "Ức gà", "Rau xanh luộc"],

@@ -80,7 +80,7 @@ const router = createBrowserRouter([
           {
             path: "/daily",
             element: (
-                <RequireRole allowedRoles={["customer"]}>
+                <RequireRole allowedRoles={["admin"]}>
                   <Daily />
                 </RequireRole>
             )

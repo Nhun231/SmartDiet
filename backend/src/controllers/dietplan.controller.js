@@ -1,5 +1,7 @@
 const dietPlanService = require('../services/dietplan.service');
 const catchAsync = require('../utils/catchAsync');
+const BaseError = require("../utils/BaseError");
+const {StatusCodes} = require("http-status-codes");
 
 const generateDietPlan = catchAsync(async (req, res) => {
     const userId = req.body.userId || req.userId || req.user?.id; // support different auth flows
