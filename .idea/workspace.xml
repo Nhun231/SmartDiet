@@ -1,0 +1,253 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="3ed097a6-b234-4877-a4a7-a9d1df41149d" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/controllers/dietplan.controller.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/controllers/dietplan.controller.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/common/DefaultRedirect.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/common/DefaultRedirect.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/Login.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/Login.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/UserHomePage.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/UserHomePage.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/routes/routes.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/routes/routes.jsx" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Dockerfile" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="UC01-Login" />
+      </map>
+    </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;Nhun231&quot;
+  }
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/Nhun231/SmartDiet.git&quot;,
+    &quot;accountId&quot;: &quot;0291c77f-4c25-474c-96fc-5e6776cde6e2&quot;
+  }
+}</component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 7
+}</component>
+  <component name="ProjectId" id="2xZViVyx4KyTLZoIK9GyjBJRl4R" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Docker.docker-compose.yml.maildev: Compose Deployment.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;UC18-View-diet-plan&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;D:/Documents/7th_semester/MMA301/ImageStore/imageStore&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;npm.dev.executor&quot;: &quot;Run&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.lookFeel&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;D:\\WebStorm 2024.3.4\\plugins\\javascript-plugin\\jsLanguageServicesImpl\\external&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  },
+  &quot;keyToStringList&quot;: {
+    &quot;DatabaseDriversLRU&quot;: [
+      &quot;mongo&quot;
+    ]
+  }
+}</component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\Documents\7th_semester\SmartDiet\frontend\src\context" />
+      <recent name="D:\Documents\7th_semester\SmartDiet\backend\src\config" />
+      <recent name="D:\Documents\7th_semester\SmartDiet\frontend" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Docker.docker-compose.yml.maildev: Compose Deployment">
+    <configuration default="true" type="docker-deploy" factoryName="docker-compose.yml" temporary="true">
+      <deployment type="docker-compose.yml">
+        <settings />
+      </deployment>
+      <method v="2" />
+    </configuration>
+    <configuration name="docker-compose.yml.maildev: Compose Deployment" type="docker-deploy" factoryName="docker-compose.yml" temporary="true" server-name="Docker">
+      <deployment type="docker-compose.yml">
+        <settings>
+          <option name="envFilePath" value="" />
+          <option name="services">
+            <list>
+              <option value="maildev" />
+            </list>
+          </option>
+          <option name="sourceFilePath" value="docker-compose.yml" />
+        </settings>
+      </deployment>
+      <method v="2" />
+    </configuration>
+    <configuration name="dev" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
+      <package-json value="$PROJECT_DIR$/frontend/package.json" />
+      <command value="run" />
+      <scripts>
+        <script value="dev" />
+      </scripts>
+      <node-interpreter value="project" />
+      <envs />
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="npm.dev" />
+        <item itemvalue="Docker.docker-compose.yml.maildev: Compose Deployment" />
+        <item itemvalue="npm.dev" />
+        <item itemvalue="Docker.docker-compose.yml.maildev: Compose Deployment" />
+        <item itemvalue="Docker.docker-compose.yml.maildev: Compose Deployment" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-js-predefined-d6986cc7102b-1632447f56bf-JavaScript-WS-243.25659.40" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="StructureViewState">
+    <option name="selectedTab" value="Handlebars" />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="3ed097a6-b234-4877-a4a7-a9d1df41149d" name="Changes" comment="" />
+      <created>1748145709458</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1748145709458</updated>
+      <workItem from="1748145711047" duration="853000" />
+      <workItem from="1748396369764" duration="101000" />
+      <workItem from="1748396525412" duration="7046000" />
+      <workItem from="1748410873798" duration="7920000" />
+      <workItem from="1748419077180" duration="5278000" />
+      <workItem from="1748569897558" duration="5746000" />
+      <workItem from="1748608344324" duration="7192000" />
+      <workItem from="1748696974345" duration="4252000" />
+      <workItem from="1748850859826" duration="1931000" />
+      <workItem from="1748877883795" duration="626000" />
+      <workItem from="1748920364392" duration="306000" />
+      <workItem from="1748939790776" duration="12364000" />
+      <workItem from="1748997742240" duration="6231000" />
+      <workItem from="1749014614773" duration="5645000" />
+      <workItem from="1749096681681" duration="648000" />
+      <workItem from="1749187682105" duration="7913000" />
+      <workItem from="1749263774081" duration="26544000" />
+      <workItem from="1749348397061" duration="26426000" />
+      <workItem from="1749394516028" duration="1554000" />
+      <workItem from="1749447761854" duration="7063000" />
+      <workItem from="1749481382381" duration="4942000" />
+      <workItem from="1749515962952" duration="2427000" />
+      <workItem from="1749546636615" duration="2123000" />
+      <workItem from="1749735237867" duration="52000" />
+      <workItem from="1749813741268" duration="772000" />
+      <workItem from="1750053190690" duration="6185000" />
+      <workItem from="1750068750889" duration="499000" />
+      <workItem from="1750081199375" duration="596000" />
+      <workItem from="1750128441055" duration="2619000" />
+      <workItem from="1750294576716" duration="3628000" />
+      <workItem from="1750349230381" duration="564000" />
+      <workItem from="1750389068607" duration="13269000" />
+      <workItem from="1750695951543" duration="818000" />
+      <workItem from="1750759216415" duration="597000" />
+      <workItem from="1750771839291" duration="595000" />
+      <workItem from="1750813544751" duration="7303000" />
+      <workItem from="1750902533188" duration="2332000" />
+      <workItem from="1750926495070" duration="2823000" />
+      <workItem from="1751080085381" duration="4462000" />
+      <workItem from="1751363849750" duration="1031000" />
+      <workItem from="1751373646952" duration="2215000" />
+      <workItem from="1751651382200" duration="717000" />
+      <workItem from="1751674155002" duration="12461000" />
+      <workItem from="1751725270030" duration="1879000" />
+      <workItem from="1751762390830" duration="7623000" />
+      <workItem from="1751861636711" duration="6318000" />
+      <workItem from="1751902693682" duration="1225000" />
+      <workItem from="1751967075913" duration="4943000" />
+      <workItem from="1752026343391" duration="12497000" />
+      <workItem from="1752072551847" duration="1148000" />
+      <workItem from="1752119024453" duration="918000" />
+      <workItem from="1752138995116" duration="1942000" />
+      <workItem from="1752161813172" duration="2519000" />
+      <workItem from="1752198633399" duration="23748000" />
+      <workItem from="1752313736223" duration="2637000" />
+      <workItem from="1752379640957" duration="3180000" />
+      <workItem from="1752413008244" duration="1540000" />
+      <workItem from="1752422518465" duration="2764000" />
+      <workItem from="1752441630959" duration="2494000" />
+      <workItem from="1752456925646" duration="10392000" />
+      <workItem from="1752485166981" duration="81000" />
+      <workItem from="1752488140690" duration="1143000" />
+      <workItem from="1752511291010" duration="6751000" />
+      <workItem from="1752632864218" duration="4191000" />
+      <workItem from="1752651263295" duration="1034000" />
+      <workItem from="1752652603904" duration="8142000" />
+      <workItem from="1752935980702" duration="4426000" />
+      <workItem from="1752968370781" duration="11897000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="OPEN_GENERIC_TABS">
+      <map>
+        <entry key="48ad17ae-843f-4769-b9bc-75354ada5e64" value="TOOL_WINDOW" />
+      </map>
+    </option>
+    <option name="TAB_STATES">
+      <map>
+        <entry key="48ad17ae-843f-4769-b9bc-75354ada5e64">
+          <value>
+            <State />
+          </value>
+        </entry>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="origin/UC19-AI" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+</project>

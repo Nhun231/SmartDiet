@@ -1,0 +1,131 @@
+:root {
+  --main-green: #4CAF50; /* màu xanh lá chủ đạo */
+  --light-green: #e8f5e9;
+  --text-green: #2e7d32;
+}
+
+.tdee-wrapper {
+  font-family: "Segoe UI", sans-serif;
+  padding: 2rem 0;
+  color: #333;
+}
+
+.title {
+  color: var(--main-green);
+  font-weight: 700;
+  text-align: center;
+  font-weight: bold !important;
+}
+
+.subtitle {
+  margin-top: 10px !important;
+  text-align: center;
+  margin-bottom: 2rem;
+  color: #444;
+  font-weight: bold !important;
+}
+
+.main-form-box {
+    margin-top: 50px;
+  display: flex;
+  gap: 3rem;
+  justify-content: center;
+  align-items: flex-start;
+  flex-wrap: wrap;
+}
+
+.left-form,
+.right-form {
+  flex: 1;
+  min-width: 320px;
+  max-width: 450px;
+}
+
+.label {
+  color: #4CAF50;
+   font-weight: bold !important;
+  margin-bottom: 6px;
+  margin-top: 10px !important;
+  display: block;
+  color: #2e7d32;
+}
+
+.input-box input {
+  background-color: #f2faf2;
+  padding: 10px;
+  font-size: 16px;
+}
+
+.gender-buttons {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 1rem;
+}
+
+.gender-buttons button {
+  flex: 1;
+  border: 1px solid var(--main-green);
+  background: white;
+  color: var(--main-green);
+  font-weight: bold;
+  padding: 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.gender-buttons .active {
+  background-color: var(--main-green);
+  color: white;
+}
+
+.activity-box {
+  background: #fffdf2;
+  border: 1px solid  #2e7d32;
+  border-radius: 10px;
+  padding: 1.5rem;
+}
+
+.activity-title {
+  text-align: center;
+  color: var(--main-green);
+  font-weight: bold !important;
+  margin-top: -7px !important;
+  margin-bottom: 5px !important;
+  font-size: 20px !important;
+}
+
+.activity-header {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid #ddd;
+  color: #333;
+}
+
+.activity-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 0;
+  border-bottom: 1px solid #eee;
+}
+
+.result-box {
+  background-color: white;
+  border-radius: 12px;
+  padding: 40px 20px;
+  margin-top: 40px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+
+button.calculate-btn {
+  background-color: var(--main-green) !important;
+  color: white;
+  padding: 10px 30px;
+  font-weight: bold;
+  margin-top: 2rem;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}

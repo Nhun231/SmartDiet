@@ -1,0 +1,4 @@
+backend/node_modules
+frontend/node_modules
+.env
+backend\smart-diet-67dde-firebase-adminsdk-fbsvc-d314c7ab85.json

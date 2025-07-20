@@ -1,0 +1,60 @@
+services:
+  maildev:
+    image: maildev/maildev
+    container_name: emailLocal
+    ports:
+      - "1080:1080"
+      - "1025:1025"
+    networks:
+      - react-express
+    restart: on-failure
+
+  # frontend:
+  #   build:
+  #     context: frontend
+  #     target: development
+  #   ports: 
+  #     - 3000:3000
+  #   stdin_open: true
+  #   volumes:
+  #     - ./frontend:/usr/src/app
+  #     - /usr/src/app/node_modules
+  #   restart: always
+  #   networks:
+  #     - react-express
+  #   depends_on:
+  #     - backend
+  # backend:
+  #   restart: always
+  #   build:
+  #     context: backend
+  #     target: development
+  #   volumes:
+  #     - ./backend:/usr/src/app
+  #     - /usr/src/app/node_modules
+  #   networks:
+  #     - express-mongo
+  #     - react-express
+  #   expose:
+  #     - 9999
+  #   command: [ "nodemon", "server.js" ]
+  #   env_file:
+  #     - .env
+  #   environment:
+  #       MONGO_URI: ${MONGO_URI}
+#  mongo:
+#    restart: always
+#    image: mongo:4.2.0
+#    volumes:
+#      - mongo_data:/data/db
+#    networks:
+#      - express-mongo
+#    expose:
+#      - 27017
+
+
+networks:
+  react-express:
+  express-mongo:
+volumes:
+  mongo_data:
