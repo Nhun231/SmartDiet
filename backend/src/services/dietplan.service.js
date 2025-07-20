@@ -95,10 +95,7 @@ const getCurrentDietPlan = async (userId) => {
 }
 
 const getDietPlanByDate = async (userId, date) => {
-    console.log('input data', userId)
-    console.log('input data', date)
     const dateToFind = new Date(`${date}T23:59:59.000Z`);
-    console.log(dateToFind)
     const plan = await DietPlan.findOne({
         userId: userId,
         startDate: { $lte: dateToFind },

@@ -121,11 +121,11 @@ export default function UserProfileForm({ setSuccess, setError }) {
                         gutterBottom
                         sx={{ color: "#7a4f01" }}
                     >
-                        User Registration
+                        Đăng ký tài khoản mới
                     </Typography>
 
                     <TextField
-                        label="Full Name"
+                        label="Họ và tên"
                         fullWidth
                         margin="normal"
                         value={username}
@@ -140,11 +140,11 @@ export default function UserProfileForm({ setSuccess, setError }) {
                         value={email}
                         onChange={handleChangeEmailChange}
                         error={errorEmail}
-                        helperText={errorEmail ? "Invalid email format." : ""}
+                        helperText={errorEmail ? "Định dạng email không hợp lệ." : ""}
                         sx={textFieldSx}
                     />
                     <TextField
-                        label="Password"
+                        label="Mật khẩu"
                         type="password"
                         fullWidth
                         margin="normal"
@@ -153,13 +153,13 @@ export default function UserProfileForm({ setSuccess, setError }) {
                         error={errorPasswordFormat}
                         helperText={
                             errorPasswordFormat
-                                ? "Password must contain uppercase, number, and special character (!@#$%^&*)."
+                                ? "Mật khẩu phải có chữ hoa, số và ký tự đặc biệt (!@#$%^&*)."
                                 : ""
                         }
                         sx={textFieldSx}
                     />
                     <TextField
-                        label="Confirm Password"
+                        label="Xác nhận mật khẩu"
                         type="password"
                         fullWidth
                         margin="normal"
@@ -168,13 +168,13 @@ export default function UserProfileForm({ setSuccess, setError }) {
                         error={errorPassword}
                         helperText={
                             errorPassword
-                                ? "Passwords do not match."
+                                ? "Mật khẩu xác nhận không khớp."
                                 : ""
                         }
                         sx={textFieldSx}
                     />
                     <TextField
-                        label="Date of Birth"
+                        label="Ngày sinh"
                         type="date"
                         fullWidth
                         margin="normal"
@@ -198,10 +198,11 @@ export default function UserProfileForm({ setSuccess, setError }) {
                         }}
                         onClick={submitRegister}
                     >
-                        Register
+                        Đăng ký
                     </Button>
                 </CardContent>
             </Card>
         </Box>
+
     );
 }

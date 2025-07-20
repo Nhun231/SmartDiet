@@ -28,7 +28,6 @@ const getDietPlanByDate = catchAsync(async (req, res) => {
     if (!userId) throw new BaseError(StatusCodes.UNAUTHORIZED, 'User not authenticated');
 
     const date = req.query.date;
-    console.log('date', date)
     const plan = await dietPlanService.getDietPlanByDate(userId, date);
     res.status(200).json(plan);
 })

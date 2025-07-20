@@ -21,7 +21,6 @@ const sendWelcomeOnboardEmail = catchAsync(async (req, res) => {
 
 //send forgot password email
 const sendForgotPasswordEmail = catchAsync(async (req, res) => {
-    console.log('forgot password')
     const result = await emailService.sendForgotPasswordEmail(req.body.email, req.body.token, res);
     res.status(StatusCodes.OK).json({
         message: result
