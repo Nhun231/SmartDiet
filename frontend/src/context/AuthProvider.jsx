@@ -61,8 +61,7 @@ const AuthProvider = ({ children }) => {
           return Promise.reject(error);
         }
         if (
-          error.response?.status === 401 &&
-          error.response?.data.code === 4003
+          error.response?.status === 401
         ) {
           if (isRefreshing) {
             return Promise.reject(error);

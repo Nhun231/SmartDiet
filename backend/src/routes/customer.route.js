@@ -9,13 +9,15 @@ const allowRoles = require("../middlewares/allowedRole");
 /**
  * @swagger
  * tags:
- *   name: Tính chỉ số
- *   description: API tính TDEE, BMR, BMI
- *
+ *   - name: Calculate
+ *     description: API tính toán TDEE, BMR, BMI
+
  * customer/calculate:
  *   post:
- *     summary: Tính toán TDEE, BMR và BMI
+ *     summary: Tính toán TDEE, BMR, BMI và các chỉ số dinh dưỡng
  *     tags: [Calculate]
+ *     security:
+ *       - bearerAuth: []
  *     requestBody:
  *       required: true
  *       content:
@@ -23,15 +25,12 @@ const allowRoles = require("../middlewares/allowedRole");
  *           schema:
  *             type: object
  *             required:
- *               - userId
  *               - gender
  *               - age
  *               - height
  *               - weight
  *               - activity
  *             properties:
- *               userId:
- *               type: string
  *               gender:
  *                 type: string
  *                 enum: [Nam, Nữ]
@@ -45,10 +44,11 @@ const allowRoles = require("../middlewares/allowedRole");
  *                 description: Cân nặng (kg)
  *               activity:
  *                 type: string
- *                 description: Mức độ vận động (ít, nhẹ, vừa, nhiều, cực_nhiều)
+ *                 enum: [ít, nhẹ, vừa, nhiều, cực_nhiều]
+ *                 description: Mức độ vận động
  *     responses:
  *       200:
- *         description: Kết quả tính toán
+ *         description: Kết quả tính toán thành công
  *         content:
  *           application/json:
  *             schema:
@@ -62,6 +62,8 @@ const allowRoles = require("../middlewares/allowedRole");
  *                   type: number
  *                 bmi:
  *                   type: number
+ *                 waterIntake:
+ *                   type: string
  *                 nutrition:
  *                   type: object
  *                   properties:
@@ -76,7 +78,7 @@ const allowRoles = require("../middlewares/allowedRole");
 router.post('/calculate', verifyJWTs, validateCalculate, tdeeController.calculateTDEE);
 /**
  * @swagger
- * customer/calculate/newest:
+ * /customer/calculate/newest:
  *   get:
  *     summary: Lấy dữ liệu tính toán mới nhất của người dùng
  *     tags: [Calculate]
@@ -147,7 +149,7 @@ router.get('/calculate/newest', verifyJWTs, tdeeController.getNewestCalculateByE
 
 /**
  * @swagger
- * customer/calculate/update-nutrition:
+ * /customer/calculate/update-nutrition:
  *   patch:
  *     summary: Cập nhật % Nutrition (Carbs, Protein, Fat)
  *     tags: [Calculate]
@@ -198,7 +200,7 @@ router.patch('/calculate/update-nutrition', verifyJWTs, tdeeController.updateNut
 
 /**
  * @swagger
- * customer/calculate/history:
+ * /customer/calculate/history:
  *   get:
  *     summary: Lấy toàn bộ lịch sử tính toán chỉ số theo user
  *     tags: [Calculate]
@@ -248,7 +250,7 @@ router.get('/calculate/history', verifyJWTs, tdeeController.getAllCalculationsBy
 
 /**
  * @swagger
- * customer/dietplan/get-current:
+ * /customer/dietplan/get-current:
  *   get:
  *     summary: Lấy kế hoạch ăn kiêng hiện tại của người dùng
  *     tags: [DietPlan]
@@ -270,7 +272,7 @@ router.get('/dietplan/get-current', verifyJWTs,dietPlanController.getCurrentDiet
 
 /**
  * @swagger
- * customer/dietplan/create:
+ * /customer/dietplan/create:
  *   post:
  *     summary: Tạo kế hoạch ăn kiêng mới
  *     tags: [DietPlan]
@@ -310,7 +312,7 @@ router.post('/dietplan/create', verifyJWTs,dietPlanController.generateDietPlan);
 
 /**
  * @swagger
- * customer/dietplan/update:
+ * /customer/dietplan/update:
  *   put:
  *     summary: Cập nhật kế hoạch ăn kiêng
  *     tags: [DietPlan]

@@ -7,7 +7,7 @@ const verifyJWTs = require('../middlewares/verifyJWTs');
 // Hàm này thường dùng cho cron job, không phải từ client
 /**
  * @swagger
- * /smartdiet/water-reminders/send-reminders:
+ * /water-reminders/send-reminders:
  *   post:
  *     summary: Gửi thông báo nhắc nhở uống nước (dùng cho hệ thống/cron job)
  *     tags: [WaterReminder]
@@ -23,7 +23,7 @@ router.use(verifyJWTs);
 // Cập nhật hoặc tạo reminder setting
 /**
  * @swagger
- * /smartdiet/water-reminders/reminder-setting:
+ * /water-reminders/reminder-setting:
  *   post:
  *     summary: Cập nhật hoặc tạo cài đặt nhắc nhở uống nước
  *     tags: [WaterReminder]
@@ -78,7 +78,7 @@ router.post('/reminder-setting', waterReminderController.updateReminderSetting);
 // Lấy lịch trình nhắc uống nước
 /**
  * @swagger
- * /smartdiet/water-reminders/reminder-schedule:
+ * /water-reminders/reminder-schedule:
  *   get:
  *     summary: Lấy lịch trình nhắc uống nước của người dùng
  *     tags: [WaterReminder]

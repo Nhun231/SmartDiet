@@ -20,10 +20,14 @@ import Daily from "../components/common/Daily.jsx";
 import DishesPage from "../pages/DishPage.jsx";
 import UserHomePage from "../pages/UserHomePage.jsx";
 import WaterInformationPage from "../pages/WaterInformationPage.jsx";
+import { Navigate } from "react-router-dom";
+import DefaultRedirect from "../components/common/DefaultRedirect.jsx";
+
+//For token, logout provide
 const AuthLayout = () => (
-  <AuthProvider>
-    <Outlet />
-  </AuthProvider>
+    <AuthProvider>
+      <Outlet />
+    </AuthProvider>
 );
 const router = createBrowserRouter([
   {
@@ -40,67 +44,111 @@ const router = createBrowserRouter([
       {
         element: <MainLayout />,
         children: [
+            {
+                path: "/",
+                element: <DefaultRedirect />
+            },
           {
             path: "/calculate",
-            element: <Calculator />
+            element: (
+                <RequireRole allowedRoles={["customer"]}>
+                  <Calculator />
+                </RequireRole>
+            )
           },
           {
             path: "/meal",
-            element: <IngredientList />,
+            element: (
+                <RequireRole allowedRoles={["customer"]}>
+                  <IngredientList />
+                </RequireRole>
+            )
           },
           {
             path: "/dishes",
-            element: <DishesPage />,
+            element: (
+                <RequireRole allowedRoles={["customer"]}>
+                  <DishesPage />
+                </RequireRole>
+            )
           },
           {
             path: "/daily",
-            element: <Daily />
+            element: (
+                <RequireRole allowedRoles={["customer"]}>
+                  <Daily />
+                </RequireRole>
+            )
           },
           {
             path: "/update-nutrition",
-            element: <UpdateNutrition />
+            element: (
+                <RequireRole allowedRoles={["customer"]}>
+                  <UpdateNutrition />
+                </RequireRole>
+            )
           },
           {
             path: "/setgoal",
-            element: <SetGoal />
+            element: (
+                <RequireRole allowedRoles={["customer"]}>
+                  <SetGoal />
+                </RequireRole>
+            )
           },
           {
             path: "/dietplan/create",
-            element: <DietPlan />
+            element: (
+                <RequireRole allowedRoles={["customer"]}>
+                  <DietPlan />
+                </RequireRole>
+            )
           },
-            {
-                path: "/dashboard",
-                element: <UserHomePage />,
-            },
+          {
+            path: "/dashboard",
+            element: (
+                <RequireRole allowedRoles={["customer"]}>
+                  <UserHomePage />
+                </RequireRole>
+            )
+          },
           {
             path: "/my-profile",
-            element:
+            element: (
                 <RequireRole allowedRoles={["admin", "customer"]}>
                   <ProfilePage />
-                </RequireRole>,
-
+                </RequireRole>
+            )
           },
           {
             path: "/edit-profile",
-            element: <RequireRole allowedRoles={["admin", "customer"]}>
-              <EditProfilePage />
-            </RequireRole>,
+            element: (
+                <RequireRole allowedRoles={["admin", "customer"]}>
+                  <EditProfilePage />
+                </RequireRole>
+            )
           },
           {
             path: "/water-infor",
-            element: <WaterInformationPage />,
+            element: (
+                <RequireRole allowedRoles={["customer"]}>
+                  <WaterInformationPage />
+                </RequireRole>
+            )
           },
           {
             path: "/homepage",
-            element: <HomePage />,
-          },
-          {
-            path: "*",
-            element: <NotFoundPage />,
+            element: (
+              <HomePage />
+            )
           },
           {
             path: "/unauthorized",
             element: <UnauthorizedPage />,
+          },
+          {
+            path: "*",
+            element: <NotFoundPage />,
           }
         ],
       },

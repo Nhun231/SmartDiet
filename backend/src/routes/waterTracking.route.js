@@ -6,7 +6,7 @@ const verifyJWTs = require('../middlewares/verifyJWTs');
 router.use(verifyJWTs);
 /**
  * @swagger
- * /smartdiet/water-reminders/water-data:
+ * water/water-data:
  *   get:
  *     summary: Lấy dữ liệu nước uống trong ngày của người dùng
  *     tags: [WaterReminder]
@@ -45,7 +45,7 @@ router.use(verifyJWTs);
 router.get('/water-data', controller.getWaterData);
 /**
  * @swagger
- * /smartdiet/water-reminders/add-water:
+ * /water/add-water:
  *   post:
  *     summary: Ghi nhận lần uống nước của người dùng
  *     tags: [WaterReminder]
@@ -81,7 +81,7 @@ router.get('/water-data', controller.getWaterData);
 router.post('/add-water', controller.addWater);
 /**
  * @swagger
- * /smartdiet/water-reminders/update-target:
+ * /water/update-target:
  *   put:
  *     summary: Cập nhật mục tiêu uống nước trong ngày
  *     tags: [WaterReminder]

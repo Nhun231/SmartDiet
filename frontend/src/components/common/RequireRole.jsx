@@ -13,6 +13,7 @@ const RequireRole = ({ allowedRoles, children }) => {
 
     if (!user) {
         console.warn("User not logged in");
+        alert('You must login to action')
         return <Navigate to="/login" replace />;
     }
 

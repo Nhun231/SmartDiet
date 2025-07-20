@@ -8,12 +8,18 @@ const createMeal = async (req, res) => {
         const { mealType, date, ingredients = [], dish = [], userId } = req.body;
         if (!userId) return res.status(400).json({ message: "Thiếu userId" });
 
+        // Check if at least one ingredient or dish is provided
+        if ((!ingredients || ingredients.length === 0) && (!dish || dish.length === 0)) {
+            return res.status(400).json({ message: "Phải có ít nhất một nguyên liệu hoặc món ăn" });
+        }
+
         const totals = await calculateNutritionForMeal(ingredients, dish);
 
         const meal = new Meal({ mealType, date, ingredients, dish, totals, userId });
         const saved = await meal.save();
         res.status(201).json(saved);
     } catch (err) {
+        console.error('Error creating meal:', err);
         res.status(500).json({ message: "Lỗi tạo bữa ăn", error: err.message });
     }
 };
