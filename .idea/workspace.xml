@@ -6,7 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="c0ca266a-c1a1-4fd5-91ea-e5eef9e32317" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/services/calculate.service.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/services/calculate.service.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/UserHomePage.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/UserHomePage.jsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -65,7 +65,7 @@
       <option name="presentableId" value="Default" />
       <updated>1753007356822</updated>
       <workItem from="1753007359501" duration="7820000" />
-      <workItem from="1753031814434" duration="3636000" />
+      <workItem from="1753031814434" duration="5767000" />
     </task>
     <servers />
   </component>
@@ -83,7 +83,7 @@
                   <entry key="branch">
                     <value>
                       <list>
-                        <option value="origin/UC18-View-diet-plan" />
+                        <option value="origin/fix-final" />
                       </list>
                     </value>
                   </entry>

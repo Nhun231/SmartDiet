@@ -45,6 +45,10 @@ const UserHomePage = () => {
     const [waterConsum, setWaterConsum] = useState(0)
     const currentCupIndex = Math.floor(cupsDrank);
     const [isToday, setIsToday] = useState(new Date(selectedDate).toDateString() === new Date().toDateString());
+    const [fiberTarget, setfiberTarget] = useState(0);
+    const [fatTarget, setfatTarget] = useState(0)
+    const [carbsTarget, setcarbsTarget] = useState(0)
+    const [proteinTarget, setproteinTarget] = useState(0)
 
     const handleDrinkClick = async (index) => {
         const newCups = index + 1;
@@ -81,8 +85,10 @@ const UserHomePage = () => {
                 setConsumption(response1.data.referenceTDEE - response2.data.bmr);
                 setTotalWater(response2.data.waterIntake);
                 setWaterPerCup((response2.data.waterIntake * 1000) / 8);
-
-
+            setcarbsTarget(response2.data.carbGram)
+            setfiberTarget(response2.data.fiberGram)
+            setfatTarget(response2.data.fatGram)
+            setproteinTarget(response2.data.proteinGram)
         } catch (error) {
             const response2 = await baseAxios.get("/customer/calculate/newest")
             console.log('2', response2.data.tdee)
@@ -259,7 +265,7 @@ const UserHomePage = () => {
                     </LocalizationProvider>
 
                     <Box mt={3} textAlign="center">
-                        <Typography variant="h5">Calories Hôm Nay</Typography>
+                        <Typography variant="h5">Nhật ký Calories </Typography>
                         <Box display="flex" justifyContent="center" alignItems="center" mt={2}>
                             <Typography sx={{ position: 'absolute', left: '28vw' }} fontSize={20}>{caloriesTaken} đã nạp</Typography>
                             <Box sx={{ width: 200, height: 200, position: "relative" }}>
@@ -280,15 +286,15 @@ const UserHomePage = () => {
 
                     <Box mt={4} display="flex" justifyContent="space-around">
                         {[
-                            { label: "Chất xơ", value: fiber.toFixed(1) },
-                            { label: "Tinh bột", value: carbs.toFixed(1) },
-                            { label: "Chất đạm", value: protein.toFixed(1) },
-                            { label: "Chất béo", value: fat.toFixed(1) }
+                            { label: "Chất sơ", value: fiber.toFixed(1), target: fiberTarget.toFixed(1) },
+                            { label: "Tinh bột", value: carbs.toFixed(1), target: carbsTarget.toFixed(1) },
+                            { label: "Chất đạm", value: protein.toFixed(1), target: proteinTarget.toFixed(1) },
+                            { label: "Chất béo", value: fat.toFixed(1), target: fatTarget.toFixed(1) }
                         ].map((item, index) => (
                             <Box key={index} textAlign="center">
-                                <Typography variant="body2" fontSize={19}>{item.label}</Typography>
-                                <Box sx={{ height: 4, width: 80, backgroundColor: "#fff", mt: 1, mb: 0.5 }} />
-                                <Typography variant="caption" fontSize={17}>{item.value}</Typography>
+                                <Typography variant="body2" fontSize={17}>{item.label}</Typography>
+                                <Box sx={{ height: 4, width: 130, backgroundColor: "#fff", mt: 1, mb: 0.5 }} />
+                                <Typography variant="caption" fontSize={17}>{`${item.value}/${item.target} gr`}</Typography>
                             </Box>
                         ))}
                     </Box>
