@@ -38,12 +38,17 @@ const router = createBrowserRouter([
     path: "/changepassword/:token",
     element: <ChangePassword />,
   },
+
   {
     element: <AuthLayout />,
     children: [
       {
         element: <MainLayout />,
         children: [
+            {
+                path: "/oauth-callback",
+                element: <OAuthCallback />,
+            },
             {
                 path: "/",
                 element: <DefaultRedirect />

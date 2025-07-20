@@ -17,13 +17,19 @@ const handleGoogleCallback = (req, res, next) => {
     }
     // this part set 2 token like usual
     const accessToken = jwt.sign(
-        { email: user.email },
+        { email: user.email,
+                      username: user.username,
+                      role: user.role || 'customer',
+                      id: user._id, },
         process.env.ACCESS_TOKEN_SECRET,
         { expiresIn: process.env.ACCESS_TOKEN_LIFE }
     );
 
     const refreshToken = jwt.sign(
-        { email: user.email },
+        { email: user.email,
+                      username: user.username,
+                      role: user.role || 'customer',
+                      id: user._id, },
         process.env.REFRESH_TOKEN_SECRET,
         { expiresIn: process.env.REFRESH_TOKEN_LIFE }
     );
