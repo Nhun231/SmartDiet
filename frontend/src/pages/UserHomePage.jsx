@@ -43,11 +43,10 @@ const UserHomePage = () => {
     const [shouldRedirect, setShouldRedirect] = useState(false);
     const [waterConsum, setWaterConsum] = useState(0)
     const currentCupIndex = Math.floor(cupsDrank);
-
+    const [isToday, setIsToday] = useState(new Date(selectedDate).toDateString() === new Date().toDateString());
 
     const handleDrinkClick = async (index) => {
         const newCups = index + 1;
-        console.log(`Cups clicked: ${newCups}`);
         const newAmount = newCups * waterPerCup - waterConsum;
         console.log(`Cups drank: ${newCups}, Amount: ${newAmount}`);
 
@@ -65,17 +64,32 @@ const UserHomePage = () => {
         }
     };
 
+    const checkValidCurrentTime = () => {
+        return new Date(selectedDate).toDateString() === new Date().toDateString();
+    }
+
     const getTarget = async () => {
         try {
-            const response = await baseAxios.get("/customer/calculate/newest");
-            console.log("Latest calculate data:", response.data);
-            if (response.status == 200) {
-                setCaloriesTarget(response.data.tdee);
-                setConsumption(response.data.tdee - response.data.bmr);
-                setTotalWater(response.data.waterIntake);
-                setWaterPerCup((response.data.waterIntake * 1000) / 8);
+            const response1 = await baseAxios.get("/customer/dietplan/get-by-date", {
+                params: { date: selectedDate.format("YYYY-MM-DD") }
+            });
+
+            const response2 = await baseAxios.get("/customer/calculate/newest")
+            console.log("Latest calculate data:", response1.data);
+            console.log("Latest calculate data:", response2.data);
+
+            if (response2.status == 200 && response1.status == 200) {
+                setCaloriesTarget(response1.data.referenceTDEE);
+                setConsumption(response1.data.referenceTDEE - response2.data.bmr);
+                setTotalWater(response2.data.waterIntake);
+                setWaterPerCup((response2.data.waterIntake * 1000) / 8);
+            } else if (response2.status == 200 && response1.status != 200) {
+                setCaloriesTarget(response2.data.tdee);
+                setConsumption(response2.data.tdee - response2.data.bmr);
+                setTotalWater(response2.data.waterIntake);
+                setWaterPerCup((response2.data.waterIntake * 1000) / 8);
             }
-            return response;
+            return response2;
         } catch (error) {
             console.error("Error fetching latest calculate data:", error);
         }
@@ -152,6 +166,8 @@ const UserHomePage = () => {
 
     useEffect(() => {
         getMeal();
+        getTarget();
+        setIsToday(checkValidCurrentTime());
         if (totalWater > 0) {
             getWaterIntake();
         }
@@ -160,6 +176,7 @@ const UserHomePage = () => {
     useEffect(() => {
 
     }, [cupsDrank]);
+
     useEffect(() => {
         const checkCalculateData = async () => {
             try {
@@ -178,6 +195,7 @@ const UserHomePage = () => {
 
         checkCalculateData();
     }, []);
+
     useEffect(() => {
         if (shouldRedirect) {
             navigate('/calculate');
@@ -287,23 +305,23 @@ const UserHomePage = () => {
                             {[...Array(totalWaterCups)].map((_, i) => (
                                 <IconButton
                                     key={i}
-                                    onClick={i === currentCupIndex ? () => handleDrinkClick(i) : undefined}
+                                    onClick={isToday && i === currentCupIndex ? () => handleDrinkClick(i) : undefined}
                                     sx={{
                                         mx: 0.5,
-                                        cursor: i === currentCupIndex ? "pointer" : "default",
-                                        pointerEvents: i === currentCupIndex ? "auto" : "none",
+                                        cursor: isToday && i === currentCupIndex ? "pointer" : "default",
+                                        pointerEvents: isToday && i === currentCupIndex ? "auto" : "none",
                                         color:
                                             i < currentCupIndex
-                                                ? "#fff"             
+                                                ? "#fff"
                                                 : i === currentCupIndex
-                                                    ? "#6db0b4ff"                 
-                                                    : "rgba(255,255,255,0.3)",    
+                                                    ? "#6db0b4ff"
+                                                    : "rgba(255,255,255,0.3)",
                                         position: "relative"
                                     }}
                                 >
                                     <EmojiFoodBeverageIcon sx={{ fontSize: 32 }} />
 
-                                    {i === currentCupIndex && (
+                                    {isToday && i === currentCupIndex && (
                                         <Box
                                             sx={{
                                                 position: "absolute",

@@ -354,4 +354,6 @@ router.post('/dietplan/create', verifyJWTs,dietPlanController.generateDietPlan);
  *         description: Lỗi phía server
  */
 router.put('/dietplan/update',verifyJWTs, dietPlanController.updateDietPlan);
+
+router.get('/dietplan/get-by-date', verifyJWTs, dietPlanController.getDietPlanByDate)
 module.exports = router;
