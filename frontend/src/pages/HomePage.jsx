@@ -1,6 +1,6 @@
 import React from "react";
 import { Box } from "@mui/material";
-import HomePageComponent from "../components/homePage/homePage";
+import HomePageComponent from "../components/homePage/HomePage.jsx";
 
 const HomePage = () => {
     return (

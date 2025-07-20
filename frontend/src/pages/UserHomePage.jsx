@@ -40,35 +40,10 @@ const UserHomePage = () => {
     const [consumption, setConsumption] = useState(0);
     const [loading, setLoading] = useState(true);
     const [calculationData, setCalculationData] = useState(null);
+    const [shouldRedirect, setShouldRedirect] = useState(false);
 
-    useEffect(() => {
-        const checkCalculateData = async () => {
-            try {
-                const res = await baseAxios.get('/customer/calculate/newest');
-                console.log(res.data)
-                if (res.data && res.data.tdee) {
-                    setCalculationData(res.data);
-                } else {
-                    navigate('/calculate');
-                }
-            } catch (err) {
-                console.error('Lỗi khi kiểm tra dữ liệu:', err);
-                navigate('/calculate');
-            } finally {
-                setLoading(false);
-            }
-        };
 
-        checkCalculateData();
-    }, [navigate]);
 
-    if (loading) {
-        return (
-            <Box display="flex" justifyContent="center" alignItems="center" height="100vh">
-                <CircularProgress />
-            </Box>
-        );
-    }
     const meals = {
         "Bữa sáng": ["Trứng chiên", "Bánh mì nguyên cám", "Sữa đậu nành"],
         "Bữa trưa": ["Cơm gạo lứt", "Ức gà", "Rau xanh luộc"],
@@ -221,7 +196,37 @@ const UserHomePage = () => {
     useEffect(() => {
 
     }, [cupsDrank]);
+    useEffect(() => {
+        const checkCalculateData = async () => {
+            try {
+                const res = await baseAxios.get('/customer/calculate/newest');
+                if (res.data && res.data.tdee) {
+                    setCalculationData(res.data);
+                } else {
+                    setShouldRedirect(true);
+                }
+            } catch (err) {
+                setShouldRedirect(true);
+            } finally {
+                setLoading(false);
+            }
+        };
 
+        checkCalculateData();
+    }, []);
+    useEffect(() => {
+        if (shouldRedirect) {
+            navigate('/calculate');
+        }
+    }, [shouldRedirect, navigate]);
+
+    if (loading) {
+        return (
+            <Box display="flex" justifyContent="center" alignItems="center" height="100vh">
+                <CircularProgress />
+            </Box>
+        );
+    }
     return (
         <Box sx={{ backgroundColor: "#F1F8E9", minHeight: "100vh", fontFamily: "sans-serif" }}>
             <Box
