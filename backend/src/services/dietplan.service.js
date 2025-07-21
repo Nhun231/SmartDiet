@@ -103,7 +103,7 @@ const getDietPlanByDate = async (userId, date) => {
             { endDate: { $gte: dateToFind } },
             { endDate: null }
         ]
-    });
+    }).sort({ startDate: -1 }); // <-- Add this to get the latest plan
     if (!plan) {
         throw new BaseError(StatusCodes.NOT_FOUND, 'Không tìm thấy kế hoạch ăn kiêng');
     }

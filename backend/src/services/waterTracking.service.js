@@ -111,7 +111,12 @@ exports.addWaterIntake = async (req, res) => {
         }
 
         const now = new Date();
-        const time = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+        const time = new Date().toLocaleTimeString('en-US', {
+            hour: '2-digit',
+            minute: '2-digit',
+            hour12: true,
+            timeZone: 'Asia/Ho_Chi_Minh'
+        });
 
         waterData.consumed += amount;
         waterData.history.unshift({ time, amount });

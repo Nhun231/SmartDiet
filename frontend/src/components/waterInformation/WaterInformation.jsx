@@ -8,7 +8,6 @@ const WaterTrackingPage = () => {
   const [newIntake, setNewIntake] = useState("");
   const quickAddOptions = [100, 200, 300, 500];
 
-  // Lấy dữ liệu từ backend
   useEffect(() => {
     const fetchWaterData = async () => {
       try {
@@ -24,7 +23,6 @@ const WaterTrackingPage = () => {
     fetchWaterData();
   }, []);
 
-  // Thêm lượng nước
   const handleAddWater = async (e) => {
     e.preventDefault();
     if (!newIntake || isNaN(newIntake) || Number(newIntake) <= 0) return;
@@ -44,7 +42,6 @@ const WaterTrackingPage = () => {
     }
   };
 
-  // Quick add button
   const handleQuickAdd = async (amount) => {
     try {
       const response = await axios.post(
@@ -60,7 +57,6 @@ const WaterTrackingPage = () => {
     }
   };
 
-  // Cập nhật target
   const handleTargetChange = async (e) => {
     const value = Number(e.target.value);
     if (!isNaN(value) && value > 0) {
@@ -82,32 +78,28 @@ const WaterTrackingPage = () => {
   };
 
   if (!waterData) {
-    return <p>Loading water tracking data...</p>;
+    return <p>Đang tải dữ liệu theo dõi nước...</p>;
   }
 
-  // Tính % hoàn thành và lượng nước còn lại
   const progressPercentage = Math.min(
     Math.round((waterData.consumed / waterData.target) * 100),
     100
   );
   const remainingWater = Math.max(waterData.target - waterData.consumed, 0);
-  if (!waterData) {
-    return <p>Loading water tracking data...</p>;
-  }
 
   return (
     <div className="container p-4">
       {/* Header */}
       <div className="flex flex-col mb-6 gap-4">
         <div>
-          <h1 className="text-3xl font-bold">Water Tracking</h1>
+          <h1 className="text-3xl font-bold">Theo Dõi Uống Nước</h1>
           <p className="text-gray-600 mt-1">
-            Monitor your daily water intake and stay hydrated
+            Giám sát lượng nước bạn đã uống mỗi ngày để giữ cơ thể đủ nước
           </p>
         </div>
       </div>
 
-      {/* Main Content */}
+      {/* Nội dung chính */}
       <div className="grid grid-cols-1 grid-cols-2 gap-6">
         {/* Left Column */}
         <div className="flex flex-col gap-6">
@@ -115,7 +107,7 @@ const WaterTrackingPage = () => {
           <div className="my-card">
             <div className="my-card-header">
               <h3 className="my-card-title">
-                <span className="icon">💧</span> Daily Water Intake
+                <span className="icon">💧</span> Lượng nước hôm nay
               </h3>
             </div>
             <div className="card-content">
@@ -142,10 +134,12 @@ const WaterTrackingPage = () => {
                   <div className="water-remaining">
                     {remainingWater > 0 ? (
                       <span>
-                        Remaining: {remainingWater} {waterData.unit}
+                        Còn lại: {remainingWater} {waterData.unit}
                       </span>
                     ) : (
-                      <span className="target-reached">Target reached! 🎉</span>
+                      <span className="target-reached">
+                        Đã đạt mục tiêu! 🎉
+                      </span>
                     )}
                   </div>
                 </div>
@@ -157,14 +151,42 @@ const WaterTrackingPage = () => {
           <div className="my-card">
             <div className="my-card-header">
               <h3 className="my-card-title">
-                <span className="icon">➕</span> Add Water Intake
+                <span className="icon">🎯</span> Thiết Lập Mục Tiêu
+              </h3>
+            </div>
+            <div className="card-content">
+              <div className="form-group">
+                <label className="form-label" htmlFor="waterTarget">
+                  Mục tiêu mỗi ngày ({waterData.unit})
+                </label>
+                <input
+                  type="number"
+                  id="waterTarget"
+                  className="form-control"
+                  value={waterData.target}
+                  onChange={handleTargetChange}
+                  min="500"
+                  step="100"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Cột bên phải */}
+        <div className="flex flex-col gap-6">
+          {/* Thêm lượng nước */}
+          <div className="my-card">
+            <div className="my-card-header">
+              <h3 className="my-card-title">
+                <span className="icon">➕</span> Thêm lượng nước
               </h3>
             </div>
             <div className="card-content">
               <form onSubmit={handleAddWater} className="water-form">
                 <div className="form-group">
                   <label className="form-label" htmlFor="waterAmount">
-                    Amount ({waterData.unit})
+                    Nhập số lượng ({waterData.unit})
                   </label>
                   <div className="water-input-group">
                     <input
@@ -173,17 +195,20 @@ const WaterTrackingPage = () => {
                       className="form-control"
                       value={newIntake}
                       onChange={(e) => setNewIntake(e.target.value)}
-                      placeholder="Enter amount"
+                      placeholder="Nhập lượng nước"
                       min="1"
                     />
                     <button type="submit" className="btn btn-primary">
-                      Add
+                      Thêm
                     </button>
                   </div>
                 </div>
 
-                <div className="quick-add-section">
-                  <p className="text-sm text-gray-600 mb-2">Quick Add:</p>
+                <div
+                  className="quick-add-section"
+                  style={{ marginBottom: "22.4px" }}
+                >
+                  <p className="text-sm text-gray-600 mb-3">Thêm nhanh:</p>
                   <div className="quick-add-buttons">
                     {quickAddOptions.map((amount) => (
                       <button
@@ -200,40 +225,12 @@ const WaterTrackingPage = () => {
               </form>
             </div>
           </div>
-        </div>
 
-        {/* Right Column */}
-        <div className="flex flex-col gap-6">
-          {/* Target Settings Card */}
+          {/* Lịch sử uống nước */}
           <div className="my-card">
             <div className="my-card-header">
               <h3 className="my-card-title">
-                <span className="icon">🎯</span> Target Settings
-              </h3>
-            </div>
-            <div className="card-content">
-              <div className="form-group">
-                <label className="form-label" htmlFor="waterTarget">
-                  Daily Target ({waterData.unit})
-                </label>
-                <input
-                  type="number"
-                  id="waterTarget"
-                  className="form-control"
-                  value={waterData.target}
-                  onChange={handleTargetChange}
-                  min="500"
-                  step="100"
-                />
-              </div>
-            </div>
-          </div>
-
-          {/* Water Intake History Card */}
-          <div className="my-card">
-            <div className="my-card-header">
-              <h3 className="my-card-title">
-                <span className="icon">📝</span> Today's Intake History
+                <span className="icon">📝</span> Lịch sử hôm nay
               </h3>
             </div>
             <div className="card-content">
@@ -250,8 +247,8 @@ const WaterTrackingPage = () => {
                   ))}
                 </div>
               ) : (
-                <p className="text-center text-gray-500 py-4">
-                  No intake recorded today
+                <p className="text-center text-gray-500 py-5">
+                  Chưa ghi nhận lượng nước hôm nay
                 </p>
               )}
             </div>
