@@ -6,9 +6,6 @@
   <component name="ChangeListManager">
     <list default="true" id="c0ca266a-c1a1-4fd5-91ea-e5eef9e32317" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/services/dietplan.service.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/services/dietplan.service.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/services/waterTracking.service.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/services/waterTracking.service.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/waterInformation/WaterInformation.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/waterInformation/WaterInformation.jsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -38,19 +35,19 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "main",
-    "node.js.detected.package.eslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "ts.external.directory.path": "D:\\WebStorm 2024.3.4\\plugins\\javascript-plugin\\jsLanguageServicesImpl\\external",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;D:\\WebStorm 2024.3.4\\plugins\\javascript-plugin\\jsLanguageServicesImpl\\external&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
@@ -67,7 +64,8 @@
       <option name="presentableId" value="Default" />
       <updated>1753007356822</updated>
       <workItem from="1753007359501" duration="7820000" />
-      <workItem from="1753031814434" duration="9448000" />
+      <workItem from="1753031814434" duration="10723000" />
+      <workItem from="1758043090378" duration="1260000" />
     </task>
     <servers />
   </component>

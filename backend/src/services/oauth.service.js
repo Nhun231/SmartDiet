@@ -11,7 +11,7 @@ const handleGoogleCallback = (req, res, next) => {
     if (err || !user) {
         const errorMessage = info?.message || "Đăng nhập OAuth thất bại";
         return res.redirect(
-            `${process.env.FRONTEND_URL}/login?error=${encodeURIComponent(errorMessage)}`
+            `${process.env.PUBLIC_SERVER_ENDPOINT}/login?error=${encodeURIComponent(errorMessage)}`
         );
     }
     // this part set 2 token like usual
