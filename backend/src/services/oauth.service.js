@@ -42,7 +42,7 @@ const handleGoogleCallback = (req, res, next) => {
         sameSite: 'none',
         maxAge:ms(process.env.REFRESH_TOKEN_LIFE)}) ;// convert to ms
        console.log(`Callback URL with access token: ${process.env.FRONTEND_URL}/oauth-callback?access_token=${accessToken}`)
-    res.redirect(`${process.env.FRONTEND_URL}/oauth-callback?access_token=${accessToken}`);
+    res.redirect(`${process.env.PUBLIC_SERVER_ENDPOINT}/oauth-callback?access_token=${accessToken}`);
 
 })(req, res, next)
 }
