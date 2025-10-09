@@ -53,7 +53,7 @@ const Header = () => {
                     fontWeight="bold"
                     color="white"
                     sx={{ cursor: 'pointer' }}
-                    onClick={() => window.location.href = "http://localhost:5173/dashboard"}
+                    onClick={() => window.location.href = "https://health-mate-gamma.vercel.app/dashboard"}
                 >
                     HealthMate
                 </Typography>
