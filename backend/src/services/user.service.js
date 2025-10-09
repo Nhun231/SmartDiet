@@ -15,7 +15,18 @@ const createUser = async (req, res) => {
         req.body.password = passwordHash;
 
         if (user == null) {
-            const newUser = new User(req.body);
+            // Initialize premium fields for new user
+            const userData = {
+                ...req.body,
+                level: 1, // Default to free tier
+                coins: 100, // Start with 100 coins as welcome bonus
+                aiChatUsed: 0, // No AI chats used yet
+                expertChatUsed: 0, // No expert chats used yet
+                lastResetDate: new Date(), // Set current date as reset date
+                premiumExpiry: null // No premium expiry for free tier
+            };
+
+            const newUser = new User(userData);
             const savedUser = await newUser.save();
 
             //send welcome email

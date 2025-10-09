@@ -12,10 +12,14 @@ import TrackChangesIcon from "@mui/icons-material/TrackChanges";
 import SpeedIcon from "@mui/icons-material/Speed";
 import FitnessCenterIcon from "@mui/icons-material/FitnessCenter";
 import SportsScoreIcon from "@mui/icons-material/SportsScore";
+import AccountBalanceWalletIcon from "@mui/icons-material/AccountBalanceWallet";
+import StarIcon from "@mui/icons-material/Star";
+import { premiumService } from "../../services/premiumService";
 
 const ProfilePage = () => {
   const [userData, setUserData] = useState(null);
   const [physicalData, setPhysicalData] = useState(null);
+  const [premiumData, setPremiumData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -47,8 +51,18 @@ const ProfilePage = () => {
       }
     };
 
+    const fetchPremiumData = async () => {
+      try {
+        const response = await premiumService.getUserPackageStatus();
+        setPremiumData(response.data.data);
+      } catch (err) {
+        console.error("Lỗi khi lấy dữ liệu premium:", err);
+      }
+    };
+
     fetchUserData();
     fetchPhysicalData();
+    fetchPremiumData();
     setLoading(false);
   }, []);
 
@@ -82,6 +96,38 @@ const ProfilePage = () => {
       default:
         return "my-badge";
     }
+  };
+
+  const getLevelName = (level) => {
+    switch (level) {
+      case 1:
+        return "Cơ bản";
+      case 2:
+        return "Chuyên sâu";
+      case 3:
+        return "Nâng cao";
+      default:
+        return "Cơ bản";
+    }
+  };
+
+  const getLevelColor = (level) => {
+    switch (level) {
+      case 1:
+        return "#6c757d";
+      case 2:
+        return "#4CAF50";
+      case 3:
+        return "#2E7D32";
+      default:
+        return "#6c757d";
+    }
+  };
+
+  const formatExpiryDate = (dateString) => {
+    if (!dateString) return "Không giới hạn";
+    const date = new Date(dateString);
+    return date.toLocaleDateString('vi-VN');
   };
 
   if (loading || !userData)
@@ -281,13 +327,122 @@ const ProfilePage = () => {
         </div>
       </div>
 
+      {/* Premium Account Section */}
+      {premiumData && (
+        <div className="my-card mb-6">
+          <div className="my-card-header">
+            <div className="my-card-title">
+              <StarIcon style={{ marginRight: 6, color: getLevelColor(premiumData.user?.level || 1) }} />
+              Tài khoản Premium
+            </div>
+          </div>
+          <div className="card-content">
+            <div className="grid grid-cols-1 grid-cols-3 gap-6">
+              {/* Coins */}
+              <div className="metric-card">
+                <AccountBalanceWalletIcon
+                  style={{ fontSize: 32, color: "#FFD700" }}
+                />
+                <h3 className="font-semibold text-green mb-1">
+                  Số xu hiện tại
+                </h3>
+                <p className="text-2xl font-bold text-green">
+                  {premiumData.user?.coins || 0} 🪙
+                </p>
+                <p className="text-sm text-gray-600 mt-1">
+                  Sử dụng xu để nâng cấp gói
+                </p>
+              </div>
+
+              {/* Level */}
+              <div className="metric-card">
+                <StarIcon
+                  style={{ fontSize: 32, color: getLevelColor(premiumData.user?.level || 1) }}
+                />
+                <h3 className="font-semibold text-green mb-1">
+                  Cấp độ hiện tại
+                </h3>
+                <p 
+                  className="text-2xl font-bold"
+                  style={{ color: getLevelColor(premiumData.user?.level || 1) }}
+                >
+                  Level {premiumData.user?.level || 1}
+                </p>
+                <span 
+                  className="my-badge"
+                  style={{ 
+                    backgroundColor: getLevelColor(premiumData.user?.level || 1),
+                    color: 'white'
+                  }}
+                >
+                  {getLevelName(premiumData.user?.level || 1)}
+                </span>
+                <p className="text-sm text-gray-600 mt-1">
+                  {premiumData.package?.name || "Gói cơ bản"}
+                </p>
+              </div>
+
+              {/* Expiry */}
+              <div className="metric-card">
+                <TrackChangesIcon
+                  style={{ fontSize: 32, color: "green" }}
+                />
+                <h3 className="font-semibold text-green mb-1">
+                  Hết hạn gói
+                </h3>
+                <p className="text-2xl font-bold text-green">
+                  {formatExpiryDate(premiumData.user?.premiumExpiry)}
+                </p>
+                <p className="text-sm text-gray-600 mt-1">
+                  {premiumData.user?.premiumExpiry ? "Ngày hết hạn gói premium" : "Gói miễn phí"}
+                </p>
+              </div>
+            </div>
+
+            {/* Usage Stats */}
+            {premiumData.user?.level > 1 && (
+              <div className="mt-6 p-4 bg-gray-50 rounded-lg">
+                <h4 className="font-semibold text-gray-700 mb-3">Thống kê sử dụng tháng này</h4>
+                <div className="grid grid-cols-1 grid-cols-2 gap-4">
+                  <div className="flex justify-between items-center">
+                    <span className="text-sm text-gray-600">Chat AI đã sử dụng:</span>
+                    <span className="font-medium">
+                      {premiumData.user?.aiChatUsed || 0}
+                      {premiumData.package?.aiChatLimit ? `/${premiumData.package.aiChatLimit}` : '/∞'}
+                    </span>
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <span className="text-sm text-gray-600">Chat chuyên gia đã sử dụng:</span>
+                    <span className="font-medium">
+                      {premiumData.user?.expertChatUsed || 0}
+                      {premiumData.package?.expertChatLimit ? `/${premiumData.package.expertChatLimit}` : '/∞'}
+                    </span>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* Upgrade Button */}
+            <div className="mt-4 text-center">
+              <Link 
+                to="/premium-packages" 
+                className="my-btn my-btn-primary"
+                style={{ backgroundColor: getLevelColor(premiumData.user?.level || 1) }}
+              >
+                {premiumData.user?.level === 1 ? 'Nâng cấp gói' : 'Quản lý gói'}
+              </Link>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Quick Actions */}
       <div className="my-card">
         <div className="my-card-header">
           <div className="my-card-title">Thao tác nhanh</div>
         </div>
         <div className="card-content">
-          <div className="grid grid-cols-1 grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 grid-cols-4 gap-4">
             <Link to="/water-infor" className="btn btn-outline p-4 text-center">
               <FitnessCenterIcon
                 style={{ fontSize: 32, marginBottom: 8, color: "green" }}
@@ -314,6 +469,16 @@ const ProfilePage = () => {
               />
               <br />
               <span>Thiết lập mục tiêu mới</span>
+            </Link>
+            <Link
+              to="/premium-packages"
+              className="btn btn-outline p-4 text-center"
+            >
+              <StarIcon
+                style={{ fontSize: 32, marginBottom: 8, color: "green" }}
+              />
+              <br />
+              <span>Quản lý gói Premium</span>
             </Link>
           </div>
         </div>

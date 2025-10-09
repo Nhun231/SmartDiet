@@ -1,24 +1,22 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Box, Button, Typography, Menu, MenuItem } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { Link } from 'react-router-dom';
+import UserLevelBadge from './UserLevelBadge';
+import { useAuth } from "../../context/AuthProvider";
 
 const Header = () => {
     const navigate = useNavigate();
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const { accessToken } = useAuth();
     const [anchorEl, setAnchorEl] = useState(null);
 
-    useEffect(() => {
-        const token = localStorage.getItem("accessToken");
-        setIsLoggedIn(!!token);
-    }, []);
+    const isLoggedIn = !!accessToken;
 
     const handleLogout = () => {
         localStorage.removeItem("accessToken");
         localStorage.removeItem("userId");
         localStorage.removeItem("email");
         navigate("/login");
-        setIsLoggedIn(false);
     };
 
     const handleMenuClick = (event) => {
@@ -55,7 +53,7 @@ const Header = () => {
                     fontWeight="bold"
                     color="white"
                     sx={{ cursor: 'pointer' }}
-                    onClick={() => window.location.href = "https://smart-diet-gamma.vercel.app/dashboard"}
+                    onClick={() => window.location.href = "http://localhost:5173/dashboard"}
                 >
                     SmartDiet
                 </Typography>
@@ -71,8 +69,13 @@ const Header = () => {
                         sx={{ color: "#ffffff", fontWeight: "bold" }}>
                         Thực đơn hôm nay
                     </Button>
-                    <Button sx={{ color: "#ffffff", fontWeight: "bold" }}>
+                    <Button onClick={() => navigate("/dietplan/create")}
+                        sx={{ color: "#ffffff", fontWeight: "bold" }}>
                         Lập kế hoạch ăn uống
+                    </Button>
+                    <Button onClick={() => navigate("/premium-packages")}
+                        sx={{ color: "#ffffff", fontWeight: "bold" }}>
+                        Gói Premium
                     </Button>
 
                     {isLoggedIn ? (
@@ -91,6 +94,12 @@ const Header = () => {
                                 <MenuItem onClick={() => { navigate("/my-profile"); handleMenuClose(); }}>
                                     Hồ sơ
                                 </MenuItem>
+                                <MenuItem onClick={() => { navigate("/add-coins"); handleMenuClose(); }}>
+                                    Nạp xu
+                                </MenuItem>
+                                <MenuItem onClick={() => { navigate("/coin-transactions"); handleMenuClose(); }}>
+                                    Lịch sử giao dịch
+                                </MenuItem>
                                 <MenuItem onClick={() => { handleLogout(); handleMenuClose(); }}>
                                     Đăng xuất
                                 </MenuItem>
@@ -106,7 +115,7 @@ const Header = () => {
                             </Button>
                             <Button
                                 variant="outlined"
-                                onClick={() => navigate("/register")}
+                                onClick={() => navigate("/login", { state: { register: true } })}
                                 sx={{
                                     borderColor: "#ffffff",
                                     color: "#ffffff",

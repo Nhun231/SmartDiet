@@ -15,7 +15,29 @@ const createIngredient = async (req, res) => {
 // Get all ingredients
 const getAllIngredients = async (req, res) => {
     try {
-        const ingredients = await Ingredient.find();
+        let ingredients = await Ingredient.find();
+        
+        // Check if user is admin - admins get all ingredients regardless of level
+        if (req.user && req.user.role === 'admin') {
+            // Admin gets all ingredients (no limit)
+            res.status(200).json(ingredients);
+            return;
+        }
+        
+        // Apply user level limitations for non-admin users
+        if (req.user && req.user.level) {
+            const userLevel = req.user.level;
+            
+            // For free users (level 1), limit to 50 ingredients
+            if (userLevel === 1) {
+                ingredients = ingredients.slice(0, 50);
+            }
+            // Level 2 and 3 users get all ingredients (no limit)
+        } else {
+            // If no user info, limit to 50 ingredients (free tier)
+            ingredients = ingredients.slice(0, 50);
+        }
+        
         res.status(200).json(ingredients);
     } catch (error) {
         res.status(500).json({ message: 'Lỗi khi lấy các món', error: error.message });

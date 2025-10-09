@@ -1,6 +1,8 @@
 const Router = require('express').Router;
 const router = Router();
 const ingredientController = require('../controllers/ingredient.controller');
+const verifyJWTs = require('../middlewares/verifyJWTs');
+const { checkIngredientLimit } = require('../middlewares/checkLevel');
 
 /**
  * @swagger
@@ -56,7 +58,7 @@ const ingredientController = require('../controllers/ingredient.controller');
  *       500:
  *         description: Internal server error
  */
-router.post('/', ingredientController.createIngredient);
+router.post('/', verifyJWTs, checkIngredientLimit, ingredientController.createIngredient);
 
 /**
  * @swagger
@@ -68,7 +70,7 @@ router.post('/', ingredientController.createIngredient);
  *       200:
  *         description: List of ingredients
  */
-router.get('/', ingredientController.getAllIngredients);
+router.get('/', verifyJWTs, ingredientController.getAllIngredients);
 
 /**
  * @swagger

@@ -40,10 +40,36 @@ const Schema = mongoose.Schema;
  *         activity:
  *           type: string
  *           description: Mức độ vận động
+ *         level:
+ *           type: integer
+ *           description: Cấp độ gói premium (1, 2, 3)
+ *           example: 1
+ *         coins:
+ *           type: number
+ *           description: Số xu của người dùng
+ *           example: 100
+ *         premiumExpiry:
+ *           type: string
+ *           format: date-time
+ *           description: Ngày hết hạn gói premium
+ *         aiChatUsed:
+ *           type: number
+ *           description: Số lượt chat AI đã sử dụng trong tháng
+ *           example: 5
+ *         expertChatUsed:
+ *           type: number
+ *           description: Số lượt chat chuyên gia đã sử dụng trong tháng
+ *           example: 2
+ *         lastResetDate:
+ *           type: string
+ *           format: date
+ *           description: Ngày reset lượt chat cuối cùng
  *       example:
  *         username: NguyenBinh
  *         password: String@1
  *         email: nguyenbinh@gmail.com
+ *         level: 1
+ *         coins: 100
  */
 const userSchema = new Schema({
     username: {
@@ -86,6 +112,34 @@ const userSchema = new Schema({
         enum: ['customer', 'admin'],
         default: 'customer'
     },
+    level: {
+        type: Number,
+        enum: [1, 2, 3],
+        default: 1
+    },
+    coins: {
+        type: Number,
+        default: 0,
+        min: 0
+    },
+    premiumExpiry: {
+        type: Date,
+        default: null
+    },
+    aiChatUsed: {
+        type: Number,
+        default: 0,
+        min: 0
+    },
+    expertChatUsed: {
+        type: Number,
+        default: 0,
+        min: 0
+    },
+    lastResetDate: {
+        type: Date,
+        default: Date.now
+    }
 });
 
 const User = mongoose.model('User', userSchema);

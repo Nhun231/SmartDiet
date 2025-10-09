@@ -40,8 +40,8 @@ const style = {
 
 
 
-export default function Login() {
-    const [openRegister, setOpenRegister] = useState(false);
+export default function Login({register}) {
+    const [openRegister, setOpenRegister] = useState(!!register);
     const [successOpen, setSuccessOpen] = useState(false);
     const [errorOpen, setErrorOpen] = useState('');
     const [successSendEmail, setSuccessSendEmail] = useState(false)
@@ -52,7 +52,13 @@ export default function Login() {
         setOpenRegister(false)
         setOpenForgotPassword(false)
     };
+    const location = useLocation();
 
+    useEffect(() => {
+        if (location.state?.register) {
+            setOpenRegister(true);
+        }
+    }, [location.state]);
     const handleClose = () => {
         setSuccessOpen(false);
         setSuccessSendEmail(false)
@@ -86,7 +92,6 @@ export default function Login() {
             setLoading(false); // re-enable the button
         }
     };
-    const location = useLocation();
     const [oauthError, setOauthError] = useState("");
 
     useEffect(() => {

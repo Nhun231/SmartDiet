@@ -29,11 +29,17 @@ passport.use(new GoogleStrategy(
         return done(null, user);
       }
 
-      // If new user, create with Google info
+      // If new user, create with Google info and initialize premium fields
       user = new User({
         googleId: profile.id,
         username: profile.displayName,
         email: email,
+        level: 1, // Default to free tier
+        coins: 100, // Start with 100 coins as welcome bonus
+        aiChatUsed: 0, // No AI chats used yet
+        expertChatUsed: 0, // No expert chats used yet
+        lastResetDate: new Date(), // Set current date as reset date
+        premiumExpiry: null // No premium expiry for free tier
       });
       // disable validation for password
       await user.save({ validateBeforeSave: false });

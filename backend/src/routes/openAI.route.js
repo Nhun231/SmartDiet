@@ -1,6 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const openAIController = require('../controllers/openAI.controller');
+const verifyJWTs = require('../middlewares/verifyJWTs');
+const { checkAIAccess } = require('../middlewares/checkLevel');
 
 /**
  * @swagger
@@ -39,6 +41,6 @@ const openAIController = require('../controllers/openAI.controller');
  *       500:
  *         description: Failed to generate response
  */
-router.post('/chats', openAIController.testAi);
+router.post('/chats',checkAIAccess, openAIController.testAi);
 
 module.exports = router;

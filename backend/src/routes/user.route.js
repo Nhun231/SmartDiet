@@ -179,4 +179,10 @@ router.get('/find-by-id/', userController.getUserByUserId);
  */
 router.get('/find-by-email', verifyJWTs, allowRoles('customer','admin'), userController.getUserByEmail1);
 
+// Admin routes - require admin role
+router.get('/admin', verifyJWTs, allowRoles(['admin']), userController.getAllUsersAdmin);
+router.get('/admin/stats', verifyJWTs, allowRoles(['admin']), userController.getUserStats);
+router.put('/admin/:id/level', verifyJWTs, allowRoles(['admin']), userController.updateUserLevel);
+router.put('/admin/:id/coins', verifyJWTs, allowRoles(['admin']), userController.updateUserCoins);
+
 module.exports = router;

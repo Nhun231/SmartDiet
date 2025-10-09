@@ -9,6 +9,8 @@ const openAIRoutes = require('./openAI.route');
 const applicationName = process.env.APPLICATION_NAME;
 const waterTrackingRoutes = require('./waterTracking.route')
 const waterReminderRoutes = require('./waterSchedule.route')
+const premiumPackageRoutes = require('./premiumPackage.route')
+const coinTransactionRoutes = require('./coinTransaction.route')
 module.exports = (app) => {
     app.use(`/${applicationName}/users`, userRoutes);
     app.use(`/${applicationName}/auth`, authRoutes);
@@ -21,4 +23,6 @@ module.exports = (app) => {
     app.use(`/${applicationName}/dish`, dishRoutes);
     app.use(`/${applicationName}/ai`, openAIRoutes);
     app.use(`/${applicationName}/water-reminders`, waterReminderRoutes);
+    app.use(`/${applicationName}/premium-packages`, premiumPackageRoutes);
+    app.use(`/${applicationName}/coin-transactions`, coinTransactionRoutes);
 };

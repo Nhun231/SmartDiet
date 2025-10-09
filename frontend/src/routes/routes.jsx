@@ -20,6 +20,11 @@ import Daily from "../components/common/Daily.jsx";
 import DishesPage from "../pages/DishPage.jsx";
 import UserHomePage from "../pages/UserHomePage.jsx";
 import WaterInformationPage from "../pages/WaterInformationPage.jsx";
+import PremiumPackagesPage from "../pages/PremiumPackagesPage.jsx";
+import AddCoinsPage from "../pages/AddCoinsPage.jsx";
+import CoinTransactionsPage from "../pages/CoinTransactionsPage.jsx";
+import AdminCoinTransactionsPage from "../pages/AdminCoinTransactionsPage.jsx";
+import AdminDashboard from "../pages/AdminDashboard.jsx";
 import { Navigate } from "react-router-dom";
 import DefaultRedirect from "../components/common/DefaultRedirect.jsx";
 
@@ -151,6 +156,46 @@ const router = createBrowserRouter([
             path: "/homepage",
             element: (
               <HomePage />
+            )
+          },
+          {
+            path: "/premium-packages",
+            element: (
+                <RequireRole allowedRoles={["customer", "admin"]}>
+                  <PremiumPackagesPage />
+                </RequireRole>
+            )
+          },
+          {
+            path: "/add-coins",
+            element: (
+                <RequireRole allowedRoles={["customer"]}>
+                  <AddCoinsPage />
+                </RequireRole>
+            )
+          },
+          {
+            path: "/coin-transactions",
+            element: (
+                <RequireRole allowedRoles={["customer"]}>
+                  <CoinTransactionsPage />
+                </RequireRole>
+            )
+          },
+          {
+            path: "/admin/coin-transactions",
+            element: (
+                <RequireRole allowedRoles={["admin"]}>
+                  <AdminCoinTransactionsPage />
+                </RequireRole>
+            )
+          },
+          {
+            path: "/admin/dashboard",
+            element: (
+                <RequireRole allowedRoles={["admin"]}>
+                  <AdminDashboard />
+                </RequireRole>
             )
           },
           {

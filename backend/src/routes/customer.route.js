@@ -12,7 +12,7 @@ const allowRoles = require("../middlewares/allowedRole");
  *   - name: Calculate
  *     description: API tính toán TDEE, BMR, BMI
 
- * customer/calculate:
+ * /customer/calculate:
  *   post:
  *     summary: Tính toán TDEE, BMR, BMI và các chỉ số dinh dưỡng
  *     tags: [Calculate]
@@ -90,29 +90,29 @@ router.post('/calculate', verifyJWTs, validateCalculate, tdeeController.calculat
  *         content:
  *           application/json:
  *             schema:
- *                   type: object
- *                   properties:
- *                     bmr:
- *                       type: number
- *                     tdee:
- *                       type: number
- *                     bmi:
- *                       type: number
- *                     waterIntake:
+ *               type: object
+ *               properties:
+ *                 bmr:
+ *                   type: number
+ *                 tdee:
+ *                   type: number
+ *                 bmi:
+ *                   type: number
+ *                 waterIntake:
  *                   type: string
- *                     age:
- *                       type: number
- *                     gender:
- *                       type: string
- *                     height:
- *                       type: number
- *                     weight:
- *                       type: number
- *                     activity:
- *                       type: string
- *                     createdAt:
- *                       type: string
- *                       format: date-time
+ *                 age:
+ *                   type: number
+ *                 gender:
+ *                   type: string
+ *                 height:
+ *                   type: number
+ *                 weight:
+ *                   type: number
+ *                 activity:
+ *                   type: string
+ *                 createdAt:
+ *                   type: string
+ *                   format: date-time
  *                 nutrition:
  *                   type: object
  *                   properties:
@@ -188,7 +188,7 @@ router.get('/calculate/newest', verifyJWTs, tdeeController.getNewestCalculateByE
  *                   type: number
  *                 carbs:
  *                   type: number
- *                fiber:
+ *                 fiber:
  *                   type: number
  *       400:
  *         description: Tổng % không hợp lệ

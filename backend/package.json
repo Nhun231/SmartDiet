@@ -4,7 +4,9 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "start": "nodemon server.js"
+    "start": "nodemon server.js",
+    "init-premium": "node scripts/initPremiumPackages.js",
+    "update-users": "node scripts/updateUsersWithPremiumFields.js"
   },
   "keywords": [],
   "author": "",
