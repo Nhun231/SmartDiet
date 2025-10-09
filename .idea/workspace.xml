@@ -4,24 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c0ca266a-c1a1-4fd5-91ea-e5eef9e32317" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/config/swagger.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/config/swagger.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/services/email.service.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/services/email.service.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/services/openai.service.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/services/openai.service.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/template/sample.hbs" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/template/sample.hbs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/template/welcome-onboard.hbs" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/template/welcome-onboard.hbs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/OpenAIChatbox/Chatbox.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/OpenAIChatbox/Chatbox.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/calculate/Calculate.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/calculate/Calculate.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/common/AdminHeader.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/common/AdminHeader.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/common/Footer.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/common/Footer.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/common/Header.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/common/Header.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/dietPlan/DietPlan.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/dietPlan/DietPlan.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/pages/AdminDashboard.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/AdminDashboard.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/pages/Login.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/Login.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/pages/UserHomePage.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/UserHomePage.jsx" afterDir="false" />
-    </list>
+    <list default="true" id="c0ca266a-c1a1-4fd5-91ea-e5eef9e32317" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -121,7 +104,7 @@
       <workItem from="1759842686485" duration="9043000" />
       <workItem from="1759886735673" duration="7505000" />
       <workItem from="1759927680313" duration="5937000" />
-      <workItem from="1759989493531" duration="5439000" />
+      <workItem from="1759989493531" duration="5846000" />
     </task>
     <servers />
   </component>
