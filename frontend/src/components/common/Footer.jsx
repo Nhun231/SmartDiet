@@ -24,7 +24,7 @@ const Footer = () => {
 
                     <Box>
                         <Typography variant="h6" fontWeight="bold">
-                            SmartDiet
+                            HealthMate
                         </Typography>
                         <Typography variant="body2" sx={{ mt: 1 }}>
                             Nền tảng hỗ trợ tính toán dinh dưỡng, theo dõi sức khỏe và gợi ý thực đơn khoa học cho bạn.
@@ -62,7 +62,7 @@ const Footer = () => {
 
                 <Box textAlign="center" mt={4}>
                     <Typography variant="body2" sx={{ opacity: 0.8 }}>
-                        © {new Date().getFullYear()} SmartDiet. All rights reserved.
+                        © {new Date().getFullYear()} HealthMate. All rights reserved.
                     </Typography>
                 </Box>
             </Box>

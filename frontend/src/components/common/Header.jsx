@@ -55,7 +55,7 @@ const Header = () => {
                     sx={{ cursor: 'pointer' }}
                     onClick={() => window.location.href = "http://localhost:5173/dashboard"}
                 >
-                    SmartDiet
+                    HealthMate
                 </Typography>
 
                 <Box display="flex" gap={2}>

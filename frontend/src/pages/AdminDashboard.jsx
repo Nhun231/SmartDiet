@@ -103,7 +103,7 @@ const AdminDashboard = () => {
             Bảng điều khiển Admin
           </Typography>
           <Typography variant="body1" sx={{ color: '#666' }}>
-            Quản lý hệ thống SmartDiet - Nguyên liệu, giao dịch và người dùng
+            Quản lý hệ thống HealthMate - Nguyên liệu, giao dịch và người dùng
           </Typography>
         </Box>
 

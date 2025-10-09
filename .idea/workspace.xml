@@ -5,30 +5,22 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c0ca266a-c1a1-4fd5-91ea-e5eef9e32317" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/backend/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/server.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/server.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/config/testdb.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/config/testdb.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/controllers/openAI.controller.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/controllers/openAI.controller.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/controllers/user.controller.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/controllers/user.controller.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/models/dish.model.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/models/dish.model.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/models/ingredient.model.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/models/ingredient.model.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/models/user.model.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/models/user.model.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/passport/googleStrategy.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/passport/googleStrategy.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/routes/customer.route.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/routes/customer.route.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/routes/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/routes/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/routes/ingredient-route.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/routes/ingredient-route.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/routes/openAI.route.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/routes/openAI.route.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/routes/user.route.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/routes/user.route.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/services/ingredient.service.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/services/ingredient.service.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/services/user.service.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/services/user.service.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/api/axios.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/api/axios.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/config/swagger.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/config/swagger.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/services/email.service.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/services/email.service.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/services/openai.service.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/services/openai.service.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/template/sample.hbs" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/template/sample.hbs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/template/welcome-onboard.hbs" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/template/welcome-onboard.hbs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/OpenAIChatbox/Chatbox.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/OpenAIChatbox/Chatbox.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/calculate/Calculate.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/calculate/Calculate.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/common/AdminHeader.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/common/AdminHeader.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/common/Footer.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/common/Footer.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/components/common/Header.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/common/Header.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/common/MainLayout.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/common/MainLayout.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/profile/Profile.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/profile/Profile.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/dietPlan/DietPlan.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/dietPlan/DietPlan.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/AdminDashboard.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/AdminDashboard.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/pages/Login.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/Login.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/routes/routes.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/routes/routes.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/UserHomePage.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/UserHomePage.jsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -129,7 +121,7 @@
       <workItem from="1759842686485" duration="9043000" />
       <workItem from="1759886735673" duration="7505000" />
       <workItem from="1759927680313" duration="5937000" />
-      <workItem from="1759989493531" duration="2640000" />
+      <workItem from="1759989493531" duration="5439000" />
     </task>
     <servers />
   </component>

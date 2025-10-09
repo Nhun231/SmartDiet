@@ -26,7 +26,7 @@ const DietPlan = () => {
 
 Mức thay đổi calo mỗi ngày không nên vượt quá 500 calo/ngày.
 
-Hãy đồng hành cùng SmartDiet để đạt mục tiêu một cách bền vững!`,
+Hãy đồng hành cùng HealthMate để đạt mục tiêu một cách bền vững!`,
             });
         } catch (error) {
             console.log(error)
@@ -43,7 +43,7 @@ Hãy đồng hành cùng SmartDiet để đạt mục tiêu một cách bền v�
                 </Typography>
 
                 <Typography align="center" mb={4} sx={{ color: '#666' }}>
-                    Hãy chọn mục tiêu và cân nặng mong muốn để SmartDiet gợi ý kế hoạch phù hợp cho bạn nhé!
+                    Hãy chọn mục tiêu và cân nặng mong muốn để HealthMate gợi ý kế hoạch phù hợp cho bạn nhé!
                 </Typography>
 
                 <Box display="flex" flexDirection="column" gap={3}>
@@ -131,7 +131,7 @@ Hãy đồng hành cùng SmartDiet để đạt mục tiêu một cách bền v�
                                 Nếu muốn giảm hoặc tăng cân, mức thay đổi calo <span style={{ fontWeight: 'bold', color: '#D32F2F' }}>không nên vượt quá 500 calo/ngày</span> so với TDEE hiện tại.
 
                                 {'\n\n'}
-                                Hãy <span style={{ fontWeight: 'bold', color: '#4CAF50' }}>kiên trì</span>, đồng hành cùng <span style={{ fontWeight: 'bold', color: '#4CAF50' }}>SmartDiet</span> để đạt mục tiêu cân nặng một cách <span style={{ fontWeight: 'bold', color: '#4CAF50' }}>khoa học và bền vững!</span>
+                                Hãy <span style={{ fontWeight: 'bold', color: '#4CAF50' }}>kiên trì</span>, đồng hành cùng <span style={{ fontWeight: 'bold', color: '#4CAF50' }}>HealthMate</span> để đạt mục tiêu cân nặng một cách <span style={{ fontWeight: 'bold', color: '#4CAF50' }}>khoa học và bền vững!</span>
                             </Typography>
                         </Box>
                     </>

@@ -111,7 +111,7 @@ const Calculate = () => {
             <Typography align="center" className="subtitle">
                 Tính lượng calo cần thiết cho cơ thể bạn mỗi ngày
                 <br />
-                Hãy cho SmartDiet một vài thông tin để tính cho bạn nhé!
+                Hãy cho HealthMate một vài thông tin để tính cho bạn nhé!
             </Typography>
 
             <Box className="main-form-box">
@@ -221,7 +221,7 @@ const Calculate = () => {
                         </Typography>
                         <Typography align="center" fontWeight="bold" mb={4}>
                             Dựa trên thông tin bạn đã cung cấp<br />
-                            SmartDiet đã tính ra các chỉ số calo của bạn như sau:
+                            HealthMate đã tính ra các chỉ số calo của bạn như sau:
                         </Typography>
 
                         <Grid container spacing={4} justifyContent="center">

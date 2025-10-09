@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const baseAxios = axios.create({
-  baseURL: 'http://localhost:8080/smartdiet/',
+  baseURL: 'https://smartdiet-np8j.onrender.com/smartdiet',
   headers: {
     'Content-Type': 'application/json',
   },

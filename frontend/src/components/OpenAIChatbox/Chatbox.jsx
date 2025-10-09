@@ -18,8 +18,8 @@ const FloatingChatBox = () => {
     const [isTyping, setIsTyping] = useState(false);
     const [messages, setMessages] = useState([
         {
-            message: "Xin chào! Tôi là SmartDiet AI 🤖. Bạn cần tư vấn dinh dưỡng gì hôm nay?",
-            sender: "SmartDiet AI",
+            message: "Xin chào! Tôi là HealthMate AI 🤖. Bạn cần tư vấn dinh dưỡng gì hôm nay?",
+            sender: "HealthMate AI",
             sentTime: "just now",
             direction: "incoming"
         }
@@ -47,7 +47,7 @@ const FloatingChatBox = () => {
             ...prev,
             {
                 message: response.data,
-                sender: "SmartDiet AI",
+                sender: "HealthMate AI",
                 sentTime: "just now",
                 direction: "incoming",
                 animate: true
@@ -122,7 +122,7 @@ const FloatingChatBox = () => {
                         }}
                     >
                         <Typography variant="subtitle1" fontWeight="bold">
-                            SmartDiet AI
+                            HealthMate AI
                         </Typography>
                         <Typography variant="caption">
                             Tư vấn chế độ ăn uống và sức khỏe 🌿
@@ -148,7 +148,7 @@ const FloatingChatBox = () => {
                                             sender: msg.sender,
                                             direction: msg.direction
                                         }}
-                                        avatarSymbol={msg.sender === "SmartDiet AI" ? "🤖" : "🧑"}
+                                        avatarSymbol={msg.sender === "HealthMate AI" ? "🤖" : "🧑"}
                                         position="single"
                                     />
                                 ))}
@@ -157,8 +157,8 @@ const FloatingChatBox = () => {
                                     <Message
                                         className={"bounce-enter"}
                                         model={{
-                                            message: "SmartDiet AI đang phản hồi...",
-                                            sender: "SmartDiet AI",
+                                            message: "HealthMate AI đang phản hồi...",
+                                            sender: "HealthMate AI",
                                             direction: "incoming"
                                         }}
                                         avatarSymbol="🤖"

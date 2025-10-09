@@ -357,7 +357,7 @@ const UserHomePage = () => {
                     Giải pháp theo dõi dinh dưỡng và sức khỏe mỗi ngày
                 </Typography>
                 <Typography sx={{ mt: 1, fontSize: 16 }}>
-                    SmartDiet giúp bạn quản lý chế độ ăn, lượng nước, calo tiêu thụ và nhiều chỉ số sức khỏe khác để đạt mục tiêu cá nhân một cách khoa học.
+                    HealthMate giúp bạn quản lý chế độ ăn, lượng nước, calo tiêu thụ và nhiều chỉ số sức khỏe khác để đạt mục tiêu cá nhân một cách khoa học.
                 </Typography>
             </Box>
 

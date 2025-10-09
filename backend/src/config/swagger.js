@@ -8,7 +8,7 @@ const options = {
         openapi: '3.0.0',
         info: {
             title: 'Smart Diet API Documentation',
-            description: "API endpoints for SmartDiet website documented on swagger",
+            description: "API endpoints for HealthMate website documented on swagger",
             contact: {
                 name: "Smart Diet",
                 email: "smartdietsystem@gmail.com",

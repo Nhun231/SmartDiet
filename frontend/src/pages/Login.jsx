@@ -134,7 +134,7 @@ export default function Login({register}) {
                                     <Typography variant="h3" fontWeight={500} gutterBottom
                                         className="title"
                                     >
-                                        SmartDiet
+                                        HealthMate
                                     </Typography>
                                 </Col>
                             </Row>

@@ -32,7 +32,7 @@ async function sendTestEmail(req, res) {
         await initHbs();
 
         const result = await transporter.sendMail({
-            from: '"SmartDiet" <smartdiet@gmail.com>',
+            from: '"HealthMate" <HealthMate@gmail.com>',
             to: req.body.to,
             subject: req.body.subject || "Test Email",
             template: 'sample',
@@ -54,7 +54,7 @@ async function sendWelcomeOnboardEmail(username, to) {
         await initHbs();
 
         await transporter.sendMail({
-            from: '"SmartDiet" <smartdiet@gmail.com>',
+            from: '"HealthMate" <HealthMate@gmail.com>',
             to: to,
             subject: "Welcome Onboard",
             template: 'welcome-onboard',
@@ -77,7 +77,7 @@ async function sendForgotPasswordEmail(email, token, res) {
         }
 
         await transporter.sendMail({
-            from: '"SmartDiet" <smartdiet@gmail.com>',
+            from: '"HealthMate" <HealthMate@gmail.com>',
             to: email,
             subject: "Forgot Password",
             template: 'forgot-password',

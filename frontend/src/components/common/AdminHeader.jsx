@@ -70,7 +70,7 @@ const AdminHeader = () => {
                         sx={{ cursor: 'pointer' }}
                         onClick={() => navigate("/admin/dashboard")}
                     >
-                        SmartDiet Admin
+                        HealthMate Admin
                     </Typography>
                     <Chip 
                         label="ADMIN" 
