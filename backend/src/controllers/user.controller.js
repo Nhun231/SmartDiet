@@ -40,6 +40,7 @@ const getUserByEmail1 = catchAsync(async (req, res) => {
 // Admin: Get all users with pagination
 const getAllUsersAdmin = catchAsync(async (req, res) => {
     try {
+        console.log('getAllUsersAdmin called with user:', req.user);
         const { page = 1, limit = 20, search = null } = req.query;
         const skip = (page - 1) * limit;
         
@@ -53,6 +54,7 @@ const getAllUsersAdmin = catchAsync(async (req, res) => {
             };
         }
         
+        console.log('Query:', query);
         const users = await User.find(query)
             .select('-password')
             .sort({ createdAt: -1 })
@@ -60,6 +62,7 @@ const getAllUsersAdmin = catchAsync(async (req, res) => {
             .limit(parseInt(limit));
             
         const total = await User.countDocuments(query);
+        console.log('Found users:', users.length, 'Total:', total);
         
         res.status(200).json({
             success: true,

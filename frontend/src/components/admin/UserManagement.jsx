@@ -50,10 +50,21 @@ const UserManagement = () => {
   const fetchUsers = async () => {
     try {
       setLoading(true);
+      setError('');
+      console.log('Fetching users...');
       const response = await userService.getAllUsers();
-      setUsers(response.data?.users || []);
+      console.log('API Response:', response.data); // Debug log
+      
+      if (response.data?.success && response.data?.data?.users) {
+        setUsers(response.data.data.users);
+        console.log('Users loaded:', response.data.data.users.length);
+      } else {
+        console.log('Unexpected response format:', response.data);
+        setError('Định dạng phản hồi không đúng');
+      }
     } catch (error) {
       console.error('Error fetching users:', error);
+      console.error('Error details:', error.response?.data);
       setError('Lỗi khi tải danh sách người dùng: ' + (error.response?.data?.message || error.message));
       
       // Fallback to mock data for demo

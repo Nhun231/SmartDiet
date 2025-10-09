@@ -27,7 +27,7 @@ export const userService = {
   // Update user level
   updateUserLevel: async (id, level) => {
     try {
-      const response = await baseAxios.put(`/users/${id}/level`, { level });
+      const response = await baseAxios.put(`/users/admin/${id}/level`, { level });
       return response;
     } catch (error) {
       throw error;
@@ -37,7 +37,7 @@ export const userService = {
   // Update user coins
   updateUserCoins: async (id, coins) => {
     try {
-      const response = await baseAxios.put(`/users/${id}/coins`, { coins });
+      const response = await baseAxios.put(`/users/admin/${id}/coins`, { coins });
       return response;
     } catch (error) {
       throw error;
