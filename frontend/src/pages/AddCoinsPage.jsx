@@ -185,7 +185,7 @@ const AddCoinsPage = () => {
                   }}
                 >
                   <Box sx={{ textAlign: 'center' }}>
-                    <img src={"../../public/QR.jpg"} width={200} height={200}  alt={"QR Code"}/>
+                    <img src={"/QR.jpg"} width={200} height={200}  alt={"QR Code"}/>
                     <Typography variant="body2" sx={{ color: '#666', mt: 1 }}>
                       Số tiền: {Number(amount).toLocaleString('vi-VN')} VNĐ
                     </Typography>
