@@ -20,9 +20,8 @@ const { initializeDefaultPackages, resetMonthlyCounters, checkExpiredPremium } =
 // }
 app.use(morgan('combined')) //theo dõi log GET, POST...
 app.use(cors({
-    origin: '*',
-    methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'],
-    allowedHeaders: ['Content-Type', 'Authorization'],
+    origin: true, // Reflects the request origin
+    credentials: true,
 })); //cross domain...
 
 //app.use(express.static('public', {'extensions': ['jsx']} ));
