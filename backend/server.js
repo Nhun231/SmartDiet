@@ -22,7 +22,7 @@ app.use(morgan('combined')) //theo dõi log GET, POST...
 app.use(cors({
     origin: true, // Reflects the request origin
     credentials: true,
-})); //cross domain...
+})); //cross domain...c
 
 //app.use(express.static('public', {'extensions': ['jsx']} ));
 //app.set('view engine', 'ejs');

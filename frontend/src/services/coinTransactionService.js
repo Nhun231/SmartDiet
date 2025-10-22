@@ -28,7 +28,7 @@ export const coinTransactionService = {
   },
 
   // Get all transactions (admin only)
-  getAllTransactions: async (page = 1, limit = 20, status = null, search = null) => {
+  getAllTransactions: async (page = 1, limit = 1000, status = null, search = null) => {
     try {
       const params = { page, limit };
       if (status) params.status = status;
